@@ -3,7 +3,7 @@ import scrapy
 import urllib.parse
 
 def to_write(uni_str):
-    return urllib.parse.unquote(uni_str.encode('utf8')).decode('utf8')
+    return uni_str
 
 class ToScrapeSpiderXPath(scrapy.Spider):
     name = 'as-xpath'
