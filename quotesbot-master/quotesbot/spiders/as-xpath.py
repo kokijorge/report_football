@@ -7,16 +7,21 @@ def to_write(uni_str):
 
 class ToScrapeSpiderXPath(scrapy.Spider):
     name = 'as-xpath'
-
-    partidos = ["248210", "248211"]
+    jornada = 1
+    partido = 248210
     
     def start_requests(self):
-        base_url = "https://resultados.as.com/resultados/futbol/primera/2018_2019/directo/regular_a_1_%s/narracion/?omnaut=1"
-        for partido in self.partidos :
-            yield scrapy.Request(url=(base_url %partido), callback=self.parse)
+        base_url = "https://resultados.as.com/resultados/futbol/primera/2018_2019/directo/regular_a_%d_%d/narracion/?omnaut=1"
+        while self.jornada<3: 
+            yield scrapy.Request(url=(base_url %(self.jornada, self.partido)), callback=self.parse)
+            self.partido = self.partido +1 
+            if self.partido % 10 == 0 :
+                self.jornada = self.jornada +1
 
     def parse(self, response):
         resumen = {
+        'partido': self.partido,
+        'jornada': self.jornada,
         'equipo_local' :  response.xpath('//div[@class="eq-local"]//span[@class="nom"]/text()').extract_first() ,
         'resultado_local' :  response.xpath('//div[@class="marcador cf"]//span[@class="tanteo-local"]/text()').extract_first().strip() ,
         'equipo_visitante' :  response.xpath('//div[@class="eq-visit"]//span[@class="nom"]/text()').extract_first() ,
