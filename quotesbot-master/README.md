@@ -41,3 +41,11 @@ You can run a spider using the `scrapy crawl` command, such as:
 If you want to save the scraped data to a file, you can pass the `-o` option:
     
     $ scrapy crawl toscrape-css -o quotes.json
+
+
+## Docker
+build
+$ docker build -t koki .
+
+run 
+$ docker run -v $(pwd):/usr/src/app koki
