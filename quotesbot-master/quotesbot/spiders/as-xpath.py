@@ -2,26 +2,36 @@
 import scrapy
 import urllib.parse
 
+partido_inicial = 248210
+
 def to_write(uni_str):
     return uni_str
 
 class ToScrapeSpiderXPath(scrapy.Spider):
     name = 'as-xpath'
-    jornada = 1
-    partido = 248210
+
+
+    def jor_par_generator(self):
+        for jorn in range(1,4):
+            #tendras que construir la logica que relaciona jornada y partido
+            partido_inicial_de_jornada = partido_inicial + ((jorn-1)*10)
+            for part in range(partido_inicial_de_jornada, partido_inicial_de_jornada+2+jorn):
+                yield (jorn, part)
+
     
     def start_requests(self):
         base_url = "https://resultados.as.com/resultados/futbol/primera/2018_2019/directo/regular_a_%d_%d/narracion/?omnaut=1"
-        while self.jornada<3: 
-            yield scrapy.Request(url=(base_url %(self.jornada, self.partido)), callback=self.parse)
-            self.partido = self.partido +1 
-            if self.partido % 10 == 0 :
-                self.jornada = self.jornada +1
+
+        for jor, par in self.jor_par_generator():
+            #solucion (usar el meta) sacada de aquí: https://stackoverflow.com/a/55373936
+            yield scrapy.Request(url=(base_url %(jor, par)), callback=self.parse, meta={'jornada': jor, 'partido': par})
 
     def parse(self, response):
+
         resumen = {
-        'partido': self.partido,
-        'jornada': self.jornada,
+        
+        'jornada': response.meta['jornada'],
+        'partido':  response.meta['partido'],
         'equipo_local' :  response.xpath('//div[@class="eq-local"]//span[@class="nom"]/text()').extract_first() ,
         'resultado_local' :  response.xpath('//div[@class="marcador cf"]//span[@class="tanteo-local"]/text()').extract_first().strip() ,
         'equipo_visitante' :  response.xpath('//div[@class="eq-visit"]//span[@class="nom"]/text()').extract_first() ,
