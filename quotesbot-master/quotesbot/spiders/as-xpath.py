@@ -12,10 +12,9 @@ class ToScrapeSpiderXPath(scrapy.Spider):
 
 
     def jor_par_generator(self):
-        for jorn in range(1,4):
-            #tendras que construir la logica que relaciona jornada y partido
+        for jorn in range(1,3):
             partido_inicial_de_jornada = partido_inicial + ((jorn-1)*10)
-            for part in range(partido_inicial_de_jornada, partido_inicial_de_jornada+2+jorn):
+            for part in range(partido_inicial_de_jornada, partido_inicial_de_jornada+10):
                 yield (jorn, part)
 
     
@@ -39,7 +38,7 @@ class ToScrapeSpiderXPath(scrapy.Spider):
         'comentarios': []
 
         }
-        for quote in response.xpath('//div[@id="comments-live-es-auto"]//div[@class="cnt-narracion"]//p[contains(@class,"cnt-comentario")]'):
+        for quote in response.xpath('//div[@id="comments-live-en-auto"]//div[@class="cnt-narracion"]//p[contains(@class,"cnt-comentario")]'):
             comentario =  quote.xpath('.//text()[3]').extract_first() 
             minuto = quote.xpath('.//span[@class="minuto-comentario"]/text()').extract_first()                
             if len(comentario) == 1:                
