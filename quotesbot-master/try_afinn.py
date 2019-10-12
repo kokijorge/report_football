@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import io
 import sys
 import json
@@ -35,7 +36,7 @@ from afinn import Afinn
 FILE = "as.json"
 partidos = None
 
-with open(FILE) as f:
+with open(FILE, encoding="utf8") as f:
 	#for c in f.readlines():
 	#	comments.append( (c, afinn.score(c) ) )
 

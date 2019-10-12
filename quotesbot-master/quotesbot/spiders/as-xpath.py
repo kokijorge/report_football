@@ -2,6 +2,8 @@
 import scrapy
 import urllib.parse
 
+from afinn import Afinn
+
 partido_inicial = 248210
 
 def to_write(uni_str):
@@ -54,6 +56,3 @@ class ToScrapeSpiderXPath(scrapy.Spider):
             resumen['comentarios'].append(comentario)
         
         yield resumen
-        #print (dir(self))
-        
-        #print (dir(response))
