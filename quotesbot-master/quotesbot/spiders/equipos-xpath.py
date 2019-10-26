@@ -10,12 +10,18 @@ class EquiposSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        resumen = {        
-        'club': response.xpath('//*[@id="yw1"]/table/thead/tr[1]/th[1]//text()').extract_first(),
-        'plantilla':response.xpath('//*[@id="yw1"]/table/thead/tr[1]/th[4]//text()').extract_first(),
-        'edad':response.xpath('//*[@id="yw1"]/table/thead/tr[1]/th[5]//text()').extract_first(),
-        'extranjeros':response.xpath('//*[@id="yw1"]/table/thead/tr[1]/th[6]//text()').extract_first(),
-        'valor_total':response.xpath('//*[@id="yw1"]/table/thead/tr[1]/th[11]//text()').extract_first()
+        resumen = {
+        'equipos': []
         }
-        
+        i=1
+        for i in [1,2,3]:
+        	equipos={
+        	'nombre': response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[3]//text()').extract_first(),
+        	# 'plantilla':response.xpath('//*[@id="yw1"]/table/tbody/tr[1]/td[4]text()').extract_first(),
+        	'edad':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[5]//text()').extract_first(),
+        	'extranjeros':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[6]//text()').extract_first(),
+        	'valor_total':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[11]//text()').extract_first(),
+        	'url': 'https://www.transfermarkt.es'+response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']//td[4]//@href').extract_first()+'/plus/1'
+        	}
+        resumen['equipos'].append(equipos)
         yield resumen
