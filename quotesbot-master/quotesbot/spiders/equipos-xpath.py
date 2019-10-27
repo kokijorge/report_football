@@ -2,7 +2,7 @@
 import scrapy
 
 class EquiposSpider(scrapy.Spider):
-    name = 'equipos'
+    name = 'equipos-xpath'
     
     def start_requests(self):
         base_url = "https://www.transfermarkt.es/laliga/startseite/wettbewerb/ES1/saison_id/2018/plus/1"
@@ -10,10 +10,6 @@ class EquiposSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        resumen = {
-        'equipos': []
-        }
-        i=1
         for i in [1,2,3]:
         	equipos={
         	'nombre': response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[3]//text()').extract_first(),
@@ -23,5 +19,4 @@ class EquiposSpider(scrapy.Spider):
         	'valor_total':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[11]//text()').extract_first(),
         	'url': 'https://www.transfermarkt.es'+response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']//td[4]//@href').extract_first()+'/plus/1'
         	}
-        resumen['equipos'].append(equipos)
-        yield resumen
+        	yield equipos
