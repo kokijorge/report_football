@@ -12,7 +12,7 @@ class TiempoMeteoSpider(scrapy.Spider):
     def parse(self, response):
        	x = datetime.datetime.now()       	
        	#num_filas = response.xpath('count(//*[@id="page"]/main/div[4]/div/section[5]/div/div[1])').extract_first()
-       	i=2
+       	i=2       	
        	resumen ={
         	'fecha': "%s/%s/%s" % (x.day, x.month, x.year),
         	'horas': response.xpath('//*[@id="page"]/main/div[4]/div/section[5]/div/div[1]/div['+str(i)+']/div[1]//text()').extract_first(),
