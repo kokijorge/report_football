@@ -1,0 +1,22 @@
+[
+{"estadio": "Anoeta", "ciudad": "San Sebastián", "capacidad": "39.500"},
+{"estadio": "Benito Villamarín", "ciudad": "Sevilla", "capacidad": "60.721"},
+{"estadio": "Camp Nou", "ciudad": "Barcelona", "capacidad": "99.354"},
+{"estadio": "Ciudad de Valencia", "ciudad": "Valencia", "capacidad": "25.354"},
+{"estadio": "Coliseum Alfonso Pérez", "ciudad": "Getafe", "capacidad": "17.393"},
+{"estadio": "Estadio de Gran Canaria", "ciudad": "Las Palmas de Gran Canaria", "capacidad": "32.392"},
+{"estadio": "Estadio de la Cerámica", "ciudad": "Villarreal", "capacidad": "23.500"},
+{"estadio": "Estadio de Mestalla", "ciudad": "Valencia", "capacidad": "55.000"},
+{"estadio": "Ipurua", "ciudad": "Eibar", "capacidad": "7.083"},
+{"estadio": "La Rosaleda", "ciudad": "Málaga", "capacidad": "30.044"},
+{"estadio": "Mendizorroza", "ciudad": "Vitoria-Gasteiz", "capacidad": "19.840"},
+{"estadio": "Municipal de Balaídos", "ciudad": "Vigo", "capacidad": "31.800"},
+{"estadio": "Municipal de Butarque", "ciudad": "Leganés", "capacidad": "11.454"},
+{"estadio": "Municipal de Montilivi", "ciudad": "Girona", "capacidad": "14.286"},
+{"estadio": "Ramón Sánchez Pizjuán", "ciudad": "Sevilla", "capacidad": "43.883"},
+{"estadio": "RCDE Stadium", "ciudad": "Cornellà de Llobregat", "capacidad": "40.000"},
+{"estadio": "Riazor", "ciudad": "La Coruña", "capacidad": "34.600"},
+{"estadio": "San Mamés", "ciudad": "Bilbao", "capacidad": "53.289"},
+{"estadio": "Santiago Bernabéu", "ciudad": "Madrid", "capacidad": "81.044"},
+{"estadio": "Wanda Metropolitano", "ciudad": "Madrid", "capacidad": "68.000"}
+]
