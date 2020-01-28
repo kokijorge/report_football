@@ -7,7 +7,7 @@ import io
 import json
 from collections import defaultdict
 
-from reglas import patrones
+from reglas import patterns
 
 
 FILE_A_PUNTUAR = "data/partido1.txt"
@@ -25,14 +25,14 @@ def puntua_partido(comments):
 
 	for line, comment in enumerate(comments):
 		print "\n{0}\t{1}".format(line+1, comment.rstrip())
-		for p in patrones:
+		for p in patterns:
 			for key, value in p.score(comment).iteritems():
 				final[key.encode('utf8')] += value
 
 	print "\nTOTALES"
 	print json.dumps(final, sort_keys=True, indent=4, ensure_ascii=False)
-	#print final
 	return final
 
 puntua_partido(comments)
 
+#Attempt missed. Pione Sisto (Celta de Vigo) right footed shot from outside the box is close, but misses to the right. Assisted by Sofiane Boufal following a fast break.

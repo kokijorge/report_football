@@ -23,14 +23,21 @@ Corner,Real Madrid. Conceded by Borja García -> ejemplo de puntuacion negativa 
 Manu García (Alavés) wins a free kick in the defensive half -> puntuacion +1
 """
 
-all = [
-("GOL", r"Goal.+?\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with)\w+\s?)+))" , "https://regex101.com/r/iqfjCx/1", (0,10,False), (2,3,True) ),
-#  falta conseguir la asistencia que es opcional Goal.+\.\s(.+)\s\(.+shot from.+?Assisted by (.+)(with.+\.)?
-("FALTA", r"Foul by\s(.+)\s\(.+\.", "https://regex101.com/r/q9tZBU/1", (0,-2,False) ),
-("CORNER", r"Corner.+?Conceded by\s(.+)\.", "https://regex101.com/r/n3QmXH/1", (0,-1,False) ),
-("OCASION", r"Attempt missed\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with)\w+\s?)+))", "https://regex101.com/r/85UQmN/1", (0,4,False) , (2,2,True) ),
-("T. LIBRE", r"((\w+?\s)+)\(.+?\) wins a free kick", "https://regex101.com/r/2wRDRm/1", (0,1,False)  ),
-]
+
+def build_patterns():
+	all = [
+		("GOL", "https://regex101.com/r/iqfjCx/1", r"Goal.+?\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following)\w+\s?)+))" , (0,10,False), (2,3,True) ),
+		("FALTA", "https://regex101.com/r/q9tZBU/1",  r"Foul by\s(.+)\s\(.+\.", (0,-2,False) ),
+		("CORNER", "https://regex101.com/r/n3QmXH/1", r"Corner.+?Conceded by\s(.+)\.", (0,-1,False) ),
+		("OCASION", "https://regex101.com/r/85UQmN/2", r"Attempt missed\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following)\w+\s?)+))", (0,4,False) , (2,2,True) ),
+		("T.LIBRE", "https://regex101.com/r/2wRDRm/2", r"((\w+?\s)+)\(.+?\) wins a free kick", (0,1,False)  ),
+	]
+	result = []
+	for rule in all:
+		result.append(Patron(rule))
+	return result
+
+
 
 class Score:
 	def __init__(self,score):
@@ -45,10 +52,11 @@ class Score:
 class Patron:
 	def __init__(self, rule):
 		self.name = rule[0]
-		self.regex_raw = rule[1]
+		self.url = rule[1]
+		self.regex_raw = rule[2]
 		self.pattern = re.compile(self.regex_raw, re.UNICODE)
 
-		self.url = rule[2]
+		
 		self.scores = [Score(score) for score in rule[3:]]
 
 	def __str__(self):
@@ -78,13 +86,8 @@ class Patron:
 			return {}
 
 
-patrones = []
-
-for rule in all:
-	patrones.append(Patron(rule))
-
+patterns = build_patterns()
 
 # PRINTAMOS LOS PATRONES
-
-for p in patrones:
+for p in patterns:
 	print p
