@@ -39,7 +39,7 @@ def build_patterns():
 
 
 
-class Score:
+class Puntuacion:
 	def __init__(self,score):
 		self.index = score[0]
 		self.points = score[1]
@@ -55,18 +55,16 @@ class Patron:
 		self.url = rule[1]
 		self.regex_raw = rule[2]
 		self.pattern = re.compile(self.regex_raw, re.UNICODE)
-
-		
-		self.scores = [Score(score) for score in rule[3:]]
+		self.scores = [Puntuacion(score) for score in rule[3:]]
 
 	def __str__(self):
 		return "\n{0}\t\tURL: {1}\tREGEX: {2} \n{3} ".format(self.name,self.url, self.regex_raw, "\n".join([str(score) for score in self.scores])) 
 
-	def score(self, comment):
+	def puntua(self, comment):
 		if DEBUG:
 			print "scoring: " +comment
 		partial = defaultdict(lambda: 0)
-		result = self. pattern.match(comment)
+		result = self.pattern.match(comment)
 		if result:
 			groups = result.groups()
 			if DEBUG:
@@ -80,10 +78,7 @@ class Patron:
 				elif not score.optional:
 					#petardazo porque no podemos saltarnos un player obligatorio en un patron.
 					9/0
-		if  len(partial):
-			return partial
-		else:
-			return {}
+		return dict(partial)
 
 
 patterns = build_patterns()

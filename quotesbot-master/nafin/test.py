@@ -26,7 +26,7 @@ def puntua_partido(comments):
 	for line, comment in enumerate(comments):
 		print "\n{0}\t{1}".format(line+1, comment.rstrip())
 		for p in patterns:
-			for key, value in p.score(comment).iteritems():
+			for key, value in p.puntua(comment).iteritems():
 				final[key.encode('utf8')] += value
 
 	print "\nTOTALES"
