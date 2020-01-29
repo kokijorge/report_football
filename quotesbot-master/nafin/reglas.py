@@ -62,19 +62,19 @@ class Patron:
 
 	def puntua(self, comment):
 		if DEBUG:
-			print "scoring: " +comment
+			print ("scoring: " +comment)
 		partial = defaultdict(lambda: 0)
 		result = self.pattern.match(comment)
 		if result:
 			groups = result.groups()
 			if DEBUG:
-				print "Match : " + str(groups)
+				print ("Match : " + str(groups))
 			for score in self.scores:
 				player = groups[score.index]
 				if player: # a veces no hay segundo jugador, por ejemplo no hubo asistencia...
 					points = score.points
 					partial[player.strip()] += points  # no deberia tener que hacer strip si el regex estuviese bien construido
-					print "\t{0} : {1} {2}".format(self.name, player,points)
+					print ("\t{0} : {1} {2}".format(self.name, player,points))
 				elif not score.optional:
 					#petardazo porque no podemos saltarnos un player obligatorio en un patron.
 					9/0
@@ -85,4 +85,4 @@ patterns = build_patterns()
 
 # PRINTAMOS LOS PATRONES
 for p in patterns:
-	print p
+	print (p)
