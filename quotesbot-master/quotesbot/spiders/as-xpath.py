@@ -4,7 +4,7 @@ import urllib.parse
 
 from afinn import Afinn
 
-partido_inicial = 248210
+partido_inicial = 214386
 
 def to_write(uni_str):
     return uni_str
@@ -14,14 +14,14 @@ class ToScrapeSpiderXPath(scrapy.Spider):
 
 
     def jor_par_generator(self):
-        for jorn in range(1,3):
+        for jorn in range(1,39):
             partido_inicial_de_jornada = partido_inicial + ((jorn-1)*10)
             for part in range(partido_inicial_de_jornada, partido_inicial_de_jornada+10):
                 yield (jorn, part)
 
     
     def start_requests(self):
-        base_url = "https://resultados.as.com/resultados/futbol/primera/2018_2019/directo/regular_a_%d_%d/narracion/?omnaut=1"
+        base_url = "https://resultados.as.com/resultados/futbol/primera/2017_2018/directo/regular_a_%d_%d/narracion/?omnaut=1"
 
         for jor, par in self.jor_par_generator():
             yield scrapy.Request(url=(base_url %(jor, par)), callback=self.parse, meta={'jornada': jor, 'partido': par})
@@ -39,7 +39,7 @@ class ToScrapeSpiderXPath(scrapy.Spider):
         'comentarios': []
 
         }
-        for quote in response.xpath('//div[@id="comments-live-en-auto"]//div[@class="cnt-narracion"]//p[contains(@class,"cnt-comentario")]'):
+        for quote in response.xpath('//div[@id="comments-live-en-auto"]//div[@class="cnt-narracion"]//p[contains(@class,"cnt-comentario")]'):            
             comentario =  quote.xpath('.//text()[3]').extract_first() 
             minuto = quote.xpath('.//span[@class="minuto-comentario"]/text()').extract_first()                
             if len(comentario) == 1:                
