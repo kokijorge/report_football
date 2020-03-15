@@ -10,7 +10,7 @@ class JornadaSpider(scrapy.Spider):
         yield scrapy.Request(url=(base_url))
         
     def parse(self, response):
-        for i in range (1,1):
+        for i in range (1,2):
             resumen={
             'equipo_local': response.xpath('/html/body/div[7]/div[2]/div/div[2]/div/div/div/ul/li['+str(i)+']/div[1]/a/span[1]//text()').extract_first(),
             'equipo_visitante':response.xpath('/html/body/div[7]/div[2]/div/div[2]/div/div/div/ul/li['+str(i)+']/div[3]/a/span[2]//text()').extract_first(),
