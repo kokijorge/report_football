@@ -1,22 +1,5 @@
 [
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null},
-{"estadio": null, "ciudad": null, "capacidad": null}
+{"estadio": "", "ciudad": "San Sebastián", "capacidad": "", "url": "https://www.eltiempo.es/san-sebastian.html?v=por_hora"},
+{"estadio": "", "ciudad": "Sevilla", "capacidad": "", "url": "https://www.eltiempo.es/sevilla.html?v=por_hora"},
+{"estadio": "", "ciudad": "Barcelona", "capacidad": "", "url": "https://www.eltiempo.es/barcelona.html?v=por_hora"}
 ]
