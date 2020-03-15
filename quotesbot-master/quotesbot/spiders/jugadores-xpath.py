@@ -9,7 +9,7 @@ class JuagadoresSpider(scrapy.Spider):
     def start_requests(self):
 
         
-        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),"equipos2016_2017.json")
+        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),"equipos2017_2018.json")
         equipos = None
         with open(FILE, encoding="utf8") as f:
             equipos = json.loads(f.read())
