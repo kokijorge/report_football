@@ -3,13 +3,15 @@ import os
 import json
 import scrapy
 
+a="equipos2017_2018.json"
+ano= a[7:11]  
+
 class JuagadoresSpider(scrapy.Spider):
     name = 'jugadores-xpath'
     
     def start_requests(self):
 
-        
-        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),"equipos2017_2018.json")
+        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),a)
         equipos = None
         with open(FILE, encoding="utf8") as f:
             equipos = json.loads(f.read())
@@ -25,6 +27,7 @@ class JuagadoresSpider(scrapy.Spider):
         for i in range (1, int(num_jugadores[:-2])+1):
             jugador={
             'equipo': response.meta['equipo']['nombre'],
+            'ano': ano,
             'dorsal': response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[1]//text()').extract_first(),
             'nombre':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[2]//text()').extract_first(),
             'fecha_nacimiento':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[3]//text()').extract_first(),
