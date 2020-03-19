@@ -8,12 +8,14 @@ class TiempoMeteoSpider(scrapy.Spider):
     name = 'tiempoMeteo-xpath'
     
     def start_requests(self):
-        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),"estadios2016_2017.json")
+        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),"estadios2017_2018.json")
+        #estadios2016_2017.json
+        #estadios2017_2018.json
         estadios = None
         with open(FILE, encoding="utf8") as f:
             estadios = json.loads(f.read())
 
-        for estadio in estadios[0:3]:
+        for estadio in estadios[0:20]:
             yield scrapy.Request(url=estadio['url'], callback=self.parse, meta={'estadio': estadio})
         
     def parse(self, response):

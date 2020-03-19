@@ -4,7 +4,7 @@ import json
 import scrapy
 
 a="equipos2017_2018.json"
-ano= a[7:11]  
+ano= a[7:11]
 
 class JuagadoresSpider(scrapy.Spider):
     name = 'jugadores-xpath'
