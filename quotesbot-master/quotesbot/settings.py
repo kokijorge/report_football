@@ -53,9 +53,16 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+
+
+
+# MROU: https://github.com/scrapy/scrapy/issues/2481#issuecomment-270607329
+BEAUTIFULSOUP_PARSER = "html5lib"
+DOWNLOADER_MIDDLEWARES = {
 #    'quotesbot.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+'scrapy_beautifulsoup.middleware.BeautifulSoupMiddleware': 400
+}
+
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html

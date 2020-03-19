@@ -50,3 +50,5 @@ $ docker build -t koki .
 run 
 docker run -v $(pwd):/usr/src/app koki
 docker run -v $(pwd):/usr/src/app koki scrapy crawl jugadores-xpath -o quotesbot/spiders/jugadores.json
+
+docker run -v $(pwd):/usr/src/app koki scrapy crawl estadios-xpath -o quotesbot/spiders/marcial.json
