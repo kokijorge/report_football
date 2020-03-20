@@ -1,15 +1,5 @@
 [
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null}
-][
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null}
-][
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null},
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null},
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null},
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null}
-][
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null},
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null},
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null},
-{"equipo_local": null, "equipo_visitante": null, "fecha_hora": null}
+{"jornada": 1, "equipo_local": null, "ano": "2016", "equipo_visitante": null, "fecha_hora": null},
+{"jornada": 3, "equipo_local": null, "ano": "2016", "equipo_visitante": null, "fecha_hora": null},
+{"jornada": 2, "equipo_local": null, "ano": "2016", "equipo_visitante": null, "fecha_hora": null}
 ]
