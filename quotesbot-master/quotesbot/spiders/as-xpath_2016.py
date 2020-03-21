@@ -18,5 +18,8 @@ class ToScrapeSpiderXPath(scrapy.Spider):
 
         resumen = {        
         'comentarios': response.xpath('//div[@id="comments-live-en-auto"]//div[@class="cnt-narracion"]//p[contains(@class,"cnt-comentario")][11]').extract_first(),
+        #comentarios es un array de:
+        #'minuto': minuto,
+        #'text': to_write(quote.xpath('.//text()[4]').extract_first().strip())
         }
         yield resumen

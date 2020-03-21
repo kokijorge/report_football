@@ -41,10 +41,10 @@ class JornadaSpider(scrapy.Spider):
             resultado = res.find('div', {"class": "cont-resultado"}).get_text().strip()
 
             # <time itemprop="startDate" content="2016-08-20T18:15:00+02:00"></time>
-            fecha_hora = res.find('time', {"itemprop": "startDate"})['content'].strip()
+            fecha_hora = res.find('span', {"class": "fecha"}).get_text().strip()
             
             resumen={
-            'ano': fecha_hora[:4],
+            'ano': ano,
             'jornada': response.meta['jornada'],
             'equipo_local': local,
             'equipo_visitante':visitante,
