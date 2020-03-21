@@ -2,18 +2,18 @@
 import scrapy
 import datetime
 from bs4 import BeautifulSoup
+import re
 
-url="https://resultados.as.com/resultados/futbol/primera/2016_2017/jornada/regular_a_%d/"
+url="https://resultados.as.com/resultados/futbol/primera/2017_2018/jornada/regular_a_%d/"
 #https://resultados.as.com/resultados/futbol/primera/2017_2018/jornada/regular_a_%d/
-#https://resultados.as.com/resultados/futbol/primera/2016_2017/jornada/regular_a_1/
+#https://resultados.as.com/resultados/futbol/primera/2016_2017/jornada/regular_a_%d/
 ano= url[52:56]
 
 class JornadaSpider(scrapy.Spider):
     name = 'jornada-xpath'
     
-    def jornada_ano_generator(self):
-        for jorn in range(1,4):
-        ##for jorn in range(1,39):
+    def jornada_ano_generator(self):        
+        for jorn in range(1,39):
             yield (jorn)
 
     
@@ -25,12 +25,9 @@ class JornadaSpider(scrapy.Spider):
         
     def parse(self, response):
 
-        # Decidi abandonar xpath y volver a mi querido Beautifulsoup.... desde entonces todo perfecto
-        # https://docs.scrapy.org/en/latest/faq.html#can-i-use-scrapy-with-beautifulsoup
-        # Aqui lo has de aprender:
-        # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-
-        # use lxml to get decent HTML parsing speed
+        # Beautifulsoup
+        # https://docs.scrapy.org/en/latest/faq.html#can-i-use-scrapy-with-beautifulsoup        
+        # https://www.crummy.com/software/BeautifulSoup/bs4/doc/        
         soup = BeautifulSoup(response.text, 'lxml')
         mydivs = soup.findAll("li", {"class": "list-resultado"})
         print("He encontrado {} resultados".format(len(mydivs)) )
@@ -38,17 +35,18 @@ class JornadaSpider(scrapy.Spider):
             equipos = res.findAll('div', {"itemprop": "performer"})
             local = equipos[0].get_text().strip()
             visitante = equipos[1].get_text().strip()
-            resultado = res.find('div', {"class": "cont-resultado"}).get_text().strip()
-
-            # <time itemprop="startDate" content="2016-08-20T18:15:00+02:00"></time>
-            fecha_hora = res.find('span', {"class": "fecha"}).get_text().strip()
-            
+            todo = res.find('div', {"class": "cont-resultado"})
+            pag = todo.find('a').get('href')
+            inicio = pag.rfind("_") +1
+            fin = pag.rfind("/")
+            id_partido = pag[inicio:fin]
+            fecha_hora = res.find('span', {"class": "fecha"}).get_text().strip()            
             resumen={
-            'ano': ano,
+            'id_partido': id_partido,
             'jornada': response.meta['jornada'],
+            'ano': ano,            
             'equipo_local': local,
-            'equipo_visitante':visitante,
-            'resultado': resultado,
+            'equipo_visitante':visitante,            
             'fecha_hora':fecha_hora
             }
             yield resumen
