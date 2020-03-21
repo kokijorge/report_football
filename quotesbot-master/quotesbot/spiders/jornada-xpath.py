@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import datetime
+from bs4 import BeautifulSoup
 
 url="https://resultados.as.com/resultados/futbol/primera/2016_2017/jornada/regular_a_%d/"
 #https://resultados.as.com/resultados/futbol/primera/2017_2018/jornada/regular_a_%d/
@@ -23,12 +24,32 @@ class JornadaSpider(scrapy.Spider):
 
         
     def parse(self, response):
-        for i in range (1,2):
+
+        # Decidi abandonar xpath y volver a mi querido Beautifulsoup.... desde entonces todo perfecto
+        # https://docs.scrapy.org/en/latest/faq.html#can-i-use-scrapy-with-beautifulsoup
+        # Aqui lo has de aprender:
+        # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
+        # use lxml to get decent HTML parsing speed
+        soup = BeautifulSoup(response.text, 'lxml')
+        mydivs = soup.findAll("li", {"class": "list-resultado"})
+        print("He encontrado {} resultados".format(len(mydivs)) )
+        for res in mydivs:
+            equipos = res.findAll('div', {"itemprop": "performer"})
+            local = equipos[0].get_text().strip()
+            visitante = equipos[1].get_text().strip()
+            resultado = res.find('div', {"class": "cont-resultado"}).get_text().strip()
+
+            # <time itemprop="startDate" content="2016-08-20T18:15:00+02:00"></time>
+            fecha_hora = res.find('time', {"itemprop": "startDate"})['content'].strip()
+            
             resumen={
+            'ano': fecha_hora[:4],
             'jornada': response.meta['jornada'],
-            'equipo_local': response.xpath('/html/body/div[7]/div[2]/div/div[2]/div/div/div/ul/li['+str(i)+']/div[1]/a/span[1]//text()').extract_first(),
-            'ano': ano,
-            'equipo_visitante':response.xpath('/html/body/div[7]/div[2]/div/div[2]/div/div/div/ul/li['+str(i)+']/div[3]/a/span[2]//text()').extract_first(),
-            'fecha_hora':response.xpath('/html/body/div[7]/div[2]/div/div[2]/div/div/div/ul/li['+str(i)+']/div[4]/span[1]/ul/li[1]/a/span[2]//text()').extract_first()
+            'equipo_local': local,
+            'equipo_visitante':visitante,
+            'resultado': resultado,
+            'fecha_hora':fecha_hora
             }
             yield resumen
+
