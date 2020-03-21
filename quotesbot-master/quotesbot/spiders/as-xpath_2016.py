@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import urllib.parse
+from bs4 import BeautifulSoup
 
 from afinn import Afinn
 
@@ -15,11 +16,25 @@ class ToScrapeSpiderXPath(scrapy.Spider):
         yield scrapy.Request(url=(base_url))
 
     def parse(self, response):
-
-        resumen = {        
-        'comentarios': response.xpath('//div[@id="comments-live-en-auto"]//div[@class="cnt-narracion"]//p[contains(@class,"cnt-comentario")][11]').extract_first(),
+        soup = BeautifulSoup(response.text, 'lxml')
+        mydivs = soup.find("div", {"id": "comments-live-en-auto"})
+        #mycom = mydivs.findAll("p", {"class": "cnt-comentario"})        
+        print(mydivs)
+        print("He encontrado {} resultados".format(len(mydivs)))
         #comentarios es un array de:
         #'minuto': minuto,
         #'text': to_write(quote.xpath('.//text()[4]').extract_first().strip())
-        }
-        yield resumen
+        '''for res in mydivs:
+            minuto = res.findAll('div', {"id": "comments-live-en-auto"})
+            local = equipos[0].get_text().strip()
+            visitante = equipos[1].get_text().strip()         
+            resumen={
+            'id_partido': id_partido,
+            'jornada': response.meta['jornada'],
+            'ano': ano,            
+            'equipo_local': local,
+            'equipo_visitante':visitante,            
+            'fecha_hora':fecha_hora
+            }
+            yield resumen
+        '''
