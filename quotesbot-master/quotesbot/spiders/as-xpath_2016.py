@@ -18,9 +18,14 @@ class ToScrapeSpiderXPath(scrapy.Spider):
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
         mydivs = soup.find("div", {"id": "comments-live-en-auto"})
-        #mycom = mydivs.findAll("p", {"class": "cnt-comentario"})        
-        print(mydivs)
-        print("He encontrado {} resultados".format(len(mydivs)))
+        mycom = mydivs.findAll("p", {"class": "cnt-comentario"})
+        print(mycom)
+        print("He encontrado {} resultados".format(len(mycom)))
+        for res in mycom:
+            minuto = res.find("span", {"class": "minuto-comentario"}).get_text().strip() 
+            comentario = res.find("span", {"class": "bullet-comentario"})
+            print(minuto)
+            print(comentario)                      
         #comentarios es un array de:
         #'minuto': minuto,
         #'text': to_write(quote.xpath('.//text()[4]').extract_first().strip())
