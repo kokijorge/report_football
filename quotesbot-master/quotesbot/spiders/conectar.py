@@ -1,4 +1,4 @@
-'''
+
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
@@ -26,12 +26,3 @@ cur.execute(sqlCreateDatabase)
 # bandwidth to other requests
 cur.close()
 conn.close()
-'''
-import sys
-import psycopg2
-print(sys.version)
-# 3.7.0 (default, Jun 29 2018, 20:13:13) 
-# [Clang 9.1.0 (clang-902.0.39.2)]
-
-print(type(sys.version))
-# <class 'str'>
