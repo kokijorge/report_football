@@ -21,7 +21,7 @@ class ToScrapeSpiderXPath(scrapy.Spider):
 
     
     def start_requests(self):
-        base_url = "https://resultados.as.com/resultados/futbol/primera/2016_2017/directo/regular_a_%d_%d/narracion/?omnaut=1"
+        base_url = "https://resultados.as.com/resultados/futbol/primera/2017_2018/directo/regular_a_%d_%d/narracion/?omnaut=1"
 
         for jor, par in self.jor_par_generator():
             yield scrapy.Request(url=(base_url %(jor, par)), callback=self.parse, meta={'jornada': jor, 'partido': par})

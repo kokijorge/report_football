@@ -30,7 +30,7 @@ class JornadaSpider(scrapy.Spider):
         # https://www.crummy.com/software/BeautifulSoup/bs4/doc/        
         soup = BeautifulSoup(response.text, 'lxml')
         mydivs = soup.findAll("li", {"class": "list-resultado"})
-        print("He encontrado {} resultados".format(len(mydivs)) )
+        print("He encontrado {} resultados".format(len(mydivs)))
         for res in mydivs:
             equipos = res.findAll('div', {"itemprop": "performer"})
             local = equipos[0].get_text().strip()
@@ -40,7 +40,7 @@ class JornadaSpider(scrapy.Spider):
             inicio = pag.rfind("_") +1
             fin = pag.rfind("/")
             id_partido = pag[inicio:fin]
-            fecha_hora = res.find('span', {"class": "fecha"}).get_text().strip()            
+            fecha_hora = res.find('span', {"class": "fecha"}).get_text().strip()
             resumen={
             'id_partido': id_partido,
             'jornada': response.meta['jornada'],
