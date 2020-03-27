@@ -10,7 +10,7 @@ def to_write(uni_str):
     return uni_str
 
 class ToScrapeSpiderXPath(scrapy.Spider):
-    name = 'as-xpath'
+    name = 'as-xpath-2017'
 
 
     def jor_par_generator(self):

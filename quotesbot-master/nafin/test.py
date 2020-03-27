@@ -5,6 +5,9 @@ import json
 from collections import defaultdict
 
 from reglas import patterns
+import psycopg2
+from psycopg2 import sql
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
 FILE_A_PUNTUAR = "data/partido1.txt"
@@ -30,6 +33,19 @@ def puntua_partido(comments):
 	print (json.dumps(final, sort_keys=True, indent=4, ensure_ascii=False))
 	return final
 
-puntua_partido(comments)
+a=puntua_partido(comments)
+elementos = a.items()
 
-#Attempt missed. Pione Sisto (Celta de Vigo) right footed shot from outside the box is close, but misses to the right. Assisted by Sofiane Boufal following a fast break.
+conn = psycopg2.connect(host="localhost", port = 5432, database="prueba1", user="postgres", password="postgres")
+
+conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+cur = conn.cursor()
+
+for nombre,puntuacion in elementos:	
+	punt = str(puntuacion)
+	sqlInsert = """INSERT INTO tfg.dim_puntuacion(nombre, puntuacion)VALUES ('"""+nombre+"""', """+punt+""");"""
+	print(sqlInsert)
+	cur.execute(sqlInsert)	
+
+cur.close()
+conn.close()

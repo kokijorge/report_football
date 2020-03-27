@@ -34,7 +34,8 @@ def build_patterns():
 		## "fuera de juego"  https://regex101.com/r/LDDCEN/1 
 		## "tiro al palo" https://regex101.com/r/a4FWkt/1
 		## "ocasion manifiesta"  https://regex101.com/r/JXnV7v/1
-		## "amarilla" https://regex101.com/r/xINlXr/1
+		## "amarilla" https://regex101.com/r/xINlXr/1 # no me coge el acento?
+		## "tarjeta roja" https://regex101.com/r/xUJPp2/1
 	]
 	result = []
 	for rule in all:
