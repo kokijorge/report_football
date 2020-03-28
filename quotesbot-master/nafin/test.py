@@ -10,15 +10,21 @@ from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
-FILE_A_PUNTUAR = "data/partido1.txt"
 FILE_A_PUNTUAR = "ejemplos.txt"
+FILE_A_PUNTUAR = "prueba.json"
 
 print ("\n\n\nVAMOS a puntuar " + FILE_A_PUNTUAR)
 print ("================" +  "="*len(FILE_A_PUNTUAR))
 
+
+
 with io.open(FILE_A_PUNTUAR,"r", encoding="utf-8") as f:
 	comments = f.readlines()
 
+comentarios = json.dumps(comments[1])
+print(comentarios)
+print(comentarios[2])
+'''
 def puntua_partido(comments):
 
 	final = defaultdict(lambda: 0)
@@ -48,4 +54,4 @@ for nombre,puntuacion in elementos:
 	cur.execute(sqlInsert)	
 
 cur.close()
-conn.close()
+conn.close()'''
