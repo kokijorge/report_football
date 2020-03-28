@@ -8,7 +8,8 @@ class TiempoMeteoSpider(scrapy.Spider):
     name = 'tiempoMeteo-xpath'
     
     def start_requests(self):
-        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),"estadios2017_2018.json")
+        ruta = "C:/Users/Admin/Downloads/Scrapy/report_football/quotesbot-master/quotesbot/spiders/DATOS/estadios2017_2018.json"
+        FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),ruta)
         #estadios2016_2017.json
         #estadios2017_2018.json
         estadios = None
