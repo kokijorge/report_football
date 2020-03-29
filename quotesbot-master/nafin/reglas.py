@@ -29,7 +29,7 @@ def build_patterns():
 		("GOL", "https://regex101.com/r/iqfjCx/1", r"Goal.+?\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following)\w+\s?)+))" , (0,10,False), (2,3,True) ),
 		("FALTA", "https://regex101.com/r/q9tZBU/1",  r"Foul by\s(.+)\s\(.+\.", (0,-2,False) ),
 		("CORNER", "https://regex101.com/r/n3QmXH/1", r"Corner.+?Conceded by\s(.+)\.", (0,-1,False) ),
-		("OCASION", "https://regex101.com/r/85UQmN/2", r"Attempt missed\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following)\w+\s?)+))", (0,4,False) , (2,2,True) ),
+		("OCASION", "https://regex101.com/r/85UQmN/4", r"Attempt missed\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following|from)\w+\s?)+))", (0,4,False) , (2,2,True) ),
 		("T.LIBRE", "https://regex101.com/r/2wRDRm/2", r"((\w+?\s)+)\(.+?\) wins a free kick", (0,1,False)  ),
 		## "fuera de juego"  https://regex101.com/r/LDDCEN/1 
 		## "tiro al palo" https://regex101.com/r/a4FWkt/1
