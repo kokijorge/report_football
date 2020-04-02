@@ -1,18 +1,20 @@
+
+
 import io
 import json
 from collections import defaultdict
 
 from reglas_2016 import patterns
+import psycopg2
+from psycopg2 import sql
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
-#FILE_A_PUNTUAR = "as2017.txt"
-FILE_A_PUNTUAR = "as2016.txt"
+#FILE_A_PUNTUAR = "as2016_2017.json"
+FILE_A_PUNTUAR = "as2017_2018.json"
 
 print ("\n\n\nVAMOS a puntuar " + FILE_A_PUNTUAR)
 
-
-with io.open(FILE_A_PUNTUAR,"r", encoding="utf-8") as f:
-	comments = f.readlines()
 
 def puntua_partido(comments):
 
@@ -24,11 +26,3 @@ def puntua_partido(comments):
 				final[key] += value	
 	return final
 
-total = len(comments)
-print (total)
-#for comentario in comments[0:1]:
-#	print(comentario)
-
-a = puntua_partido(comentario for comentario in comments[0:total])
-elementos = a.items()
-print (elementos)

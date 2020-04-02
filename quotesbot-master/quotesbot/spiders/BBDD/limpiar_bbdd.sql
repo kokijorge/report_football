@@ -31,6 +31,15 @@ and partido<214386 group by nombre  ) and ano = 2016 and equipo= 'Sevilla' and d
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 --Puntuacion:
 
+CREATE TABLE tfg.staging_puntuacion2017
+(
+  partido 			double precision,
+  nombre                 VARCHAR(30) NOT NULL,
+  puntuacion              INT NOT NULL
+);
+
+
+
 CREATE TABLE tfg.dim_puntuacion
 (
   partido 			double precision,
@@ -44,6 +53,14 @@ inner join tfg.staging_alineacion alineacion
 on punt.nombre like '%' || alineacion.nombre ||'%'
 and alineacion.equipo= 'Levante'
 group by punt.partido,punt.nombre,alineacion.nombre,alineacion.dorsal order by 4;
+
+UPDATE tfg.dim_puntuacion punt
+SET nombre = alineacion.nombre
+FROM tfg.staging_alineacion alineacion
+WHERE 
+punt.partido = alineacion.partido
+and punt.nombre like '%' || alineacion.nombre ||'%'
+and alineacion.partido>=214386;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -7,19 +7,18 @@ from collections import defaultdict
 def build_patterns():
 	all = [
 	#2017-2018
-		("GOL", "https://regex101.com/r/iqfjCx/1", r"Goal.+?\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following)\w+\s?)+))" , (0,10,False), (2,3,True) ),
-		("FALTA", "https://regex101.com/r/q9tZBU/1",  r"Foul by\s(.+)\s\(.+\.", (0,-2,False) ),
+		("GOL", "https://regex101.com/r/iqfjCx/1", r"Goal.+?\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following)\w+\s?)+))" , (0,20,False), (2,8,True) ),
+		("FALTA", "https://regex101.com/r/q9tZBU/1",  r"Foul by\s(.+)\s\(.+\.", (0,-1,False) ),
 		("CORNER", "https://regex101.com/r/n3QmXH/1", r"Corner.+?Conceded by\s(.+)\.", (0,-1,False) ),
-		("OCASION", "https://regex101.com/r/85UQmN/4", r"Attempt missed\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following|from)\w+\s?)+))", (0,4,False) , (2,2,True) ),
+		("OCASION", "https://regex101.com/r/85UQmN/4", r"Attempt missed\.\s(.+)\s\(.+?\.(\sAssisted\sby\s)?(?(2)(((?!with|following|from)\w+\s?)+))", (0,2,False) , (2,1,True) ),
 		("T.LIBRE", "https://regex101.com/r/2wRDRm/2", r"((\w+?\s)+)\(.+?\) wins a free kick", (0,1,False)  ),
 		("FUERA DE JUEGO",  "https://regex101.com/r/LDDCEN/2", r"Offside.+?but\s(.+)\sis\scaught\soffside" , (0,-1,False)),
-		("TIRO AL PALO", "https://regex101.com/r/a4FWkt/2", r"((\w+?\s)+)\(.+?\)\shits\sthe\sbar.+?\." , (0,3,False)),
+		("TIRO AL PALO", "https://regex101.com/r/a4FWkt/2", r"((\w+?\s)+)\(.+?\)\shits\sthe\sbar.+?\." , (0,5,False)),
 		("OCASION MANIFIESTA",  "https://regex101.com/r/JXnV7v/2" ,r"Dangerous play by\s(.+)\s\(.+\." , (0,2,False)),
-		("AMARILLA" , "https://regex101.com/r/xINlXr/3", r"((\w+?\s)+)\(.+?\) is shown the yellow card.*", (0,-2,False)),
+		("AMARILLA" , "https://regex101.com/r/xINlXr/3", r"((\w+?\s)+)\(.+?\) is shown the yellow card.*", (0,-3,False)),
 		("ROJA", "https://regex101.com/r/xUJPp2/2", r"((\w+?\s)+)\(.+?\) is shown the red card", (0,-6,False)),
-		("PENALTI CONSEGUIDO",  "https://regex101.com/r/bD0s7T/2" , r"Penalty.+?[.]\s(.+)\sdraws\s.*", (0,4,False)),
-		("PENALTI CONCEDIDO", "https://regex101.com/r/raGpDg/2", r"Penalty conceded by\s(.+)\s\(.+\.",(0,-4,False))
-	#2016-2017
+		("PENALTI CONSEGUIDO",  "https://regex101.com/r/bD0s7T/2" , r"Penalty.+?[.]\s(.+)\sdraws\s.*", (0,6,False)),
+		("PENALTI CONCEDIDO", "https://regex101.com/r/raGpDg/2", r"Penalty conceded by\s(.+)\s\(.+\.",(0,-5,False))		
 	]
 	result = []
 	for rule in all:

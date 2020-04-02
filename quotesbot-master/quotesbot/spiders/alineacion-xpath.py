@@ -10,11 +10,10 @@ class ToScrapeSpiderXPath(scrapy.Spider):
     name = 'alineacion-xpath'
 
     def jor_par_generator(self):                        
-        for jorn in range(1,39):
+        for jorn in range(1,39):        
             partido_inicial_de_jornada = partido_inicial + ((jorn-1)*10)
             for part in range(partido_inicial_de_jornada, partido_inicial_de_jornada+10):            
                 yield (jorn, part)
-
     def start_requests(self):
         base_url = "https://resultados.as.com/resultados/futbol/primera/2017_2018/directo/regular_a_%d_%d/narracion/"
         for jor, par in self.jor_par_generator():
