@@ -6,15 +6,17 @@ from collections import defaultdict
 
 def build_patterns():
 	all = [	
-		("GOL", "https://regex101.com/r/8eilSg/1", r"Goal by\s(.+)\s\(.+The pass was from\s(.+)[.]" , (0,20,False), (1,8,False) ),		
-		("GOL_2", "https://regex101.com/r/UVDSfh/1", r"Goal by\s(.+)\s\(.+After a pass from\s(.+)[.]" , (0,20,False), (1,8,False) ),
-		("FALTA", "https://regex101.com/r/FVg5G7/2",  r"Foul by ([^.]*)", (0,-1,False) ),
-		("FALTA_2", "https://regex101.com/r/quaIE7/2",  r"It's a foul by ([^.]*)", (0,-1,False) ),
+		("GOL", "https://regex101.com/r/8eilSg/2", r"Goal by\s(.+)\s\(.+The pass was from\s(.+?(?=[.]))" , (0,20,False), (1,8,False) ),		
+		("GOL_2", "https://regex101.com/r/UVDSfh/2", r"Goal by\s(.+)\s\(.+After a pass from\s(.+?(?=[.]))" , (0,20,False), (1,8,False) ),
+		("FALTA", "https://regex101.com/r/quaIE7/4",  r"(It's a )?[Ff]oul by([^.]*)", (1,-1,False) ),		
 		("AMARILLA" , "https://regex101.com/r/Ujrp8k/2", r"Yellow card to ([^.]*)", (0,-3,False)),
 		("AMARILLA_2" , "https://regex101.com/r/WayZsu/1", r"Card to ([^.]*)", (0,-3,False)),
 		("ROJA", "https://regex101.com/r/ze2Kla/2", r"Red card to ([^.]*)", (0,-6,False)),
-		("FUERA DE JUEGO",  "https://regex101.com/r/ghDh2e/1/", r"((\w+?\s)+)was offside" , (0,-1,False))
-		
+		("FUERA DE JUEGO",  "https://regex101.com/r/ghDh2e/1", r"((\w+?\s)+)was offside" , (0,-1,False)),
+		("PENALTY",  "https://regex101.com/r/9ztSsW/2", r"Penalty awarded against\s(.+?(?=[.])).\sfor foul on\s(.+?(?=[.]))" , (0,-5,False),(1,6,True) ),
+		("CENTRO",  "https://regex101.com/r/vz3RRx/1", r"(.+)\sputs in a cross" , (0,1,False))
+		# goal chance(https://regex101.com/r/LwEwrF/2) 
+		# revisar goles y chances
 	]
 	result = []
 	for rule in all:

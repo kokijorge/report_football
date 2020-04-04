@@ -26,9 +26,10 @@ def puntua_partido(comments):
 
 total = len(comments)
 print (total)
-#for comentario in comments[0:1]:
-#	print(comentario)
+for comentario in comments[0:5]:
+	print(comentario)
 
-a = puntua_partido(comentario for comentario in comments[0:total])
+#a = puntua_partido(comentario for comentario in comments[0:total])
+a = puntua_partido(comentario for comentario in comments[0:5])
 elementos = a.items()
 print (elementos)
