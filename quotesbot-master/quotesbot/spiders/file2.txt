@@ -1,0 +1,5 @@
+dia;id_partido;url
+19;214551;https://www.tutiempo.net/clima/12-2017/ws-80143.html
+09;214718;https://www.tutiempo.net/clima/05-2018/ws-81810.html
+24;179745;https://www.tutiempo.net/clima/02-2017/ws-600300.html
+01;179852;https://www.tutiempo.net/clima/05-2017/ws-84820.html
