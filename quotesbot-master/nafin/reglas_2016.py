@@ -14,9 +14,12 @@ def build_patterns():
 		("ROJA", "https://regex101.com/r/ze2Kla/2", r"Red card to ([^.]*)", (0,-6,False)),
 		("FUERA DE JUEGO",  "https://regex101.com/r/ghDh2e/1", r"((\w+?\s)+)was offside" , (0,-1,False)),
 		("PENALTY",  "https://regex101.com/r/9ztSsW/2", r"Penalty awarded against\s(.+?(?=[.])).\sfor foul on\s(.+?(?=[.]))" , (0,-5,False),(1,6,True) ),
-		("CENTRO",  "https://regex101.com/r/vz3RRx/1", r"(.+)\sputs in a cross" , (0,1,False))
-		# goal chance(https://regex101.com/r/LwEwrF/2) 
+		("CENTRO",  "https://regex101.com/r/vz3RRx/1", r"(.+)\sputs in a cross" , (0,1,False)),
+		("PARADA_1",  "https://regex101.com/r/iUcDrD/5", r"(.+)[.]( He's missed the penalty | Direct free kick | Has taken a direct free kick )?(.+)\s(saves)[.]" , (2,1,False)),
+		("PARADA_2",  "https://regex101.com/r/1wcK0B/6", r"(.+)[.]( He's missed the penalty | Direct free kick | Has taken a direct free kick )?(.+)\s(takes the ball)[.]" , (2,1,False))
+		# goal chance(https://regex101.com/r/LwEwrF/3) 
 		# revisar goles y chances
+		# arreglar lo de F.Navarro
 	]
 	result = []
 	for rule in all:
