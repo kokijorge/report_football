@@ -54,13 +54,25 @@ on punt.nombre like '%' || alineacion.nombre ||'%'
 and alineacion.equipo= 'Levante'
 group by punt.partido,punt.nombre,alineacion.nombre,alineacion.dorsal order by 4;
 
-UPDATE tfg.dim_puntuacion punt
+UPDATE tfg.staging_jugador jug
 SET nombre = alineacion.nombre
 FROM tfg.staging_alineacion alineacion
 WHERE 
-punt.partido = alineacion.partido
-and punt.nombre like '%' || alineacion.nombre ||'%'
-and alineacion.partido>=214386;
+jug.equipo = alineacion.equipo
+and jug.dorsal = alineacion.dorsal
+and jug.nombre like '%' || alineacion.nombre ||'%'
+and alineacion.partido<214386
+and jug.ano = 2016;
+
+UPDATE tfg.staging_jugador jug
+SET nombre = alineacion.nombre
+FROM tfg.staging_alineacion alineacion
+WHERE 
+jug.equipo = alineacion.equipo
+and jug.dorsal = alineacion.dorsal
+and jug.nombre like '%' || alineacion.nombre ||'%'
+and alineacion.partido>=214386
+and jug.ano = 2017;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -73,3 +85,7 @@ CREATE TABLE tfg.staging_estadio
 )
 ;CREATE INDEX idx_staging_estadio_lookup ON tfg.staging_estadio(estadio, ciudad, capacidad, equipo)
 ;
+
+INSERT INTO tfg.staging_jugador(
+	equipo, ano, dorsal, nombre, nacionalidad, club_actual, altura, pie, fichado_desde, club_anterior, contrato_hasta, valor_mercado, fecha_nacimiento)
+	VALUES ('Espanyol', 2017, 20, 'Diop', 'Senegal', 'Eibar', '1,80 m', 'derecho', '2015-08-31', 'Levante', '1900-01-01', '2,50 mill. € ', '1986-03-19');
