@@ -27,8 +27,14 @@ class TiempoMeteoSpider(scrapy.Spider):
             yield dato
 
     def start_requests(self):        
-        for dato in self.obtener_param():
-            yield scrapy.Request(url=(dato['url']), callback=self.parse, meta=dato)
+        urltmp = 'https://www.tutiempo.net/clima/03-2018/ws-80143.html'
+        yield scrapy.Request(url=(urltmp), callback=self.parse, meta={
+            'dia': '09',
+            'partido': '179527',
+            'url': urltmp})
+        
+        """for dato in self.obtener_param():
+            yield scrapy.Request(url=(dato['url']), callback=self.parse, meta=dato)"""
         
     def parse(self, response):     	        
         num_dia_int = int( response.meta['dia'])
