@@ -60,7 +60,8 @@ ROBOTSTXT_OBEY = True
 BEAUTIFULSOUP_PARSER = "html5lib"
 DOWNLOADER_MIDDLEWARES = {
 #    'quotesbot.middlewares.MyCustomDownloaderMiddleware': 543,
-'scrapy_beautifulsoup.middleware.BeautifulSoupMiddleware': 400
+'scrapy_beautifulsoup.middleware.BeautifulSoupMiddleware': 400,
+'scrapy_selenium.SeleniumMiddleware': 800
 }
 
 
@@ -96,3 +97,20 @@ DOWNLOADER_MIDDLEWARES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+from shutil import which
+
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver')
+
+#https://stackoverflow.com/questions/56637973/how-to-fix-selenium-devtoolsactiveport-file-doesnt-exist-exception-in-python
+SELENIUM_DRIVER_ARGUMENTS=["--no-sandbox",
+"--disable-setuid-sandbox",
+"--remote-debugging-port=9222",
+"--disable-dev-shm-using",
+"--disable-extensions",
+"--disable-gpu",
+"start-maximized",
+"disable-infobars",
+"--headless"]  

@@ -2,3 +2,5 @@ Scrapy
 afinn
 scrapy-beautifulsoup
 html5lib
+scrapy-selenium
+cssutils

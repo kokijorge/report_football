@@ -54,3 +54,5 @@ docker run -v $(pwd):/usr/src/app koki scrapy crawl jugadores-xpath
 docker run -v $(pwd):/usr/src/app koki scrapy crawl estadios-xpath -o quotesbot/spiders/marcial.json
 
 docker run -v $(pwd):/usr/src/app koki scrapy crawl tiempoHistorico-xpath -o quotesbot/spiders/marcial.json
+
+
