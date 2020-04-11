@@ -7,7 +7,6 @@ import os.path
 from collections import defaultdict
 
 from bs4 import BeautifulSoup
-from scrapy_selenium import SeleniumRequest
 import cssutils
 
 FILE = 'file.txt'
@@ -31,26 +30,16 @@ class TiempoMeteoSpider(scrapy.Spider):
             yield dato
 
     def start_requests(self):        
-        urltmp = 'https://www.tutiempo.net/clima/03-2018/ws-80143.html'
-        for dex, i in enumerate([4,5]):
-            yield scrapy.Request(url=urltmp, callback=self.parse, meta={
-                'dia': '0'+str(i),
-                'partido': '179527',
-                'url': urltmp})
-            
-        """for dato in self.obtener_param():
-            yield scrapy.Request(url=(dato['url']), callback=self.parse, meta=dato)"""
+        for dato in self.obtener_param():
+            yield scrapy.Request(url=(dato['url']), callback=self.parse, meta=dato)
     
     def consigueme_el_valor_desofuscando_los_estilos(self, dias, num_dia_str, selectors, columna):
         
         tdspan = dias[num_dia_str-1].findAll('td')[columna].findAll('span')
         value = ""
         for sp in tdspan:
-            print (sp['class'][0])
             piece = selectors['.numspan span.%s::after' % sp['class'][0]]['content'][1:-1]
-            print (piece)
             value += piece
-
         return value
 
     def parse(self, response):     	  
@@ -73,7 +62,10 @@ class TiempoMeteoSpider(scrapy.Spider):
                         propertyname = item.name
                         value = item.value
                         selectors[style][propertyname] = value  
-        print (selectors)
+        """  print (selectors)
+        {'.tablancpy': {'-webkit-touch-callout': 'none', '-webkit-user-select': 'none', '-khtml-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', 'user-select': 'none'}, '.numspan span.ntjk::after': {'content': '"1"', 'color': 'black'}, '.numspan span.ntrs::after': {'content': '"2"', 'color': 'black'}, '.numspan span.ntza::after': {'content': '"3"', 'color': 'black'}, '.numspan span.ntaa::after': {'content': '"4"', 'color': 'black'}, '.numspan span.ntbz::after': {'content': '"5"', 'color': 'black'}, '.numspan span.ntgy::after': {'content': '"6"', 'color': 'black'}, '.numspan span.ntox::after': {'content': '"7"', 'color': 'black'}, '.numspan span.ntqr::after': {'content': '"8"', 'color': 'black'}, '.numspan span.ntnt::after': {'content': '"9"', 'color': 'black'}, '.numspan span.ntbc::after': {'content': '"0"', 'color': 'black'}, '.numspan span.ntvr::after': {'content': '"."', 'color': 'black'}, '.numspan span.ntzz::after': {'content': '"-"', 'color': 'black'}, '.VinAppClima': {'display': 'table', 'box-sizing': 'border-box', 'padding': '5px', 'border': '1px solid #ccc', '-webkit-border-radius': '4px', '-moz-border-radius': '4px', 'border-radius': '4px', 'width': '100%'}, '.VinAppClima a': {'display': 'table-cell', 'vertical-align': 'middle', 'background-repeat': 'no-repeat', 'background-position': '0 50%', 'background-size': 'auto 50px', 'background-image': 'url(https://oc.tutiempo.net/i/otras/icoapptt.png)', 'padding-left': '60px', 'height': '50px', 'font-size': '18px'}}
+        """
+       
 
         num_dia_int = int( response.meta['dia'])
         num_dia_str=  num_dia_int+1
