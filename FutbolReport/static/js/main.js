@@ -1,15 +1,7 @@
-var label = $("#labelTemporada").val();
-console.log(label);
-/*$("#labelTemporada option[value='2016/2017'").attr("selected",true);
+/*$('#select_temporada').on('click', function(){
+    console.log($(this).val());
+});*/
 
-$('#labelTemporada').click(function (e) {
-
-	e.preventDefault();
-  
-	var inputs = $('input');
-  
-	var asociado = $(inputs).val();
-  
-	console.log(asociado);
-  
-  });*/
+$(document).on('change', '#select_temporada', function(event) {
+	$('#id_input').val($("#select_temporada").val());
+});
