@@ -19,7 +19,7 @@ class TiempoMeteoSpider(scrapy.Spider):
             comments = f.readlines()
         total = len(comments)        
         datos = []        
-        for comentario in comments[21:50]:                
+        for comentario in comments[1:total]:                
             datos.append({
             'dia': comentario[0:2],
             'partido': comentario[3:9],
