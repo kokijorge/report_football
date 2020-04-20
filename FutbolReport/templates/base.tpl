@@ -75,34 +75,33 @@
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
               <li class="">
-                <a class="" href="index.html">
+                <a href="javascript:escoger_estadio();" class="">
                               <i class="icon_house_alt"></i>
                               <span>Estadios</span>
                           </a>
               </li>
               <li class="sub-menu">
-                <a href="javascript:;" class="">
+                <a  class="">
                               <i class="icon_desktop"></i>
                               <span>Jugadores</span>
                               <span class="menu-arrow arrow_carrot-right"></span>
                           </a>
                 <ul class="sub">
-                  <li><a class="" href="general.html">Components</a></li>
-                  <li><a class="" href="buttons.html">Buttons</a></li>
-                  <li><a class="" href="grids.html">Grids</a></li>
+                  <li><a class="" href="javascript:escoger_jugador();">Components</a></li>
+                  <li><a class="" href="javascript:escoger_jugador();">Buttons</a></li>
+                  <li><a class="" href="javascript:escoger_jugador();">Grids</a></li>
                 </ul>
               </li>
-              <li>
-                <a class="" href="widgets.html">
+              <li class="sub-menu">               
+                <a href="javascript:top_menu();" class="">
                               <i class="icon_genius"></i>
                               <span>Top</span>
                           </a>
               </li>
-              <li>
-                <a class="" href="chart-chartjs.html">
+              <li class="sub-menu">
+                <a href="javascript:escoger_informe();" class="">
                               <i class="icon_piechart"></i>
                               <span>Informes</span>
-    
                           </a>
               </li>
     
@@ -114,14 +113,14 @@
               </li>
     
               <li class="sub-menu">
-                <a href="javascript:;" class="">
+                <a href="javascript:escoger_entrenador();" class="">
                               <i class="icon_documents_alt"></i>
                               <span>Entrenadores</span>                          
                           </a>
               </li>
     
               <li class="sub-menu">
-                <a href="javascript:;" class="">
+                <a href="javascript:escoger_jornadas();" class="">
                               <i class="icon_table"></i>
                               <span>Jornadas</span>                          
                           </a>

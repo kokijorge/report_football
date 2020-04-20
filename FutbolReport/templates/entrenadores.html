@@ -5,14 +5,14 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-table"></i> EQUIPOS</h3>
+            <h3 class="page-header"><i class="icon_documents_alt"></i> ENTRENADORES</h3>
           </div>
         </div>
         <!-- page start-->
         <div class="row">
           <div class="col-lg-12">
             <section class="panel">
-              <header id="tabla_equipos" class="panel-heading">
+              <header id="tabla_entrenadores" class="panel-heading">
                 1ª División Temporada {{ temporada_seleccionada }}/{{ temp }} 
               </header>
               <div class="table-responsive">
@@ -20,22 +20,22 @@
                   <thead>
                     <tr>
                       <th>#</th>
+                      <th>Equipo</th>
                       <th>Nombre</th>
-                      <th>Plantilla</th>
-                      <th>Edad</th>
-                      <th>Extranjeros</th>
-                      <th>Valor_total</th>                      
+                      <th>Jornadas_Cargo</th>
+                      <th>Jornada_Inicial</th>
+                      <th>Jornada_Final</th>                      
                     </tr>
                   </thead>
                   <tbody>                    
-                    {% for equipo in equipos %}                    
+                    {% for entrenador in entrenadores %}                    
                     <tr>
-                      <td> {{ equipo.5}} </td>
-                      <td> {{ equipo.0}} </td>
-                      <td> {{ equipo.1}} </td>
-                      <td> {{ equipo.2}} </td>
-                      <td> {{ equipo.3}} </td>
-                      <td> {{ equipo.4}} </td>
+                      <td> {{ entrenador.5}} </td>
+                      <td> {{ entrenador.0}} </td>
+                      <td> {{ entrenador.1}} </td>
+                      <td> {{ entrenador.2}} </td>
+                      <td> {{ entrenador.3}} </td>
+                      <td> {{ entrenador.4}} </td>
                     </tr>
                     {% endfor%}
                   </tbody>
