@@ -45,8 +45,6 @@
 <body>
   <!-- container section start -->
   <section id="container" class="">
-
-
     <header class="header dark-bg">
         <div class="toggle-nav">
             <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
@@ -87,9 +85,9 @@
                               <span class="menu-arrow arrow_carrot-right"></span>
                           </a>
                 <ul class="sub">
-                  <li><a class="" href="javascript:escoger_jugador();">Components</a></li>
-                  <li><a class="" href="javascript:escoger_jugador();">Buttons</a></li>
-                  <li><a class="" href="javascript:escoger_jugador();">Grids</a></li>
+                {% for equipo in equipos %}                    
+                  <li><a id="li_equipo" class="" href="javascript:escoger_jugador();">{{ equipo.0}} </a></li>                
+                {% endfor%}
                 </ul>
               </li>
               <li class="sub-menu">               

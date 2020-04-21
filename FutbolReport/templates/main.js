@@ -9,6 +9,7 @@ function escoger_entrenador(){
 }
 
 function escoger_jugador(){
+    //var dir_jugadores = "/jugadores/"+$("#li_equipo").val()+"/"+$("#select_temporada").val();
     var dir_jugadores = "/jugadores/"+$("#select_temporada").val();
     window.location.href=dir_jugadores; 
 }
@@ -25,7 +26,7 @@ function escoger_informe(){
 }
 
 function escoger_jornadas(){
-    var dir_jornadas = "/jornadas/"+$("#select_jornada").val()+"/"+$("#select_temporada").val();
+    var dir_jornadas = "/jornadas/1/"+$("#select_temporada").val();
     window.location.href=dir_jornadas; 
 }
 
@@ -36,11 +37,12 @@ function top_menu(){
 
 function init() {
 
+//$('#li_equipo').val();
 $('#select_jornada').val({{ jornada_seleccionada }});
 $('#select_temporada').val({{ temporada_seleccionada }});
 $(document).on('change', '#select_temporada', function(event) {
     $('#id_input').val($("#select_temporada").val());    
-    var pag = window.location.pathname.slice(0,-5)
+    var pag = window.location.pathname.slice(0,-5)    
     if (pag.length > 0) {
         var dominio = pag+"/"+$("#select_temporada").val();
             window.location.href=dominio;
@@ -50,15 +52,10 @@ $(document).on('change', '#select_temporada', function(event) {
       }  
 });
 
-$(document).on('change', '#select_jornada', function(event) {     
-    var pag_jornada = window.location.pathname.slice(0,-5)
-    if (pag_jornada.length > 0) {
-        var dominio_jornada = pag_jornada+"/"+$("#select_jornada").val()+"/"+$("#select_temporada").val();
-            window.location.href=dominio_jornada;
-      } else {
-        var dominio_jornada = "/"+$("#select_jornada").val()+"/"+$("#select_temporada").val();
-            window.location.href=dominio_jornada; 
-      }  
+$(document).on('change', '#select_jornada', function(event) {    
+    var split = window.location.pathname.split("/")
+    var dominio_jornada = "/"+split[1]+"/"+$("#select_jornada").val()+"/"+$("#select_temporada").val();
+    window.location.href=dominio_jornada; 
 });
 
 }

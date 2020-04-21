@@ -15,8 +15,9 @@
             </li>
             <li class="dropdown">
               <select class="form-control" id="select_jornada">
-                <option value="1">1</option>
-                <option value="2">2</option>
+                {% for jornada in num_jornadas %} 
+                <option id='valor_jornada'> {{ jornada.0}} </option>                                
+                {% endfor%}
               </select>
             </li>
           </ul>
@@ -62,7 +63,3 @@
       </section>
       <!--main content end-->
 {% endblock%}
-<!-- javascripts -->
-<script>
-  {% include 'main.js' %} 
-</script>
