@@ -10,6 +10,13 @@ db = SQLAlchemy(app)
 #sesion
 app.secret_key = 'mysecretkey'
 
+def seleccionar_equipos(ano):
+	data = db.session.execute(""" 
+	select nombre,	ROW_NUMBER() OVER(    ORDER BY nombre)
+	from tfg.staging_equipo  where ano = :ano""" , {"ano": ano})
+	equipos = [row for row in data]
+	return  equipos
+
 @app.route('/')
 def index():	
 	return redirect('2016')
@@ -23,15 +30,13 @@ def equipos(ano):
 	equipos = [row for row in data]
 	entero = int(ano)
 	temp = str(entero+1)
-	return render_template('equipos.tpl', equipos = equipos , temporada_seleccionada = ano,temp=temp)
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('equipos.tpl', equipos = equipos , temporada_seleccionada = ano,temp=temp,equipos_jugadores=equipos_jugadores)
 
 @app.route('/<string:ano>')
 def temporada(ano):
-	data = db.session.execute(""" 
-	select nombre,	ROW_NUMBER() OVER(    ORDER BY nombre)
-	from tfg.staging_equipo  where ano = :ano""" , {"ano": ano})
-	equipos = [row for row in data]
-	return render_template('base.tpl', temporada_seleccionada = ano,equipos=equipos)
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('base.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
 
 @app.route('/top/<string:ano>')
 def top(ano):
@@ -48,14 +53,14 @@ def top(ano):
 	from tfg.dim_puntuacion where partido between (:ini) and (:fin)   
 	group by nombre  FETCH FIRST 10 ROWS ONLY""" , {"ini": ini, "fin":fin})
 	puntos = [row for row in puntuaciones]
-
+	equipos_jugadores = seleccionar_equipos(ano)
 	goles = db.session.execute(""" 
 	select nombre,sum(goles),ROW_NUMBER() OVER(    ORDER BY sum(goles) desc)
 	from tfg.staging_alineacion where partido between (:ini) and (:fin)   
 	group by nombre  FETCH FIRST 10 ROWS ONLY""" , {"ini": ini, "fin":fin})
 	goleadores = [row for row in goles]
 
-	return render_template('top.tpl', puntos = puntos,goleadores=goleadores , temporada_seleccionada = ano, temp=temp)
+	return render_template('top.tpl', puntos = puntos,goleadores=goleadores , temporada_seleccionada = ano, temp=temp,equipos_jugadores=equipos_jugadores)
 
 
 @app.route('/entrenadores/<string:ano>')
@@ -84,8 +89,8 @@ def entrenadores(ano):
 	group by equipo,entrenador;
 	""" , {"ini": ini, "fin":fin})
 	entrenadores = [row for row in query_entrenadores]		
-	
-	return render_template('entrenadores.tpl',entrenadores=entrenadores , temporada_seleccionada = ano, temp=temp)
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('entrenadores.tpl',entrenadores=entrenadores , temporada_seleccionada = ano, temp=temp,equipos_jugadores=equipos_jugadores)
 
 @app.route('/jornadas/<string:jornada>/<string:ano>')
 def jornadas(ano,jornada):
@@ -116,19 +121,32 @@ def jornadas(ano,jornada):
     group by jornada order by jornada
 	""" , {"ini": ini, "fin":fin})
 	num_jornadas = [row for row in query_num]
-	return render_template('jornadas.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, temp=temp,jornadas = jornadas,num_jornadas=num_jornadas)
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('jornadas.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, temp=temp,jornadas = jornadas,num_jornadas=num_jornadas,equipos_jugadores=equipos_jugadores)
 
 @app.route('/informes/<string:ano>')
 def informes(ano):
-	return render_template('informes.tpl', temporada_seleccionada = ano)
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('informes.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
 
-@app.route('/jugadores/<string:ano>')
-def jugadores(ano):
-	return render_template('jugadores.tpl', temporada_seleccionada = ano)
+@app.route('/jugadores/<string:equipo>/<string:ano>')
+def jugadores(ano,equipo):
+	equipos_jugadores = seleccionar_equipos(ano)
+	entero = int(ano)
+	temp = str(entero+1)
+	nuevo_equipo = equipo.replace('%20', ' ')
+	query_jug = db.session.execute(""" 
+	select ROW_NUMBER() OVER(    ORDER BY dorsal),nombre,dorsal,nacionalidad,club_actual,altura,pie,fichado_desde,club_anterior,
+    contrato_hasta,valor_mercado,fecha_nacimiento
+    from tfg.staging_jugador where ano = :ano and equipo= :nuevo_equipo
+	""" , {"ano": ano, "nuevo_equipo":nuevo_equipo})
+	jugadores =  [row for row in query_jug]
+	return render_template('jugadores.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,jugadores=jugadores,temp=temp,nuevo_equipo=nuevo_equipo)
 
 @app.route('/estadios/<string:ano>')
 def estadios(ano):
-	return render_template('estadios.tpl', temporada_seleccionada = ano)
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('estadios.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
 
 if __name__ == '__main__':
 	app.run(port=8000,debug= True)

@@ -8,9 +8,8 @@ function escoger_entrenador(){
     window.location.href=dir_entrenadores; 
 }
 
-function escoger_jugador(){
-    //var dir_jugadores = "/jugadores/"+$("#li_equipo").val()+"/"+$("#select_temporada").val();
-    var dir_jugadores = "/jugadores/"+$("#select_temporada").val();
+function escoger_jugador(equipo){
+    var dir_jugadores = "/jugadores/"+equipo+"/"+$("#select_temporada").val();    
     window.location.href=dir_jugadores; 
 }
 
