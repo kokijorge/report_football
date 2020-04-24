@@ -8,15 +8,43 @@
               <h3 class="page-header"><i class="icon_house_alt"></i> ESTADIOS</h3>
             </div>
           </div>
-          <!-- page start-->
-          <h2>Image Maps</h2>
-          <p>Clica en la taza de tee para ir a la jornada 1 del 2016:</p>
-            <img src="/img/mapa_espana.jpg" alt="Workplace" usemap="#workmap" width="830" height="582">
-          <map name="workmap">
-            <area shape="circle" coords="3,3,44" alt="Cup of coffee" href="http://localhost:8000/jornadas/1/2016">
+          <!-- page start-->   
+          <div>          
+          <p>Clica en un estadio de españa:</p>
+          <img src="/img/mapa_estadios.jpg" alt="Workplace" usemap="#workmap" width="700" height="490" style="float:left">
+          <map name="workmap">          
+          {% for estadio in estadios %} 
+          <area shape="circle" coords="{{estadio.5}},{{ estadio.6}},5" href="javascript:estadio_seleccionado({{estadio.7}});">
+          {% endfor%}           
           </map>
+          <section class="panel">     
+           <div class="table-condensed"   style="float:right" width="700" height="490">
+              <table class="table">
+                <thead>
+                  <tr>                    
+                    <th>#</th>
+                    <th>Equipo</th> 
+                    <th>Estadio</th>
+                    <th>Ciudad</th>                     
+                    <th>Capacidad</th>                    
+                  </tr>
+                </thead>
+                <tbody>                        
+                {% for estadio in estadios %}                                               
+                  <tr id="{{estadio.7}}">
+                    <td> {{ estadio.0}} </td>
+                    <td> {{ estadio.1}} </td>
+                    <td> {{ estadio.2}} </td>
+                    <td> {{ estadio.3}} </td>              
+                    <td> {{ estadio.4}} </td>
+                  </tr>
+                  {% endfor%}               
+                </tbody>            
+              </table>
+              </section>
+          </div>                                        
           <!-- page end-->
         </section>
       </section>
       <!--main content end-->
-{% endblock%}
+{% endblock%}    

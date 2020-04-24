@@ -18,10 +18,37 @@ function escoger_estadio(){
     window.location.href=dir_estadios; 
 }
 
-
 function escoger_informe(){
     var dir_informes = "/informes/"+$("#select_temporada").val();
     window.location.href=dir_informes; 
+}
+
+function cambiar_color_fondo(estadio) {    
+    //$("tr").addClass("estadio_seleccionado");
+    $("tr").css("background-color","#eeeeee")
+ }
+
+ function retomar_color_fondo(estadio) {        
+    fila = $(estadio);
+    fila.css("background-color","yellow")
+    /*fila =  $("#"+equipo);
+    container = $("#div").find('.table-condensed');
+    $("#div").find('.table-condensed')
+    container.scrollTop(
+        fila.offset().top - container.offset().top + container.scrollTop()
+        //fila.offset().top - container.offsetTop + container.scrollTop
+    );
+    
+    // Or you can animate the scrolling:
+    container.animate({
+        scrollTop: fila.offset().top - container.offset().top + container.scrollTop()
+        // scrollTop: fila.offset().top - container.offsetTop + container.scrollTop()
+    });​*/
+
+ }
+
+function estadio_seleccionado(estadio){
+    $("area").hover(cambiar_color_fondo(estadio),retomar_color_fondo(estadio));
 }
 
 function escoger_jornadas(){
@@ -36,7 +63,6 @@ function top_menu(){
 
 function init() {
 
-//$('#li_equipo').val();
 $('#select_jornada').val({{ jornada_seleccionada }});
 $('#select_temporada').val({{ temporada_seleccionada }});
 $(document).on('change', '#select_temporada', function(event) {
@@ -62,3 +88,5 @@ $(document).on('change', '#select_jornada', function(event) {
 jQuery(document).ready(function(){
     init();
 });
+
+

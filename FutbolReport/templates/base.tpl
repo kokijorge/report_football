@@ -149,7 +149,7 @@
   <script src="/js/bootstrap.min.js"></script>
   <!-- nice scroll -->
   <script src="/js/jquery.scrollTo.min.js"></script>
-  <script src="/js/jquery.nicescroll.js" type="text/javascript"></script>
+  <!--<script src="/js/jquery.nicescroll.js" type="text/javascript"></script>-->
   <!-- charts scripts -->
   <script src="/assets/jquery-knob/js/jquery.knob.js"></script>
   <script src="/js/jquery.sparkline.js" type="text/javascript"></script>

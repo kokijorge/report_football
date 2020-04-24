@@ -146,7 +146,13 @@ def jugadores(ano,equipo):
 @app.route('/estadios/<string:ano>')
 def estadios(ano):
 	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('estadios.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
+	query_estadio = db.session.execute(""" 
+	select ROW_NUMBER() OVER(    ORDER BY equipo) ,equipo,estadio,ciudad,capacidad,coordenada_x,coordenada_y
+	,regexp_replace(estadio, ' ', '_', 'g')
+    from tfg.staging_estadio
+	""")
+	estadios =  [row for row in query_estadio]
+	return render_template('estadios.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,estadios=estadios)
 
 if __name__ == '__main__':
 	app.run(port=8000,debug= True)
