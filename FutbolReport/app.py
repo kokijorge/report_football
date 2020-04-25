@@ -124,10 +124,6 @@ def jornadas(ano,jornada):
 	equipos_jugadores = seleccionar_equipos(ano)
 	return render_template('jornadas.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, temp=temp,jornadas = jornadas,num_jornadas=num_jornadas,equipos_jugadores=equipos_jugadores)
 
-@app.route('/informes/<string:ano>')
-def informes(ano):
-	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('informes.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
 
 @app.route('/jugadores/<string:equipo>/<string:ano>')
 def jugadores(ano,equipo):
@@ -153,6 +149,16 @@ def estadios(ano):
 	""")
 	estadios =  [row for row in query_estadio]
 	return render_template('estadios.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,estadios=estadios)
+
+@app.route('/informes/<string:ano>')
+def informes(ano):
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('informes.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
+
+@app.route('/informes/<string:tipo>/<string:ano>')
+def informes_tipo(tipo,ano):
+	equipos_jugadores = seleccionar_equipos(ano)
+	return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo)
 
 if __name__ == '__main__':
 	app.run(port=8000,debug= True)

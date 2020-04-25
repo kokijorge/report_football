@@ -13,6 +13,26 @@ function escoger_jugador(equipo){
     window.location.href=dir_jugadores; 
 }
 
+function informe_tiempo(){
+    var dir_inf_tiempo = "/informes/tiempo/"+$("#select_temporada").val();
+    window.location.href=dir_inf_tiempo; 
+}
+
+function informe_fecha(){
+    var dir_inf_fecha = "/informes/fecha/"+$("#select_temporada").val();
+    window.location.href=dir_inf_fecha; 
+}
+
+function informe_mapa(){
+    var dir_inf_mapa = "/informes/mapa/"+$("#select_temporada").val();
+    window.location.href=dir_inf_mapa; 
+}
+
+function informe_rival(){
+    var dir_inf_rival = "/informes/rival/"+$("#select_temporada").val();
+    window.location.href=dir_inf_rival; 
+}
+
 function escoger_estadio(){
     var dir_estadios = "/estadios/"+$("#select_temporada").val();
     window.location.href=dir_estadios; 

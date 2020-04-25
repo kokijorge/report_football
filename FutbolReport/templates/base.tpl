@@ -51,7 +51,7 @@
           </div>
     
           <!--logo start-->
-          <a href="index.html" class="logo">Futbol <span class="lite">Report</span></a>          
+          <a href="http://localhost:8000/" class="logo">Futbol <span class="lite">Report</span></a>          
           <!--logo end-->            
             <ul class="nav pull-right top-menu">                    
               <li id="label_temporada" class="dropdown">
