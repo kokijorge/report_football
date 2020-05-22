@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 
 app = Flask(__name__ ,static_url_path='')
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/prueba1"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/futbol_report"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -11,9 +11,13 @@ db = SQLAlchemy(app)
 app.secret_key = 'mysecretkey'
 
 def seleccionar_equipos(ano):
-	data = db.session.execute(""" 
-	select nombre,	ROW_NUMBER() OVER(    ORDER BY nombre)
-	from tfg.staging_equipo  where ano = :ano""" , {"ano": ano})
+	data = db.session.execute("""
+	select equi.nombre,ROW_NUMBER() OVER(    ORDER BY equi.nombre) from stg.stg_partido par
+	inner join stg.stg_equipo equi
+	on equi.id_equipo=par.id_equipo_local
+	where temporada = :ano
+	group by equi.nombre
+	""" , {"ano": ano})
 	equipos = [row for row in data]
 	return  equipos
 
@@ -24,9 +28,15 @@ def index():
 @app.route('/equipos/<string:ano>')
 def equipos(ano):
 	data = db.session.execute(""" 
-	select nombre, plantilla, edad, extranjeros, valor_total,
-	ROW_NUMBER() OVER(    ORDER BY nombre)
-	from tfg.staging_equipo  where ano = :ano""" , {"ano": ano})
+	select ROW_NUMBER() OVER(    ORDER BY equi.nombre),equi.nombre,equi.ano_fundacion,est.ciudad
+	from stg.stg_partido par
+	inner join stg.stg_equipo equi
+	on equi.id_equipo=par.id_equipo_local
+	inner join stg.stg_estadio est
+	on equi.id_equipo= est.id_equipo
+	where temporada = :ano
+	group by equi.nombre,equi.ano_fundacion,est.ciudad
+	""" , {"ano": ano})
 	equipos = [row for row in data]
 	entero = int(ano)
 	temp = str(entero+1)
@@ -158,7 +168,35 @@ def informes(ano):
 @app.route('/informes/<string:tipo>/<string:ano>')
 def informes_tipo(tipo,ano):
 	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo)
+	if tipo  == 'rival' or tipo == 'tiempo':
+		query_rival = db.session.execute(""" 
+		select sum(puntuacion), entrenador_rival  || ' ('|| equipo_rival||')' from
+		(
+		select punt.partido,punt.nombre,punt.puntuacion,
+		CASE
+			WHEN ent.equipo_local = 'Barcelona'  THEN ent.entrenador_visitante
+			ELSE ent.entrenador_local
+		END AS entrenador_rival,
+		CASE
+			WHEN ent.equipo_local = 'Barcelona'  THEN ent.equipo_visitante
+			ELSE ent.equipo_local
+		END AS equipo_rival
+		from tfg.dim_puntuacion punt
+		inner join tfg.staging_entrenador ent
+		on ent.id_partido = punt.partido
+		where punt.partido between ('179510') and ('179889')
+		and nombre='Messi'
+		) as tabla group by entrenador_rival,equipo_rival order by 1 desc
+		""")
+		rivales =   [row for row in query_rival]
+		lista_rivales = ",".join(["['"+rival[1]+"',"+str(rival[0])+"]" for rival in rivales])
+		return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo,lista_rivales=lista_rivales)
+	else:
+		return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo)
+#	elif test expression:
+#    	Body of elif
+#	else: 
+#    	Body of else
 
 if __name__ == '__main__':
 	app.run(port=8000,debug= True)

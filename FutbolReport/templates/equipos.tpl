@@ -21,21 +21,17 @@
                     <tr>
                       <th>#</th>
                       <th>Nombre</th>
-                      <th>Plantilla</th>
-                      <th>Edad</th>
-                      <th>Extranjeros</th>
-                      <th>Valor_total</th>                      
+                      <th>Año_fundacion</th>                                 
+                      <th>Ciudad</th>                      
                     </tr>
                   </thead>
                   <tbody>                    
                     {% for equipo in equipos %}                    
-                    <tr>
-                      <td> {{ equipo.5}} </td>
-                      <td> {{ equipo.0}} </td>
+                    <tr>                      
+                      <td> {{ equipo.0}} </td>                      
                       <td> {{ equipo.1}} </td>
                       <td> {{ equipo.2}} </td>
-                      <td> {{ equipo.3}} </td>
-                      <td> {{ equipo.4}} </td>
+                      <td> {{ equipo.3}} </td>                      
                     </tr>
                     {% endfor%}
                   </tbody>

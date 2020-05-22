@@ -99,7 +99,7 @@ class TiempoMeteoSpider(scrapy.Spider):
             'lluvias': lluvias,
             'humedad': humedad,
             'velocidad_viento': velocidad_viento,
-            'partido': response.meta['partido'],            
+            'id_partido': response.meta['partido'],            
             'url': response.meta['url']
         }
         yield resumen

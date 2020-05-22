@@ -4,8 +4,8 @@ import urllib.parse
 from bs4 import BeautifulSoup
 
 partido_inicial = 214386
-#partido_inicial = 179534
-#error jornada 3 partido 179534
+#partido_inicial = 179510
+
 class ToScrapeSpiderXPath(scrapy.Spider):
     name = 'alineacion-xpath'
 
@@ -13,7 +13,8 @@ class ToScrapeSpiderXPath(scrapy.Spider):
         for jorn in range(1,39):        
             partido_inicial_de_jornada = partido_inicial + ((jorn-1)*10)
             for part in range(partido_inicial_de_jornada, partido_inicial_de_jornada+10):            
-                yield (jorn, part)
+                yield (jorn, part)        
+
     def start_requests(self):
         base_url = "https://resultados.as.com/resultados/futbol/primera/2017_2018/directo/regular_a_%d_%d/narracion/"
         for jor, par in self.jor_par_generator():
@@ -37,23 +38,40 @@ class ToScrapeSpiderXPath(scrapy.Spider):
         alineacion_local_titulares = []
         alineacion_visitante_titulares = []
         alineacion_local_suplentes = []
-        alineacion_visitante_suplentes = []
-        
+        alineacion_visitante_suplentes = []        
+
         for quote in titulares_local:
             nombre = quote.find("p", {"class": "nom-jugador"}).get_text().strip()
             dorsal = quote.find("div", {"class": "camiseta-jugador"}).get_text().strip()
-            gol =  quote.find("div", {"class": "cont-evento-partido gol"})
+            gol =  quote.find("div", {"class": "cont-evento-partido gol"})            
             if gol is None:
                 num_goles = 0
             else:
                 evento = gol.find("span", {"class": "evento-partido"})
                 num_goles = len(evento.findAll("span", {"class": "dato"}))
+            tarjeta =  quote.find("div", {"class": "cont-evento-partido tarjeta"})
+            if tarjeta is None:
+                tarjeta_amarilla = 0
+                tarjeta_roja = 0
+            else:
+                tarjeta_amarilla = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja amarilla"}))
+                tarjeta_roja = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja roja"}))
+            cambio =  quote.find("div", {"class": "cont-evento-partido cambio"})                   
+            if cambio is None:
+                minutos = 90
+            else:
+                minutos_string = cambio.find("strong").get_text()
+                minutos = int(minutos_string[0:-1])
             dic_local = {
             'nombre': nombre,
             'dorsal': dorsal,
-            'goles': num_goles
+            'goles': num_goles,
+            'tarjeta_amarilla': tarjeta_amarilla,
+            'tarjeta_roja': tarjeta_roja,
+            'minutos':minutos
             }
             alineacion_local_titulares.append(dic_local)
+
         for quote in titulares_visitante:
             nombre = quote.find("p", {"class": "nom-jugador"}).get_text().strip()
             dorsal = quote.find("div", {"class": "camiseta-jugador"}).get_text().strip()
@@ -63,12 +81,29 @@ class ToScrapeSpiderXPath(scrapy.Spider):
             else:
                 evento = gol.find("span", {"class": "evento-partido"})
                 num_goles = len(evento.findAll("span", {"class": "dato"}))
+            tarjeta =  quote.find("div", {"class": "cont-evento-partido tarjeta"})
+            if tarjeta is None:
+                tarjeta_amarilla = 0
+                tarjeta_roja = 0
+            else:
+                tarjeta_amarilla = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja amarilla"}))
+                tarjeta_roja = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja roja"}))
+            cambio =  quote.find("div", {"class": "cont-evento-partido cambio"})                   
+            if cambio is None:
+                minutos = 90
+            else:
+                minutos_string = cambio.find("strong").get_text()
+                minutos = int(minutos_string[0:-1])          
             dic_visitante = {
             'nombre': nombre,
             'dorsal': dorsal,
-            'goles': num_goles
+            'goles': num_goles,
+            'tarjeta_amarilla': tarjeta_amarilla,
+            'tarjeta_roja': tarjeta_roja,
+            'minutos':minutos
             }
-            alineacion_visitante_titulares.append(dic_visitante)      
+            alineacion_visitante_titulares.append(dic_visitante)  
+
         for quote in jugadores_banquillo_local:            
             jugador = quote.find("a")
             if jugador is None:
@@ -82,12 +117,37 @@ class ToScrapeSpiderXPath(scrapy.Spider):
             else:
                 evento = gol.find("span", {"class": "evento-partido"})
                 num_goles = len(evento.findAll("span", {"class": "dato"}))
+            tarjeta =  quote.find("div", {"class": "cont-evento-partido tarjeta"})
+            if tarjeta is None:
+                tarjeta_amarilla = 0
+                tarjeta_roja = 0
+            else:
+                tarjeta_amarilla = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja amarilla"}))
+                tarjeta_roja = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja roja"}))
+            cambio =  quote.find("div", {"class": "cont-evento-partido cambio"})
+            if cambio is None:
+                minutos = 0
+            else:
+                if len(cambio.findAll("strong")) > 1 :
+                    diferencia_minutos = cambio.findAll("strong")
+                    salida_string = diferencia_minutos[1].get_text()
+                    entrada_string = diferencia_minutos[0].get_text()
+                    salida = int(salida_string[0:-1])
+                    entrada = int(entrada_string[0:-1])
+                    minutos = salida - entrada
+                else:                    
+                    minutos_string = cambio.find("strong").get_text()
+                    minutos = 90 - int(minutos_string[0:-1])  
             dic_ban_loc = {
             'nombre': jugador_suplente,
             'dorsal': dorsal,
-            'goles': num_goles
-            } 
-            alineacion_local_suplentes.append(dic_ban_loc)      
+            'goles': num_goles,
+            'tarjeta_amarilla': tarjeta_amarilla,
+            'tarjeta_roja': tarjeta_roja,
+            'minutos': minutos
+            }
+            alineacion_local_suplentes.append(dic_ban_loc)
+              
         for quote in jugadores_banquillo_visitante:
             jugador = quote.find("a")
             if jugador is None:
@@ -101,11 +161,35 @@ class ToScrapeSpiderXPath(scrapy.Spider):
             else:
                 evento = gol.find("span", {"class": "evento-partido"})
                 num_goles = len(evento.findAll("span", {"class": "dato"}))
+            tarjeta =  quote.find("div", {"class": "cont-evento-partido tarjeta"})
+            if tarjeta is None:
+                tarjeta_amarilla = 0
+                tarjeta_roja = 0
+            else:
+                tarjeta_amarilla = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja amarilla"}))
+                tarjeta_roja = len(tarjeta.findAll("span", {"class": "as-icon-tarjeta-roja roja"}))
+            cambio =  quote.find("div", {"class": "cont-evento-partido cambio"})
+            if cambio is None:
+                minutos = 0
+            else:
+                if len(cambio.findAll("strong")) > 1 :
+                    diferencia_minutos = cambio.findAll("strong")
+                    salida_string = diferencia_minutos[1].get_text()
+                    entrada_string = diferencia_minutos[0].get_text()
+                    salida = int(salida_string[0:-1])
+                    entrada = int(entrada_string[0:-1])
+                    minutos = salida - entrada
+                else:                    
+                    minutos_string = cambio.find("strong").get_text()
+                    minutos = 90 - int(minutos_string[0:-1])                
             dic_ban_vis = {
             'nombre': jugador_suplente,
             'dorsal': dorsal,
-            'goles': num_goles
-            } 
+            'goles': num_goles,
+            'tarjeta_amarilla': tarjeta_amarilla,
+            'tarjeta_roja': tarjeta_roja,
+            'minutos': minutos
+            }
             alineacion_visitante_suplentes.append(dic_ban_vis)
 
         resumen = {        
@@ -116,7 +200,7 @@ class ToScrapeSpiderXPath(scrapy.Spider):
         'suplentes_local': alineacion_local_suplentes,
         'entrenador_visitante' :  entrenador_visitante, 
         'titulares_visitante': alineacion_visitante_titulares,
-        'suplentes_visitante': alineacion_visitante_suplentes,
+        'suplentes_visitante': alineacion_visitante_suplentes
         }
         
         yield resumen        

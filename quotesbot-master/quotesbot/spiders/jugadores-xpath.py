@@ -30,6 +30,7 @@ class JuagadoresSpider(scrapy.Spider):
             'ano': ano,
             'dorsal': response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[1]//text()').extract_first(),
             'nombre':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[2]//text()').extract_first(),
+            'posicion': response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[2]/table/tbody/tr[2]/td//text()').extract_first(),        
             'fecha_nacimiento':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[3]//text()').extract_first(),
             'nacionalidad':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[4]/img/@title').extract_first(),
             'club_actual':response.xpath('//*[@id="yw1"]/table/tbody/tr['+str(i)+']/td[5]//img/@alt').extract_first(),

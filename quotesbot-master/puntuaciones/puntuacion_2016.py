@@ -40,11 +40,11 @@ for jornada in jornadas[0:total]:
 	elementos = a.items()
 	#print (len (elementos))
 	#print (a.items())
-	conn = psycopg2.connect(host="localhost", port = 5432, database="prueba1", user="postgres", password="postgres")
+	conn = psycopg2.connect(host="localhost", port = 5432, database="futbol_report", user="postgres", password="postgres")
 	conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 	cur = conn.cursor()	
 	for nombre,puntuacion in elementos:	
 		#print (partido, nombre , puntuacion)				
-		cur.execute("INSERT INTO tfg.staging_puntuacion2016(partido,nombre, puntuacion) VALUES (%s,%s,%s);", (partido, nombre,puntuacion))
+		cur.execute("INSERT INTO stg.stg_puntuacion2016(partido,nombre, puntuacion) VALUES (%s,%s,%s);", (partido, nombre,puntuacion))
 	cur.close()
 	conn.close()	

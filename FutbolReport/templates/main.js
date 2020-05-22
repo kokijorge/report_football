@@ -102,7 +102,6 @@ $(document).on('change', '#select_jornada', function(event) {
     var dominio_jornada = "/"+split[1]+"/"+$("#select_jornada").val()+"/"+$("#select_temporada").val();
     window.location.href=dominio_jornada; 
 });
-
 }
 
 jQuery(document).ready(function(){
