@@ -24,16 +24,11 @@
                     <tr>
                       <th>#</th>
                       <th>Nombre</th>
-                      <th>Dorsal</th>
+                      <th>Fecha_nacimiento</th>
                       <th>Nacionalidad</th>
-                      <th>Club_actual</th>
-                      <th>Altura</th>                   
                       <th>Pie</th>
-                      <th>Fichado_desde</th>
-                      <th>Club_anterior</th>
-                      <th>Contrato_hasta</th>
-                      <th>Valor_mercado</th>
-                      <th>Fecha_nacimiento</th>                      
+                      <th>Posicion</th>                   
+                      <th>Valor_mercado</th>                     
                     </tr>
                   </thead>
                   <tbody>                    
@@ -46,11 +41,6 @@
                       <td> {{ jugador.4}} </td>
                       <td> {{ jugador.5}} </td>
                       <td> {{ jugador.6}} </td>
-                      <td> {{ jugador.7}} </td>
-                      <td> {{ jugador.8}} </td>
-                      <td> {{ jugador.9}} </td>
-                      <td> {{ jugador.10}} </td>
-                      <td> {{ jugador.11}} </td>
                     </tr>
                     {% endfor%}
                   </tbody>

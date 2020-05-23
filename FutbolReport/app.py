@@ -52,25 +52,64 @@ def temporada(ano):
 def top(ano):
 	entero = int(ano)
 	temp = str(entero+1)
-	if entero == 2016:
-		ini = '179510'
-		fin = '179889'
-	if entero == 2017:
-		ini = '214386'
-		fin = '214765'
 	puntuaciones = db.session.execute(""" 
-	select nombre,sum(puntuacion),ROW_NUMBER() OVER(    ORDER BY sum(puntuacion) desc) 
-	from tfg.dim_puntuacion where partido between (:ini) and (:fin)   
-	group by nombre  FETCH FIRST 10 ROWS ONLY""" , {"ini": ini, "fin":fin})
+	select jug.nombre,jug.nacionalidad,jug.posicion,sum(puntuacion),jug.id_jugador
+	,ROW_NUMBER() OVER(    ORDER BY sum(puntuacion) desc) 
+	from stg.stg_suceso suc
+	inner join stg.stg_jugador jug on suc.id_jugador=jug.id_jugador
+	inner join stg.stg_partido par on par.id_partido=suc.id_partido
+	where par.temporada = :ano
+	group by jug.nombre,jug.nacionalidad,jug.posicion,jug.id_jugador  FETCH FIRST 10 ROWS ONLY""" , {"ano": ano})
 	puntos = [row for row in puntuaciones]
 	equipos_jugadores = seleccionar_equipos(ano)
 	goles = db.session.execute(""" 
-	select nombre,sum(goles),ROW_NUMBER() OVER(    ORDER BY sum(goles) desc)
-	from tfg.staging_alineacion where partido between (:ini) and (:fin)   
-	group by nombre  FETCH FIRST 10 ROWS ONLY""" , {"ini": ini, "fin":fin})
+	select jug.nombre,jug.nacionalidad,jug.posicion,sum(goles),jug.id_jugador
+	,ROW_NUMBER() OVER(    ORDER BY sum(goles) desc) 
+	from stg.stg_suceso suc
+	inner join stg.stg_jugador jug on suc.id_jugador=jug.id_jugador
+	inner join stg.stg_partido par on par.id_partido=suc.id_partido
+	where par.temporada = :ano
+	group by jug.nombre,jug.nacionalidad,jug.posicion,jug.id_jugador  FETCH FIRST 10 ROWS ONLY""" , {"ano": ano})
 	goleadores = [row for row in goles]
+	tarjeta_amarilla = db.session.execute(""" 
+	select jug.nombre,jug.nacionalidad,jug.posicion,sum(tarjeta_amarilla),jug.id_jugador
+	,ROW_NUMBER() OVER(    ORDER BY sum(tarjeta_amarilla) desc) 
+	from stg.stg_suceso suc
+	inner join stg.stg_jugador jug on suc.id_jugador=jug.id_jugador
+	inner join stg.stg_partido par on par.id_partido=suc.id_partido
+	where par.temporada = :ano
+	group by jug.nombre,jug.nacionalidad,jug.posicion,jug.id_jugador  FETCH FIRST 10 ROWS ONLY""" , {"ano": ano})
+	amarillas = [row for row in tarjeta_amarilla]
+	tarjeta_roja = db.session.execute(""" 
+	select jug.nombre,jug.nacionalidad,jug.posicion,sum(tarjeta_roja),jug.id_jugador
+	,ROW_NUMBER() OVER(    ORDER BY sum(tarjeta_roja) desc) 
+	from stg.stg_suceso suc
+	inner join stg.stg_jugador jug on suc.id_jugador=jug.id_jugador
+	inner join stg.stg_partido par on par.id_partido=suc.id_partido
+	where par.temporada = :ano
+	group by jug.nombre,jug.nacionalidad,jug.posicion,jug.id_jugador  FETCH FIRST 10 ROWS ONLY""" , {"ano": ano})
+	rojas = [row for row in tarjeta_roja]
+	jug_minutos = db.session.execute(""" 
+	select jug.nombre,jug.nacionalidad,jug.posicion,sum(minutos_jugados),jug.id_jugador
+	,ROW_NUMBER() OVER(    ORDER BY sum(minutos_jugados) desc) 
+	from stg.stg_suceso suc
+	inner join stg.stg_jugador jug on suc.id_jugador=jug.id_jugador
+	inner join stg.stg_partido par on par.id_partido=suc.id_partido
+	where par.temporada = :ano
+	group by jug.nombre,jug.nacionalidad,jug.posicion,jug.id_jugador  FETCH FIRST 10 ROWS ONLY""" , {"ano": ano})
+	minutos = [row for row in jug_minutos]
+	jug_titularidades = db.session.execute(""" 
+	select jug.nombre,jug.nacionalidad,jug.posicion,count(minutos_jugados),jug.id_jugador
+	,ROW_NUMBER() OVER(    ORDER BY count(minutos_jugados) desc) 
+	from stg.stg_suceso suc
+	inner join stg.stg_jugador jug on suc.id_jugador=jug.id_jugador
+	inner join stg.stg_partido par on par.id_partido=suc.id_partido
+	where par.temporada = :ano
+    and suc.titular = 'SI'
+	group by jug.nombre,jug.nacionalidad,jug.posicion,jug.id_jugador  FETCH FIRST 10 ROWS ONLY""" , {"ano": ano})
+	titularidades = [row for row in jug_titularidades]
 
-	return render_template('top.tpl', puntos = puntos,goleadores=goleadores , temporada_seleccionada = ano, temp=temp,equipos_jugadores=equipos_jugadores)
+	return render_template('top.tpl', puntos = puntos,goleadores=goleadores , temporada_seleccionada = ano, temp=temp,equipos_jugadores=equipos_jugadores,amarillas=amarillas,rojas=rojas,minutos=minutos,titularidades=titularidades)
 
 
 @app.route('/entrenadores/<string:ano>')
@@ -108,28 +147,24 @@ def jornadas(ano,jornada):
 	if not jornada:
 		jornada= '1'
 	temp = str(entero+1)
-	if entero == 2016:
-		ini = '179510'
-		fin = '179889'
-	if entero == 2017:
-		ini = '214386'
-		fin = '214765'
 	query_jornadas = db.session.execute(""" 
-	select 
-	ROW_NUMBER() OVER(    ORDER BY fecha,hora),
-	equipo_local,resultado_local,equipo_visitante,resultado_visitante,fecha,hora
-	from tfg.staging_jornada
-	where id_partido between (:ini) and (:fin)
+	select ROW_NUMBER() OVER(    ORDER BY par.fecha,par.hora),equ_loc.nombre,par.resultado_local,equ_vis.nombre,par.resultado_rival,par.fecha,par.hora
+    from stg.stg_partido par
+    inner join stg.stg_equipo equ_loc
+    on par.id_equipo_local = equ_loc.id_equipo
+    inner join stg.stg_equipo equ_vis
+    on par.id_equipo_rival = equ_vis.id_equipo
+    where temporada=  :ano  
 	and jornada = :jornada;
-	""" , {"ini": ini, "fin":fin , "jornada":jornada})
+	""" , {"ano": ano , "jornada":jornada})
 	jornadas = [row for row in query_jornadas]
 	query_num = db.session.execute(""" 
 	select 
 	ROW_NUMBER() OVER(    ORDER BY jornada)
-	from tfg.staging_jornada
-	where id_partido between (:ini) and (:fin)
+	from  stg.stg_partido
+	where temporada= :ano  
     group by jornada order by jornada
-	""" , {"ini": ini, "fin":fin})
+	""" ,  {"ano": ano})
 	num_jornadas = [row for row in query_num]
 	equipos_jugadores = seleccionar_equipos(ano)
 	return render_template('jornadas.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, temp=temp,jornadas = jornadas,num_jornadas=num_jornadas,equipos_jugadores=equipos_jugadores)
@@ -141,11 +176,19 @@ def jugadores(ano,equipo):
 	entero = int(ano)
 	temp = str(entero+1)
 	nuevo_equipo = equipo.replace('%20', ' ')
+	query_fec_min = db.session.execute(""" 
+	select min(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano})
+	query_fec_max = db.session.execute(""" 
+	select max(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano})
+	fec_min =  [row for row in query_fec_min]
+	fec_max =  [row for row in query_fec_max]
 	query_jug = db.session.execute(""" 
-	select ROW_NUMBER() OVER(    ORDER BY dorsal),nombre,dorsal,nacionalidad,club_actual,altura,pie,fichado_desde,club_anterior,
-    contrato_hasta,valor_mercado,fecha_nacimiento
-    from tfg.staging_jugador where ano = :ano and equipo= :nuevo_equipo
-	""" , {"ano": ano, "nuevo_equipo":nuevo_equipo})
+	select ROW_NUMBER() OVER(    ORDER BY jug.nombre),jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado from stg.stg_milita mil
+    inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
+    inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador
+    where equ.nombre = :nuevo_equipo
+    and fecha_inicio_contrato between (:fec_min) and (:fec_max)
+	""" , {"fec_min": fec_min,"fec_max": fec_max, "nuevo_equipo":nuevo_equipo})
 	jugadores =  [row for row in query_jug]
 	return render_template('jugadores.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,jugadores=jugadores,temp=temp,nuevo_equipo=nuevo_equipo)
 
@@ -153,9 +196,11 @@ def jugadores(ano,equipo):
 def estadios(ano):
 	equipos_jugadores = seleccionar_equipos(ano)
 	query_estadio = db.session.execute(""" 
-	select ROW_NUMBER() OVER(    ORDER BY equipo) ,equipo,estadio,ciudad,capacidad,coordenada_x,coordenada_y
-	,regexp_replace(estadio, ' ', '_', 'g')
-    from tfg.staging_estadio
+	select ROW_NUMBER() OVER(    ORDER BY equ.nombre),equ.nombre,est.estadio,est.ciudad,est.capacidad,est.coordenada_x,est.coordenada_y,
+    regexp_replace(est.estadio, ' ', '_', 'g')
+    from stg.stg_estadio est
+    inner join stg.stg_equipo equ
+    on est.id_equipo = equ.id_equipo
 	""")
 	estadios =  [row for row in query_estadio]
 	return render_template('estadios.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,estadios=estadios)
