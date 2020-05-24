@@ -8,6 +8,11 @@ tr.estadio_seleccionado{
 	background: #eeeeee;
 }
 
+ul.ul_equipo{
+    overflow-y:scroll;
+    overflow:scroll;
+}
+
 body {
 
     color: #797979;

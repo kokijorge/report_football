@@ -22,20 +22,20 @@
                       <th>#</th>
                       <th>Equipo</th>
                       <th>Nombre</th>
-                      <th>Jornadas_Cargo</th>
-                      <th>Jornada_Inicial</th>
-                      <th>Jornada_Final</th>                      
+                      <th>Año_debut</th>
+                      <th>Fecha_nacimiento</th>
+                      <th>Nacionalidad</th>                      
                     </tr>
                   </thead>
                   <tbody>                    
                     {% for entrenador in entrenadores %}                    
                     <tr>
-                      <td> {{ entrenador.5}} </td>
-                      <td> {{ entrenador.0}} </td>
+                      <td> {{ entrenador.0}} </td>                      
                       <td> {{ entrenador.1}} </td>
                       <td> {{ entrenador.2}} </td>
                       <td> {{ entrenador.3}} </td>
                       <td> {{ entrenador.4}} </td>
+                      <td> {{ entrenador.5}} </td>
                     </tr>
                     {% endfor%}
                   </tbody>

@@ -116,27 +116,29 @@ def top(ano):
 def entrenadores(ano):
 	entero = int(ano)
 	temp = str(entero+1)
-	if entero == 2016:
-		ini = '179510'
-		fin = '179889'
-	if entero == 2017:
-		ini = '214386'
-		fin = '214765'
+	fec_min = db.session.execute(""" 
+	select min(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano}).fetchone()[0]
+	fec_max = db.session.execute(""" 
+	select max(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano}).fetchone()[0]
 	query_entrenadores = db.session.execute(""" 
-	select 
-		equipo,entrenador,count(id_partido),
-		(select jornada as jornada_desde from tfg.staging_jornada where id_partido = min(entrenadores.id_partido)),
-		(select jornada as jornada_hasta from tfg.staging_jornada where id_partido = max(entrenadores.id_partido)),
-		ROW_NUMBER() OVER(    ORDER BY equipo,(select jornada as jornada_desde from tfg.staging_jornada where id_partido = min(entrenadores.id_partido)) asc)
-	from
-		(select equipo_local as equipo ,entrenador_local as entrenador ,id_partido from  tfg.staging_entrenador
- 		where id_partido between (:ini) and (:fin)
-		UNION
-		select equipo_visitante as equipo ,entrenador_visitante as entrenador,id_partido from  tfg.staging_entrenador
- 		where id_partido between (:ini) and (:fin)
-		) as entrenadores
-	group by equipo,entrenador;
-	""" , {"ini": ini, "fin":fin})
+	select ROW_NUMBER() OVER(    ORDER BY nombre),query.* from (
+	select equ.nombre,ent.nombre as nombre_entre,ent.ano_debut,ent.fecha_nacimiento,ent.nacionalidad
+	from stg.stg_lidera lid
+	inner join stg.stg_equipo equ
+	on equ.id_equipo=lid.id_equipo
+	inner join stg.stg_entrenador ent
+	on ent.id_entrenador=lid.id_entrenador
+	where fecha_inicio_contrato between (:fec_min) and (:fec_max)
+	UNION
+	select equ.nombre,ent.nombre,ent.ano_debut,ent.fecha_nacimiento,ent.nacionalidad
+	from stg.stg_lidera lid
+	inner join stg.stg_equipo equ
+	on equ.id_equipo=lid.id_equipo
+	inner join stg.stg_entrenador ent
+	on ent.id_entrenador=lid.id_entrenador
+	where fecha_inicio_contrato < (:fec_min) 
+	and fecha_fin_contrato is null) as query;
+	""" , {"fec_min": fec_min,"fec_max": fec_max})
 	entrenadores = [row for row in query_entrenadores]		
 	equipos_jugadores = seleccionar_equipos(ano)
 	return render_template('entrenadores.tpl',entrenadores=entrenadores , temporada_seleccionada = ano, temp=temp,equipos_jugadores=equipos_jugadores)
@@ -176,18 +178,28 @@ def jugadores(ano,equipo):
 	entero = int(ano)
 	temp = str(entero+1)
 	nuevo_equipo = equipo.replace('%20', ' ')
-	query_fec_min = db.session.execute(""" 
-	select min(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano})
-	query_fec_max = db.session.execute(""" 
-	select max(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano})
-	fec_min =  [row for row in query_fec_min]
-	fec_max =  [row for row in query_fec_max]
+	fec_min = db.session.execute(""" 
+	select min(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano}).fetchone()[0]
+	fec_max = db.session.execute(""" 
+	select max(fecha) from stg.stg_partido 	where temporada = :ano 	""" , {"ano": ano}).fetchone()[0]
 	query_jug = db.session.execute(""" 
-	select ROW_NUMBER() OVER(    ORDER BY jug.nombre),jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado from stg.stg_milita mil
+	select ROW_NUMBER() OVER(    ORDER BY nombre),query.* from    
+	(select jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado 
+	,fecha_inicio_contrato,fecha_fin_contrato
+	from stg.stg_milita mil
     inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
     inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador
-    where equ.nombre = :nuevo_equipo
+    where equ.nombre = :nuevo_equipo  
     and fecha_inicio_contrato between (:fec_min) and (:fec_max)
+	UNION
+	select jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado 
+	,fecha_inicio_contrato,fecha_fin_contrato
+	from stg.stg_milita mil
+    inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
+    inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador
+    where equ.nombre = :nuevo_equipo 
+    and fecha_inicio_contrato < (:fec_min) 
+    and fecha_fin_contrato is null) as query
 	""" , {"fec_min": fec_min,"fec_max": fec_max, "nuevo_equipo":nuevo_equipo})
 	jugadores =  [row for row in query_jug]
 	return render_template('jugadores.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,jugadores=jugadores,temp=temp,nuevo_equipo=nuevo_equipo)
@@ -215,23 +227,14 @@ def informes_tipo(tipo,ano):
 	equipos_jugadores = seleccionar_equipos(ano)
 	if tipo  == 'rival' or tipo == 'tiempo':
 		query_rival = db.session.execute(""" 
-		select sum(puntuacion), entrenador_rival  || ' ('|| equipo_rival||')' from
-		(
-		select punt.partido,punt.nombre,punt.puntuacion,
-		CASE
-			WHEN ent.equipo_local = 'Barcelona'  THEN ent.entrenador_visitante
-			ELSE ent.entrenador_local
-		END AS entrenador_rival,
-		CASE
-			WHEN ent.equipo_local = 'Barcelona'  THEN ent.equipo_visitante
-			ELSE ent.equipo_local
-		END AS equipo_rival
-		from tfg.dim_puntuacion punt
-		inner join tfg.staging_entrenador ent
-		on ent.id_partido = punt.partido
-		where punt.partido between ('179510') and ('179889')
-		and nombre='Messi'
-		) as tabla group by entrenador_rival,equipo_rival order by 1 desc
+		select sum(puntuacion),ent.nombre || ' ('|| equ.nombre||')'
+        from dw.fact_jornada jor
+        inner join dw.dim_equipo equ on equ.id_equipo=jor.id_equipo_rival
+        inner join dw.dim_entrenador ent on ent.id_entrenador=jor.id_entrenador_rival
+        where id_jugador=631
+        and id_partido between ('179510') and ('179889')
+        group by  equ.nombre,ent.nombre
+        order by 1   
 		""")
 		rivales =   [row for row in query_rival]
 		lista_rivales = ",".join(["['"+rival[1]+"',"+str(rival[0])+"]" for rival in rivales])
