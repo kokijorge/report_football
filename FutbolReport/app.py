@@ -1,9 +1,11 @@
+import os 
 from flask import Flask,render_template,request ,redirect, url_for,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 
+
 app = Flask(__name__ ,static_url_path='')
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/futbol_report"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI","postgresql://postgres:postgres@localhost:5432/futbol_report")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -246,5 +248,7 @@ def informes_tipo(tipo,ano):
 #	else: 
 #    	Body of else
 
+
+
 if __name__ == '__main__':
-	app.run(port=8000,debug= True)
+	app.run(host='0.0.0.0',port=8000,debug= True)

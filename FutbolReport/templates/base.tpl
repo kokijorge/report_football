@@ -67,9 +67,9 @@
     </header>
     <!--header end-->
 
-    <!--sidebar start-->
+    <!--sidebar mroustart-->
     <aside>
-        <div id="sidebar" class="nav-collapse ">
+      <div id="sidebar" class="nav-collapse " style="overflow: scroll;">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
               <li class="">
