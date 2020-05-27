@@ -227,7 +227,7 @@ def informes(ano):
 @app.route('/informes/<string:tipo>/<string:ano>')
 def informes_tipo(tipo,ano):
 	equipos_jugadores = seleccionar_equipos(ano)
-	if tipo  == 'rival' or tipo == 'tiempo':
+	if tipo  == 'rival' or tipo == 'tiempo' or tipo == 'completo_jugador':
 		query_rival = db.session.execute(""" 
 		select sum(puntuacion),ent.nombre || ' ('|| equ.nombre||')'
         from dw.fact_jornada jor
@@ -248,6 +248,9 @@ def informes_tipo(tipo,ano):
 #	else: 
 #    	Body of else
 
+@app.route('/informes/completo_jugador')
+def informes_completo_jugador():
+	return render_template('informes_completo_jugador.tpl')
 
 
 if __name__ == '__main__':

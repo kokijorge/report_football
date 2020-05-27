@@ -19,7 +19,7 @@ function informe_tiempo(){
 }
 
 function informe_fecha(){
-    var dir_inf_fecha = "/informes/fecha/"+$("#select_temporada").val();
+    var dir_inf_fecha = "/informes/completo_jugador";
     window.location.href=dir_inf_fecha; 
 }
 

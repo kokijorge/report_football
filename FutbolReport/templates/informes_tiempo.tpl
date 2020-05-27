@@ -7,7 +7,7 @@
             <div class="col-lg-12">
               <h3 class="page-header"><i class="icon_piechart"></i> INFORMES TIEMPO</h3>
             </div>
-          </div>
+          </div>          
           <!-- page start--> 
 <html>
   <head>
