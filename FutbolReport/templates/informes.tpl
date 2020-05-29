@@ -22,14 +22,14 @@
             <div class="info-box brown-bg">
               <i class="fa fa-calendar"></i>
               <div class="count">Equipo</div>              
-              <a class="btn btn-default" href="javascript:informe_fecha();">Equipo</a>
+              <a class="btn btn-default" href="javascript:informe_fecha();">Equipo</a>              
             </div>            
           </div>          
 
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box dark-bg">
               <i class="fa fa-map-marker"></i>
-              <div class="count">Entr</div>              
+              <div class="count">Entrenador</div>              
               <a class="btn btn-default" href="javascript:informe_mapa();">Entrenador</a>
             </div>            
           </div>          

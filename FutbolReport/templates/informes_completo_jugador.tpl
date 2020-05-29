@@ -27,8 +27,10 @@
                 <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
               </li>
               <li class="dropdown">
-                <select class="form-control" id="completo_jugador_jugador">
-                  <option value="2016">KOKI</option>                 
+                <select class="form-control" id="completo_jugador_jugador">                                                     
+                      {% for jugador in jugadores %}                    
+                      <option value="2016">{{ jugador.0}} || {{ jugador.1}} || {{ jugador.2}} </option>                       
+                      {% endfor%}          
                 </select>
               </li>
             </ul>  
