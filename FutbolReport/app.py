@@ -1,29 +1,19 @@
-import os 
+from database import *
 from flask import Flask,render_template,request ,redirect, url_for,flash
-from flask_sqlalchemy import SQLAlchemy
+
 from flask_migrate import Migrate, MigrateCommand
-from querys import *
+
 
 app = Flask(__name__ ,static_url_path='')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI","postgresql://postgres:postgres@localhost:5432/futbol_report")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+
+
+db.init_app(app)
 
 #sesion
 app.secret_key = 'mysecretkey'
 
-def seleccionar_equipos(ano):
-	data = db.session.execute(query_seleccionar_equipos_jugadores, {"ano": ano})
-	equipos = [row for row in data]
-	return  equipos
-
-def seleccionar_fecha_minima(ano):
-	fec_min = db.session.execute(query_fecha_minima , {"ano": ano}).fetchone()[0]
-	return  fec_min
-
-def seleccionar_fecha_maxima(ano):
-	fec_max = db.session.execute(query_fecha_maxima , {"ano": ano}).fetchone()[0]
-	return  fec_max
 
 @app.route('/')
 def index():	
@@ -95,17 +85,14 @@ def jugadores(ano,equipo):
 	entero = int(ano)
 	temp = str(entero+1)
 	nuevo_equipo = equipo.replace('%20', ' ')
-	fec_min = seleccionar_fecha_minima(ano)
-	fec_max = seleccionar_fecha_maxima(ano)
-	query_jug = db.session.execute(query_seleccionar_jugadores , {"fec_min": fec_min,"fec_max": fec_max, "nuevo_equipo":nuevo_equipo})
-	jugadores =  [row for row in query_jug]
+	jugadores = dame_la_lista_de_jugadores_del_ano(ano,nuevo_equipo)
+
 	return render_template('jugadores.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,jugadores=jugadores,temp=temp,nuevo_equipo=nuevo_equipo)
 
 @app.route('/estadios/<string:ano>')
 def estadios(ano):
 	equipos_jugadores = seleccionar_equipos(ano)
-	query_estadio = db.session.execute(query_seleccionar_estadios)
-	estadios =  [row for row in query_estadio]
+	estadios =  dame_los_estadios()
 	return render_template('estadios.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,estadios=estadios)
 
 @app.route('/informes/<string:ano>')
@@ -117,18 +104,7 @@ def informes(ano):
 def informes_tipo(tipo,ano):
 	equipos_jugadores = seleccionar_equipos(ano)
 	if tipo  == 'rival' or tipo == 'tiempo' or tipo == 'completo_jugador':
-		query_rival = db.session.execute(""" 
-		select sum(puntuacion),ent.nombre || ' ('|| equ.nombre||')'
-        from dw.fact_jornada jor
-        inner join dw.dim_equipo equ on equ.id_equipo=jor.id_equipo_rival
-        inner join dw.dim_entrenador ent on ent.id_entrenador=jor.id_entrenador_rival
-        where id_jugador=631
-        and id_partido between ('179510') and ('179889')
-        group by  equ.nombre,ent.nombre
-        order by 1   
-		""")
-		rivales =   [row for row in query_rival]
-		lista_rivales = ",".join(["['"+rival[1]+"',"+str(rival[0])+"]" for rival in rivales])
+		lista_rivales = dame_los_rivales()
 		return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo,lista_rivales=lista_rivales)
 	else:
 		return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo)

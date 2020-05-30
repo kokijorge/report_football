@@ -173,3 +173,14 @@ query_seleccionar_estadios =  """
     inner join stg.stg_equipo equ
     on est.id_equipo = equ.id_equipo
 	"""
+
+QUERY_A_LA_QUE_AUN_NO_LE_HAS_DADO_NOMBRE = """ 
+		select sum(puntuacion),ent.nombre || ' ('|| equ.nombre||')'
+        from dw.fact_jornada jor
+        inner join dw.dim_equipo equ on equ.id_equipo=jor.id_equipo_rival
+        inner join dw.dim_entrenador ent on ent.id_entrenador=jor.id_entrenador_rival
+        where id_jugador=631
+        and id_partido between ('179510') and ('179889')
+        group by  equ.nombre,ent.nombre
+        order by 1   
+		"""
