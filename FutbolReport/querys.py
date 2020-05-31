@@ -185,9 +185,10 @@ QUERY_A_LA_QUE_AUN_NO_LE_HAS_DADO_NOMBRE = """
         order by 1   
 		"""
 query_puntuaciones_hora_partido =""" 
-select puntuacion,hora_categoria
+select ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from dw.fact_jornada where id_jugador in (707,708)))::numeric,2) as porcentaje,hora_categoria
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
 where id_jugador in (707,708)
+group by hora_categoria
 order by 1 desc;
 """
 

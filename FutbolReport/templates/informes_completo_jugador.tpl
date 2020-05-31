@@ -35,16 +35,14 @@
               </li>
             </ul>  
           </div>
-
-<html>
-  <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- puntuaciones rivales--> 
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Hora', 'Puntos'],
+          ['Rivales', 'Puntos'],
           {{ puntuaciones }}]);
 
         var options = {
@@ -56,11 +54,27 @@
         chart.draw(data, options);
       }
     </script>
-  </head>
-  <body>
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
-  </body>
-</html>  
+   
+<!-- puntuaciones hora partido-->        
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Porcentaje', 'Horas'],
+          {{ puntuaciones_hora_partido }}]);        
+
+        var options = {
+          title: 'Informe en función de la hora de partido',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
           <!-- page end-->
         </section>
       </section>

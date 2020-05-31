@@ -118,7 +118,8 @@ def informes_completo_jugador():
 	query_jugador_completo = db.session.execute(seleccionar_jugador_completo('2016'))
 	jugadores =   [row for row in query_jugador_completo]
 	puntuaciones = puntuaciones_rivales()	
-	return render_template('informes_completo_jugador.tpl',jugadores = jugadores, puntuaciones=puntuaciones)
+	puntuaciones_hora_partido = puntuaciones_hora()	
+	return render_template('informes_completo_jugador.tpl',jugadores = jugadores, puntuaciones=puntuaciones,puntuaciones_hora_partido=puntuaciones_hora_partido)
 
 
 if __name__ == '__main__':

@@ -35,27 +35,28 @@ from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.
 where id_jugador in (707,708)
 order by 1 desc;
 
---en funcion de la hora del partido
+--en funcion de la hora del partido sacando porcentaje
 
-select puntuacion,hora_categoria
+select ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from dw.fact_jornada where id_jugador in (707,708)))::numeric,2) as porcentaje,hora_categoria
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
 where id_jugador in (707,708)
+group by hora_categoria
 order by 1 desc;
 
--- los 5 rivales contra los que jugó mejor
+-- los 5 rivales contra los que jugó mejor los 5 rivales contra los que jugó peor
 
-select puntuacion, dim_equipo.nombre,dim_entrenador.nombre,es_local
+select *  from 
+(select puntuacion,  dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 where id_jugador in (707,708)
 order by 1 desc
-FETCH FIRST 5 ROWS ONLY;
-
--- los 5 rivales contra los que jugó peor
-
-select puntuacion, dim_equipo.nombre,dim_entrenador.nombre,es_local
+FETCH FIRST 5 ROWS ONLY) as  a 
+UNION ALL
+select * from 
+(select puntuacion, dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 where id_jugador in (707,708)
 order by 1 asc
-FETCH FIRST 5 ROWS ONLY;
+FETCH FIRST 5 ROWS ONLY)as  b
