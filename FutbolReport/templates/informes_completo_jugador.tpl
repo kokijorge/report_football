@@ -3,6 +3,11 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
+
+
+
+
+
           <div class="row">
             <div class="col-lg-12">
               <h3 class="page-header"><i class="icon_piechart"></i> INFORMES COMPLETO JUGADOR</h3>
@@ -29,12 +34,37 @@
               <li class="dropdown">
                 <select class="form-control" id="completo_jugador_jugador">                                                     
                       {% for jugador in jugadores %}                    
-                      <option value="2016">{{ jugador.0}} || {{ jugador.1}} || {{ jugador.2}} </option>                       
+                      <option value="{{ jugador.0}}||{{ jugador.1}}">{{ jugador.0}} || {{ jugador.1}} || {{ jugador.2}} </option>                       
                       {% endfor%}          
                 </select>
               </li>
             </ul>  
           </div>
+
+<script>
+$("#completo_jugador_jugador").on('change', function() {
+  
+
+  var jug = this.value.split('||');
+  
+  $.getJSON( "/marcial", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )
+  
+  .done(function( json ) {
+
+    console.log( "JSON Data: " + json );
+
+  })
+  
+  .fail(function( jqxhr, textStatus, error ) {
+    var err = textStatus + ", " + error;
+    console.log( "Request Failed: " + err );
+  });
+
+
+});
+
+</script>
+
 <!-- puntuaciones rivales--> 
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -54,6 +84,8 @@
         chart.draw(data, options);
       }
     </script>
+
+
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
    
 <!-- puntuaciones hora partido-->        
@@ -76,6 +108,12 @@
     </script>
     <div id="donutchart" style="width: 900px; height: 500px;"></div>
           <!-- page end-->
+
+
+
+
+
+
         </section>
       </section>
       <!--main content end-->

@@ -1,7 +1,7 @@
 def seleccionar_jugador_completo(ano):
     if ano  == '2016':
         query = """
-            select nombre,fecha_nacimiento,posicion from dw.dim_jugador
+            select nombre,fecha_nacimiento,posicion, max(id_jugador) from dw.dim_jugador
             where id_jugador in (select id_jugador from dw.fact_jornada where id_partido <= '179889')             
             group by nombre,fecha_nacimiento,posicion
             order by 1;  
@@ -9,7 +9,7 @@ def seleccionar_jugador_completo(ano):
         return query
     elif ano  == '2017':
         query = """
-            select nombre,fecha_nacimiento,posicion from dw.dim_jugador
+            select nombre,fecha_nacimiento,posicion, max(id_jugador) from dw.dim_jugador
             where id_jugador in (select id_jugador from dw.fact_jornada) 
             group by nombre,fecha_nacimiento,posicion
             order by 1;  
@@ -17,7 +17,7 @@ def seleccionar_jugador_completo(ano):
         return query
     else: 
         query = """
-            select nombre,fecha_nacimiento,posicion from dw.dim_jugador
+            select nombre,fecha_nacimiento,posicion, max(id_jugador) from dw.dim_jugador
             where id_jugador in (select id_jugador from dw.fact_jornada where id_partido <= '179889') 
             -- <= '179889' ->temp 2016
             -- > '179889' ->temp 2017

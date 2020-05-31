@@ -22,4 +22,6 @@ crunchydata/crunchy-postgres:centos7-9.6.17-4.1.2
 
 rm pg-env.list
 
-docker run --rm -p 8080:8000 --name fut -e SQLALCHEMY_DATABASE_URI='postgresql://postgres:yoursecurepassword@172.17.0.1:5432/testdb' futbolreport 
+docker run --rm -p 8080:8000 --name fut \
+--volume=$(pwd):/src \
+-e SQLALCHEMY_DATABASE_URI='postgresql://postgres:yoursecurepassword@172.17.0.1:5432/testdb' futbolreport 

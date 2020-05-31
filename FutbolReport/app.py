@@ -113,13 +113,22 @@ def informes_tipo(tipo,ano):
 #	else: 
 #    	Body of else
 
-@app.route('/informes/completo_jugador')
+@app.route('/informes/completo_jugador/')
 def informes_completo_jugador():
 	query_jugador_completo = db.session.execute(seleccionar_jugador_completo('2016'))
 	jugadores =   [row for row in query_jugador_completo]
 	puntuaciones = puntuaciones_rivales()	
 	puntuaciones_hora_partido = puntuaciones_hora()	
+	
 	return render_template('informes_completo_jugador.tpl',jugadores = jugadores, puntuaciones=puntuaciones,puntuaciones_hora_partido=puntuaciones_hora_partido)
+
+@app.route('/marcial')
+def marcial():
+	jugador = request.args.get('nombre')
+	fecha = request.args.get('fecha')
+	return {	'jugador':jugador, 'fecha':fecha, 'puntuaciones' : puntuaciones_rivales(),
+	'puntuaciones_hora_partido' : puntuaciones_hora()	}
+
 
 
 if __name__ == '__main__':
