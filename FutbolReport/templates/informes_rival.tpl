@@ -19,7 +19,7 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Entrenadores', 'Puntos'],                            
+          ['Hora', 'Puntos'],                            
           {{ lista_rivales }}
         ]);
 

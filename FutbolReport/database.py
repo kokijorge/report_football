@@ -35,3 +35,15 @@ def seleccionar_fecha_minima(ano):
 def seleccionar_fecha_maxima(ano):
 	fec_max = db.session.execute(query_fecha_maxima , {"ano": ano}).fetchone()[0]
 	return  fec_max
+
+def puntuaciones_hora():
+	data = db.session.execute(query_puntuaciones_hora_partido)
+	puntuaciones = [row for row in data]
+	lista_puntuaciones = ",".join(["['"+punt[1]+"',"+str(punt[0])+"]" for punt in puntuaciones])
+	return  lista_puntuaciones
+
+def puntuaciones_rivales():
+	data = db.session.execute(query_puntuaciones_rivales)
+	puntuaciones = [row for row in data]
+	lista_puntuaciones = ",".join(["['"+punt[1]+"',"+str(punt[0])+"]" for punt in puntuaciones])
+	return  lista_puntuaciones 

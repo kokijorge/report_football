@@ -103,7 +103,7 @@ def informes(ano):
 @app.route('/informes/<string:tipo>/<string:ano>')
 def informes_tipo(tipo,ano):
 	equipos_jugadores = seleccionar_equipos(ano)
-	if tipo  == 'rival' or tipo == 'tiempo' or tipo == 'completo_jugador':
+	if tipo  == 'rival' or tipo == 'tiempo':
 		lista_rivales = dame_los_rivales()
 		return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo,lista_rivales=lista_rivales)
 	else:
@@ -116,8 +116,9 @@ def informes_tipo(tipo,ano):
 @app.route('/informes/completo_jugador')
 def informes_completo_jugador():
 	query_jugador_completo = db.session.execute(seleccionar_jugador_completo('2016'))
-	jugadores =   [row for row in query_jugador_completo]		
-	return render_template('informes_completo_jugador.tpl',jugadores = jugadores)
+	jugadores =   [row for row in query_jugador_completo]
+	puntuaciones = puntuaciones_rivales()	
+	return render_template('informes_completo_jugador.tpl',jugadores = jugadores, puntuaciones=puntuaciones)
 
 
 if __name__ == '__main__':

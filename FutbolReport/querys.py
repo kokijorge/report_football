@@ -184,3 +184,27 @@ QUERY_A_LA_QUE_AUN_NO_LE_HAS_DADO_NOMBRE = """
         group by  equ.nombre,ent.nombre
         order by 1   
 		"""
+query_puntuaciones_hora_partido =""" 
+select puntuacion,hora_categoria
+from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
+where id_jugador in (707,708)
+order by 1 desc;
+"""
+
+query_puntuaciones_rivales =""" 
+select *  from 
+(select puntuacion,  dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
+from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
+inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
+where id_jugador in (707,708)
+order by 1 desc
+FETCH FIRST 5 ROWS ONLY) as  a 
+UNION ALL
+select * from 
+(select puntuacion, dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
+from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
+inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
+where id_jugador in (707,708)
+order by 1 asc
+FETCH FIRST 5 ROWS ONLY)as  b
+"""
