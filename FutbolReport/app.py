@@ -115,19 +115,20 @@ def informes_tipo(tipo,ano):
 
 @app.route('/informes/completo_jugador/')
 def informes_completo_jugador():
-	query_jugador_completo = db.session.execute(seleccionar_jugador_completo('2016'))
-	jugadores =   [row for row in query_jugador_completo]
+
 	puntuaciones = puntuaciones_rivales()	
 	puntuaciones_hora_partido = puntuaciones_hora()
 	puntuaciones_estacion_ano = estacion_ano()
+	anos_jugadores_select = {'2016': dame_jugadores('2016'), '2017': dame_jugadores('2017'),'todo': dame_jugadores('todo')}
 	
-	return render_template('informes_completo_jugador.tpl',jugadores = jugadores, puntuaciones=puntuaciones,puntuaciones_hora_partido=puntuaciones_hora_partido,puntuaciones_estacion_ano=puntuaciones_estacion_ano)
+	return render_template('informes_completo_jugador.tpl',anos_jugadores_select=anos_jugadores_select, puntuaciones=puntuaciones,puntuaciones_hora_partido=puntuaciones_hora_partido,puntuaciones_estacion_ano=puntuaciones_estacion_ano)
 
 @app.route('/marcial')
 def marcial():
 	jugador = request.args.get('nombre')
 	fecha = request.args.get('fecha')
-	return {	'jugador':jugador, 'fecha':fecha, 'puntuaciones' : puntuaciones_rivales(),
+	ano = request.args.get('ano')
+	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano, 'puntuaciones' : puntuaciones_rivales(),
 	'puntuaciones_hora_partido' : puntuaciones_hora()	}
 
 

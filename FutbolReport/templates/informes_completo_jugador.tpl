@@ -33,18 +33,41 @@
               </li>
               <li class="dropdown">
                 <select class="form-control" id="completo_jugador_jugador">                                                     
-                      {% for jugador in jugadores %}                    
-                      <option value="{{ jugador.0}}||{{ jugador.1}}">{{ jugador.0}} || {{ jugador.1}} || {{ jugador.2}} </option>                       
-                      {% endfor%}          
+
                 </select>
               </li>
             </ul>  
           </div>
 
 <script>
-$("#completo_jugador_jugador").on('change', function() {
-  
+var anos_jugadores_select = {{anos_jugadores_select}};
 
+
+
+var select_temporada= $('#completo_jugador_temporada');
+var select_jugador= $('#completo_jugador_jugador');
+
+select_temporada.on('change', function() {
+  
+  select_jugador.empty();
+  var lista_jugadores= anos_jugadores_select[select_temporada.val()];
+
+  $.each(lista_jugadores, function( index, jugador ) {
+  
+  
+  $('<option>')
+    .attr('value', jugador[0] + '||' + jugador[1])
+    .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
+    .appendTo(select_jugador);
+
+  });
+
+
+})
+
+
+select_jugador.on('change', function() {
+  
   var jug = this.value.split('||');
   
   $.getJSON( "/marcial", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )

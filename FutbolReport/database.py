@@ -61,3 +61,7 @@ def info_global():
 	#informacion_global = ",".join(["['"+punt[0]+"',"+str(punt[1])+"]" for punt in info])
 	#informacion_global = ",".join(["['"+punt[0]+"',"+punt[1]+"',"+str(punt[2])+"',"+str(punt[3])+"',"+str(punt[4])+"',"+str(punt[5])+"',"+str(punt[6])+"',"+str(punt[7])+"]" for punt in info])
 	return  informacion_global
+
+def dame_jugadores(ano):
+	query_jugador_completo = db.session.execute(seleccionar_jugador_completo(ano))
+	return  [ list(jug) for jug in query_jugador_completo]
