@@ -209,3 +209,21 @@ where id_jugador in (707,708)
 order by 1 asc
 FETCH FIRST 5 ROWS ONLY)as  b
 """
+
+query_estacion_ano =""" 
+select estacion_ano,sum(puntuacion)
+from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
+where id_jugador in (631)
+group by estacion_ano
+order by 1 desc;
+"""
+
+query_info_global =""" 
+select dim_jugador.nombre,dim_equipo.nombre equipo,
+sum(puntuacion) as puntos ,sum(minutos_jugados) as minutos ,sum(goles) as goles ,sum(tarjeta_amarilla) as amarillas,sum(tarjeta_roja) as rojas ,
+count(titular) as titularidades from dw.fact_jornada
+inner join dw.dim_jugador on dim_jugador.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
+where dim_jugador.id_jugador in (707,708)
+group by dim_jugador.id_jugador,dim_jugador.nombre,dim_equipo.nombre;
+"""

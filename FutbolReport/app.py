@@ -118,9 +118,10 @@ def informes_completo_jugador():
 	query_jugador_completo = db.session.execute(seleccionar_jugador_completo('2016'))
 	jugadores =   [row for row in query_jugador_completo]
 	puntuaciones = puntuaciones_rivales()	
-	puntuaciones_hora_partido = puntuaciones_hora()	
+	puntuaciones_hora_partido = puntuaciones_hora()
+	puntuaciones_estacion_ano = estacion_ano()
 	
-	return render_template('informes_completo_jugador.tpl',jugadores = jugadores, puntuaciones=puntuaciones,puntuaciones_hora_partido=puntuaciones_hora_partido)
+	return render_template('informes_completo_jugador.tpl',jugadores = jugadores, puntuaciones=puntuaciones,puntuaciones_hora_partido=puntuaciones_hora_partido,puntuaciones_estacion_ano=puntuaciones_estacion_ano)
 
 @app.route('/marcial')
 def marcial():

@@ -21,11 +21,16 @@ and es_local = 'NO';
 
 --en funcion del resultado
 
-select sum(puntuacion) puntuacion_total,ROUND(AVG(puntuacion)::numeric,2) as  puntuacion_media,count(*) as partidos 
-from dw.fact_jornada where id_jugador in (707,708) and resultado_jugador = 'victoria';
-select sum(puntuacion) puntuacion_total,ROUND(AVG(puntuacion)::numeric,2) as  puntuacion_media,count(*) as partidos 
-from dw.fact_jornada where id_jugador in (707,708) and resultado_jugador = 'empate';
-select sum(puntuacion) puntuacion_total,ROUND(AVG(puntuacion)::numeric,2) as  puntuacion_media,count(*) as partidos 
+select sum(puntuacion) puntuacion_total,ROUND(AVG(puntuacion)::numeric,2) as  puntuacion_media_partido,count(*) as partidos
+,'victoria' as resultado
+from dw.fact_jornada where id_jugador in (707,708) and resultado_jugador = 'victoria'
+UNION ALL
+select sum(puntuacion) puntuacion_total,ROUND(AVG(puntuacion)::numeric,2) as  puntuacion_media_partido,count(*) as partidos
+,'empate' as resultado
+from dw.fact_jornada where id_jugador in (707,708) and resultado_jugador = 'empate'
+UNION ALL
+select sum(puntuacion) puntuacion_total,ROUND(AVG(puntuacion)::numeric,2) as  puntuacion_media_partido,count(*) as partidos 
+,'derrota' as resultado
 from dw.fact_jornada where id_jugador in (707,708) and resultado_jugador = 'derrota';
 
 --en funcion del clima
@@ -35,6 +40,14 @@ from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.
 where id_jugador in (707,708)
 order by 1 desc;
 
+--en funcion de la estacion del año
+
+select sum(puntuacion),estacion_ano
+from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
+where id_jugador in (631)
+group by estacion_ano
+order by 1 desc;
+
 --en funcion de la hora del partido sacando porcentaje
 
 select ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from dw.fact_jornada where id_jugador in (707,708)))::numeric,2) as porcentaje,hora_categoria
@@ -42,6 +55,15 @@ from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fech
 where id_jugador in (707,708)
 group by hora_categoria
 order by 1 desc;
+
+-- toda la info
+select dim_jugador.nombre,dim_equipo.nombre equipo,
+sum(puntuacion) as puntos ,sum(minutos_jugados) as minutos ,sum(goles) as goles ,sum(tarjeta_amarilla) as amarillas,sum(tarjeta_roja) as rojas ,
+count(titular) as titularidades from dw.fact_jornada
+inner join dw.dim_jugador on dim_jugador.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
+where dim_jugador.id_jugador in (707,708)
+group by dim_jugador.id_jugador,dim_jugador.nombre,dim_equipo.nombre;
 
 -- los 5 rivales contra los que jugó mejor los 5 rivales contra los que jugó peor
 

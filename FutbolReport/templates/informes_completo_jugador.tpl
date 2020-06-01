@@ -66,7 +66,7 @@ $("#completo_jugador_jugador").on('change', function() {
 </script>
 
 <!-- puntuaciones rivales--> 
- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script type="text/javascript" src="/js/charts_google.js"></script>
     <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
@@ -107,13 +107,32 @@ $("#completo_jugador_jugador").on('change', function() {
       }
     </script>
     <div id="donutchart" style="width: 900px; height: 500px;"></div>
+
+    <!-- puntuaciones estacion año-->        
+    <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Estación del año", "Puntuación"], 
+        {{ puntuaciones_estacion_ano }}]);   
+      var view = new google.visualization.DataView(data);
+
+      var options = {
+        title: "Informe en función de la estación del año",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart.draw(view, options);
+    } 
+    </script>
+    <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+<!-- tabla con toda la informacion-->       
+
           <!-- page end-->
-
-
-
-
-
-
         </section>
       </section>
       <!--main content end-->
