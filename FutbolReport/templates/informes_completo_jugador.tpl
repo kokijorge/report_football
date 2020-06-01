@@ -3,11 +3,6 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-
-
-
-
-
           <div class="row">
             <div class="col-lg-12">
               <h3 class="page-header"><i class="icon_piechart"></i> INFORMES COMPLETO JUGADOR</h3>
@@ -74,7 +69,19 @@ select_jugador.on('change', function() {
   
   .done(function( json ) {
 
-    console.log( "JSON Data: " + json );
+    console.log( "JSON Data: " + JSON.parse(json.puntuaciones) );
+    var data = google.visualization.arrayToDataTable([
+          ['Rivales', 'Puntos'],
+          json.puntuaciones.replace("'", """)
+           json.puntuaciones ]);
+
+        var options = {
+          title: 'Informe de los rivales contra los que jugó mejor y peor',
+          legend: { position: 'none' },
+        };
+
+        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+        chart.draw(data, options);
 
   })
   
@@ -107,8 +114,6 @@ select_jugador.on('change', function() {
         chart.draw(data, options);
       }
     </script>
-
-
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
    
 <!-- puntuaciones hora partido-->        

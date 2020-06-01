@@ -42,8 +42,18 @@ def puntuaciones_hora():
 	lista_puntuaciones = ",".join(["['"+punt[1]+"',"+str(punt[0])+"]" for punt in puntuaciones])
 	return  lista_puntuaciones
 
-def puntuaciones_rivales():
-	data = db.session.execute(query_puntuaciones_rivales)
+def puntuaciones_rivales(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765
+	print(fecha)
+	data = db.session.execute(query_puntuaciones_rivales, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
 	puntuaciones = [row for row in data]
 	lista_puntuaciones = ",".join(["['"+punt[1]+"',"+str(punt[0])+"]" for punt in puntuaciones])
 	return  lista_puntuaciones

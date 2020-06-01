@@ -50,11 +50,25 @@ order by 1 desc;
 
 --en funcion de la hora del partido sacando porcentaje
 
-select ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from dw.fact_jornada where id_jugador in (707,708)))::numeric,2) as porcentaje,hora_categoria
+WITH porcentajes AS (
+        select 
+    CASE
+    WHEN sum(puntuacion) >= 0 THEN sum(puntuacion)
+    ELSE 0
+    END AS puntuacion
+    ,hora_categoria
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
 where id_jugador in (707,708)
+    and fact_jornada.id_partido between (179510) and (179889) 
 group by hora_categoria
-order by 1 desc;
+order by 1 desc
+     )
+SELECT
+ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from porcentajes))::numeric,2) as porcentaje     
+,hora_categoria
+FROM porcentajes
+group by hora_categoria
+;
 
 -- toda la info
 select dim_jugador.nombre,dim_equipo.nombre equipo,

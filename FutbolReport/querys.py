@@ -10,7 +10,7 @@ def seleccionar_jugador_completo(ano):
     elif ano  == '2017':
         query = """
             select nombre,TO_CHAR(fecha_nacimiento, 'YYYY-MM-DD'),posicion from dw.dim_jugador
-            where id_jugador in (select id_jugador from dw.fact_jornada) 
+            where id_jugador in (select id_jugador from dw.fact_jornada where id_partido > '179889') 
             group by nombre,fecha_nacimiento,posicion
             order by 1;  
             """
@@ -18,10 +18,7 @@ def seleccionar_jugador_completo(ano):
     else: 
         query = """
             select nombre, TO_CHAR(fecha_nacimiento, 'YYYY-MM-DD'),posicion from dw.dim_jugador
-            where id_jugador in (select id_jugador from dw.fact_jornada where id_partido <= '179889') 
-            -- <= '179889' ->temp 2016
-            -- > '179889' ->temp 2017
-            -- total sin el where
+            where id_jugador in (select id_jugador from dw.fact_jornada) 
             group by nombre,fecha_nacimiento,posicion
             order by 1;  
             """
@@ -185,11 +182,25 @@ QUERY_A_LA_QUE_AUN_NO_LE_HAS_DADO_NOMBRE = """
         order by 1   
 		"""
 query_puntuaciones_hora_partido =""" 
-select ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from dw.fact_jornada where id_jugador in (707,708)))::numeric,2) as porcentaje,hora_categoria
+WITH porcentajes AS (
+        select 
+    CASE
+    WHEN sum(puntuacion) >= 0 THEN sum(puntuacion)
+    ELSE 0
+    END AS puntuacion
+    ,hora_categoria
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
 where id_jugador in (707,708)
+    and fact_jornada.id_partido between (179510) and (179889) 
 group by hora_categoria
-order by 1 desc;
+order by 1 desc
+     )
+SELECT
+ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from porcentajes))::numeric,2) as porcentaje     
+,hora_categoria
+FROM porcentajes
+group by hora_categoria
+;
 """
 
 query_puntuaciones_rivales =""" 
@@ -197,7 +208,10 @@ select *  from
 (select puntuacion,  dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
-where id_jugador in (707,708)
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
 order by 1 desc
 FETCH FIRST 5 ROWS ONLY) as  a 
 UNION ALL
@@ -205,7 +219,10 @@ select * from
 (select puntuacion, dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
-where id_jugador in (707,708)
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
 order by 1 asc
 FETCH FIRST 5 ROWS ONLY)as  b
 """

@@ -1,6 +1,6 @@
 from database import *
-from flask import Flask,render_template,request ,redirect, url_for,flash
-
+from flask import Flask,render_template,request ,redirect, url_for,flash,jsonify
+import json
 from flask_migrate import Migrate, MigrateCommand
 
 
@@ -108,28 +108,25 @@ def informes_tipo(tipo,ano):
 		return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo,lista_rivales=lista_rivales)
 	else:
 		return render_template('informes_'+tipo+'.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,tipo=tipo)
-#	elif test expression:
-#    	Body of elif
-#	else: 
-#    	Body of else
 
 @app.route('/informes/completo_jugador/')
 def informes_completo_jugador():
 
-	puntuaciones = puntuaciones_rivales()	
+	#puntuaciones = puntuaciones_rivales(nombre,fecha,ano)	
 	puntuaciones_hora_partido = puntuaciones_hora()
 	puntuaciones_estacion_ano = estacion_ano()
 	anos_jugadores_select = {'2016': dame_jugadores('2016'), '2017': dame_jugadores('2017'),'todo': dame_jugadores('todo')}
 	
-	return render_template('informes_completo_jugador.tpl',anos_jugadores_select=anos_jugadores_select, puntuaciones=puntuaciones,puntuaciones_hora_partido=puntuaciones_hora_partido,puntuaciones_estacion_ano=puntuaciones_estacion_ano)
+	return render_template('informes_completo_jugador.tpl',anos_jugadores_select=anos_jugadores_select, #puntuaciones=puntuaciones,
+	puntuaciones_hora_partido=puntuaciones_hora_partido,puntuaciones_estacion_ano=puntuaciones_estacion_ano)
 
 @app.route('/marcial')
 def marcial():
 	jugador = request.args.get('nombre')
 	fecha = request.args.get('fecha')
-	ano = request.args.get('ano')
-	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano, 'puntuaciones' : puntuaciones_rivales(),
-	'puntuaciones_hora_partido' : puntuaciones_hora()	}
+	ano = request.args.get('ano')	
+	return json.dumps({ 'jugador':jugador, 'fecha':fecha, 'ano':ano, 'puntuaciones' : puntuaciones_rivales(jugador,fecha,ano),
+	'puntuaciones_hora_partido' : puntuaciones_hora()})
 
 
 
