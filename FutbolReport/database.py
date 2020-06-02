@@ -54,9 +54,9 @@ def puntuaciones_rivales(nombre,fecha,ano):
 		id_fin = 214765
 	print(fecha)
 	data = db.session.execute(query_puntuaciones_rivales, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
-	puntuaciones = [row for row in data]
-	lista_puntuaciones = ",".join(["['"+punt[1]+"',"+str(punt[0])+"]" for punt in puntuaciones])
-	return  lista_puntuaciones
+	puntuaciones = [list(row) for row in data]
+	return puntuaciones
+
 
 def estacion_ano():
 	data = db.session.execute(query_estacion_ano)

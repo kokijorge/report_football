@@ -205,7 +205,7 @@ group by hora_categoria
 
 query_puntuaciones_rivales =""" 
 select *  from 
-(select puntuacion,  dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
+(select   dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')' ,puntuacion 
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
@@ -216,7 +216,7 @@ order by 1 desc
 FETCH FIRST 5 ROWS ONLY) as  a 
 UNION ALL
 select * from 
-(select puntuacion, dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')'
+(select dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')',puntuacion 
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador

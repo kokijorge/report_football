@@ -1,6 +1,7 @@
 from database import *
 from flask import Flask,render_template,request ,redirect, url_for,flash,jsonify
 import json
+import flask
 from flask_migrate import Migrate, MigrateCommand
 
 
@@ -125,8 +126,9 @@ def marcial():
 	jugador = request.args.get('nombre')
 	fecha = request.args.get('fecha')
 	ano = request.args.get('ano')	
-	return json.dumps({ 'jugador':jugador, 'fecha':fecha, 'ano':ano, 'puntuaciones' : puntuaciones_rivales(jugador,fecha,ano),
-	'puntuaciones_hora_partido' : puntuaciones_hora()})
+	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano, 
+		'puntuaciones' : puntuaciones_rivales(jugador,fecha,ano),
+	'puntuaciones_hora_partido' : puntuaciones_hora()}
 
 
 

@@ -34,7 +34,17 @@
             </ul>  
           </div>
 
+
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+       <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+
+
+<script type="text/javascript" src="/js/charts_google.js"></script>
+ 
 <script>
+
+      google.charts.load("current", {packages:["corechart"]});
 var anos_jugadores_select = {{anos_jugadores_select}};
 
 
@@ -69,11 +79,14 @@ select_jugador.on('change', function() {
   
   .done(function( json ) {
 
-    console.log( "JSON Data: " + JSON.parse(json.puntuaciones) );
-    var data = google.visualization.arrayToDataTable([
-          ['Rivales', 'Puntos'],
-          json.puntuaciones.replace("'", """)
-           json.puntuaciones ]);
+    console.log( "JSON Data: " + json.puntuaciones );
+
+var data = new google.visualization.DataTable();
+
+data.addColumn('string', 'Rivales');
+data.addColumn('number', 'Puntos');
+
+data.addRows(json.puntuaciones);
 
         var options = {
           title: 'Informe de los rivales contra los que jugó mejor y peor',
@@ -93,32 +106,12 @@ select_jugador.on('change', function() {
 
 });
 
-</script>
+//<!-- puntuaciones rivales--> 
 
-<!-- puntuaciones rivales--> 
- <script type="text/javascript" src="/js/charts_google.js"></script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Rivales', 'Puntos'],
-          {{ puntuaciones }}]);
 
-        var options = {
-          title: 'Informe de los rivales contra los que jugó mejor y peor',
-          legend: { position: 'none' },
-        };
 
-        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-   
-<!-- puntuaciones hora partido-->        
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
+//<!-- puntuaciones hora partido-->        
+
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
@@ -133,11 +126,11 @@ select_jugador.on('change', function() {
         var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
         chart.draw(data, options);
       }
-    </script>
-    <div id="donutchart" style="width: 900px; height: 500px;"></div>
 
-    <!-- puntuaciones estacion año-->        
-    <script type="text/javascript">
+    
+
+    //<!-- puntuaciones estacion año-->        
+
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
@@ -157,7 +150,7 @@ select_jugador.on('change', function() {
       chart.draw(view, options);
     } 
     </script>
-    <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+
 <!-- tabla con toda la informacion-->       
 
           <!-- page end-->
