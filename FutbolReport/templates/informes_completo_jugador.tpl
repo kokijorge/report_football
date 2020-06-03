@@ -23,39 +23,48 @@
               </li>
             </ul>
             <ul class="nav pull-center top-menu">                    
-              <li id="label_temporada" class="dropdown">
+              <li id="label_jugador" class="dropdown">
                 <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
               </li>
               <li class="dropdown">
                 <select class="form-control" id="completo_jugador_jugador">                                                     
-
                 </select>
               </li>
             </ul>  
           </div>
+          <div class="ui-widget">
+            <label for="tags">Tags: </label>
+            <input id="tags_jugador">
+          </div>
+          
 
 
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
-       <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
     <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+    <div id="table_div"></div>
 
 
 <script type="text/javascript" src="/js/charts_google.js"></script>
  
 <script>
 
-      google.charts.load("current", {packages:["corechart"]});
+google.charts.load("current", {packages:["corechart"]});
 var anos_jugadores_select = {{anos_jugadores_select}};
 
 
 
 var select_temporada= $('#completo_jugador_temporada');
 var select_jugador= $('#completo_jugador_jugador');
+var tag_jugador= $('#tags_jugador');
 
 select_temporada.on('change', function() {
   
   select_jugador.empty();
+  tag_jugador.empty();
   var lista_jugadores= anos_jugadores_select[select_temporada.val()];
+  var availableTags = [
+    ];    
 
   $.each(lista_jugadores, function( index, jugador ) {
   
@@ -65,8 +74,14 @@ select_temporada.on('change', function() {
     .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
     .appendTo(select_jugador);
 
-  });
+ availableTags.push(jugador[0] + '||' + jugador[1]);
+  $( "#tags_jugador" ).autocomplete({
+      source: availableTags
+    }); 
 
+  });
+  
+ 
 
 })
 
@@ -81,8 +96,8 @@ select_jugador.on('change', function() {
 
     console.log( "JSON Data: " + json.puntuaciones );
 
+//<!-- puntuaciones rivales--> 
 var data = new google.visualization.DataTable();
-
 data.addColumn('string', 'Rivales');
 data.addColumn('number', 'Puntos');
 
@@ -106,7 +121,7 @@ data.addRows(json.puntuaciones);
 
 });
 
-//<!-- puntuaciones rivales--> 
+
 
 
 
@@ -149,10 +164,28 @@ data.addRows(json.puntuaciones);
       var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
       chart.draw(view, options);
     } 
-    </script>
+    
 
-<!-- tabla con toda la informacion-->       
-
+// tabla con toda la informacion  https://developers.google.com/chart/interactive/docs/gallery/table 
+    google.charts.load('current', {'packages':['table']});
+    google.charts.setOnLoadCallback(drawTable); 
+    function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Nombre');
+        data.addColumn('string', 'Equipo');
+        data.addColumn('number', 'Puntos');
+        data.addColumn('number', 'Minutos');
+        data.addColumn('number', 'Goles');
+        data.addColumn('number', 'Amarillas');
+        data.addColumn('number', 'Rojas');
+        data.addColumn('number', 'Titularidades');
+        data.addRows([
+          {{ informacion_global }}
+        ]);
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});   
+    }
+        </script>     
           <!-- page end-->
         </section>
       </section>

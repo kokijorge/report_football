@@ -67,9 +67,7 @@ def estacion_ano():
 
 def info_global():
 	data = db.session.execute(query_info_global)
-	info = [row for row in data]
-	#informacion_global = ",".join(["['"+punt[0]+"',"+str(punt[1])+"]" for punt in info])
-	#informacion_global = ",".join(["['"+punt[0]+"',"+punt[1]+"',"+str(punt[2])+"',"+str(punt[3])+"',"+str(punt[4])+"',"+str(punt[5])+"',"+str(punt[6])+"',"+str(punt[7])+"]" for punt in info])
+	informacion_global = [list(row) for row in data]
 	return  informacion_global
 
 def dame_jugadores(ano):
