@@ -68,7 +68,7 @@ select_temporada.on('change', function() {
 
   $.each(lista_jugadores, function( index, jugador ) {
   
-  
+  //marcial !!
   $('<option>')
     .attr('value', jugador[0] + '||' + jugador[1])
     .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
@@ -166,7 +166,7 @@ data.addRows(json.puntuaciones);
     } 
     
 
-// tabla con toda la informacion  https://developers.google.com/chart/interactive/docs/gallery/table 
+// tabla con toda la informacion  marcial!!!
     google.charts.load('current', {'packages':['table']});
     google.charts.setOnLoadCallback(drawTable); 
     function drawTable() {
@@ -179,9 +179,10 @@ data.addRows(json.puntuaciones);
         data.addColumn('number', 'Amarillas');
         data.addColumn('number', 'Rojas');
         data.addColumn('number', 'Titularidades');
-        data.addRows([
-          {{ informacion_global }}
-        ]);
+        console.log( {{informacion_global}} );
+        data.addRows(
+           {{informacion_global}} 
+        );
         var table = new google.visualization.Table(document.getElementById('table_div'));
         table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});   
     }
