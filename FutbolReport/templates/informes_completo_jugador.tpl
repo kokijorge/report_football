@@ -94,22 +94,31 @@ select_jugador.on('change', function() {
   
   .done(function( json ) {
 
-    console.log( "JSON Data: " + json.puntuaciones );
+    console.log( "JSON Data: " + json.puntuaciones_hora_partido );
 
-//<!-- puntuaciones rivales--> 
-var data = new google.visualization.DataTable();
-data.addColumn('string', 'Rivales');
-data.addColumn('number', 'Puntos');
+    //<!-- puntuaciones rivales--> 
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Rivales');
+    data.addColumn('number', 'Puntos');
+    data.addRows(json.puntuaciones);
+    var options = {
+        title: 'Informe de los rivales contra los que jugó mejor y peor',
+        legend: { position: 'none' },
+    };
+    var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+    chart.draw(data, options);
 
-data.addRows(json.puntuaciones);
-
-        var options = {
-          title: 'Informe de los rivales contra los que jugó mejor y peor',
-          legend: { position: 'none' },
-        };
-
-        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
-        chart.draw(data, options);
+    //<!-- puntuaciones hora partido-->    
+    var data_hora_partido = google.visualization.arrayToDataTable([
+      ['Porcentaje', 'Horas'],
+        json.puntuaciones_hora_partido ]);        
+    var options_hora_partido = {
+      title: 'Informe en función de la hora de partido',
+      pieHole: 0.4,
+    };
+    var chart_hora_partido = new google.visualization.PieChart(document.getElementById('donutchart'));
+    chart_hora_partido.draw(data_hora_partido, options_hora_partido);
+      
 
   })
   
@@ -119,34 +128,10 @@ data.addRows(json.puntuaciones);
   });
 
 
-});
+});              
 
-
-
-
-
-//<!-- puntuaciones hora partido-->        
-
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Porcentaje', 'Horas'],
-          {{ puntuaciones_hora_partido }}]);        
-
-        var options = {
-          title: 'Informe en función de la hora de partido',
-          pieHole: 0.4,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-      }
-
-    
-
-    //<!-- puntuaciones estacion año-->        
-
-    google.charts.load("current", {packages:['corechart']});
+    //<!-- puntuaciones estacion año-->     
+google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
@@ -164,7 +149,6 @@ data.addRows(json.puntuaciones);
       var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
       chart.draw(view, options);
     } 
-    
 
 // tabla con toda la informacion  marcial!!!
     google.charts.load('current', {'packages':['table']});
@@ -178,8 +162,7 @@ data.addRows(json.puntuaciones);
         data.addColumn('number', 'Goles');
         data.addColumn('number', 'Amarillas');
         data.addColumn('number', 'Rojas');
-        data.addColumn('number', 'Titularidades');
-        console.log( {{informacion_global}} );
+        data.addColumn('number', 'Titularidades');        
         data.addRows(
            {{informacion_global}} 
         );

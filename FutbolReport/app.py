@@ -113,13 +113,13 @@ def informes_tipo(tipo,ano):
 @app.route('/informes/completo_jugador/')
 def informes_completo_jugador():
 
-	#puntuaciones = puntuaciones_rivales(nombre,fecha,ano)	
-	puntuaciones_hora_partido = puntuaciones_hora()
+	#puntuaciones = puntuaciones_rivales(nombre,fecha,ano)		
 	puntuaciones_estacion_ano = estacion_ano()
 	anos_jugadores_select = {'2016': dame_jugadores('2016'), '2017': dame_jugadores('2017'),'todo': dame_jugadores('todo')}
 	informacion_global = info_global()
 	return render_template('informes_completo_jugador.tpl',anos_jugadores_select=anos_jugadores_select, #puntuaciones=puntuaciones,
-	puntuaciones_hora_partido=puntuaciones_hora_partido,puntuaciones_estacion_ano=puntuaciones_estacion_ano,informacion_global=informacion_global)
+	#puntuaciones_hora_partido=puntuaciones_hora_partido,
+	puntuaciones_estacion_ano=puntuaciones_estacion_ano,informacion_global=informacion_global)
 
 @app.route('/marcial')
 def marcial():
@@ -127,8 +127,8 @@ def marcial():
 	fecha = request.args.get('fecha')
 	ano = request.args.get('ano')	
 	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano, 
-		'puntuaciones' : puntuaciones_rivales(jugador,fecha,ano),
-	'puntuaciones_hora_partido' : puntuaciones_hora()}
+		'puntuaciones' : puntuaciones_rivales(jugador,fecha,ano)
+		,	'puntuaciones_hora_partido' : puntuaciones_hora(jugador,fecha,ano)}
 
 
 

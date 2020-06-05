@@ -36,11 +36,19 @@ def seleccionar_fecha_maxima(ano):
 	fec_max = db.session.execute(query_fecha_maxima , {"ano": ano}).fetchone()[0]
 	return  fec_max
 
-def puntuaciones_hora():
-	data = db.session.execute(query_puntuaciones_hora_partido)
-	puntuaciones = [row for row in data]
-	lista_puntuaciones = ",".join(["['"+punt[1]+"',"+str(punt[0])+"]" for punt in puntuaciones])
-	return  lista_puntuaciones
+def puntuaciones_hora(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765
+	data = db.session.execute(query_puntuaciones_hora_partido, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones = [list(row) for row in data]	
+	return  puntuaciones
 
 def puntuaciones_rivales(nombre,fecha,ano):
 	if ano  == '2016':
@@ -51,8 +59,7 @@ def puntuaciones_rivales(nombre,fecha,ano):
 		id_fin = 214765
 	else: 		
 		id_ini = 179510
-		id_fin = 214765
-	print(fecha)
+		id_fin = 214765	
 	data = db.session.execute(query_puntuaciones_rivales, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
 	puntuaciones = [list(row) for row in data]
 	return puntuaciones

@@ -190,13 +190,15 @@ WITH porcentajes AS (
     END AS puntuacion
     ,hora_categoria
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
-where id_jugador in (707,708)
-    and fact_jornada.id_partido between (179510) and (179889) 
+    inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
 group by hora_categoria
 order by 1 desc
      )
 SELECT
-ROUND((sum(puntuacion)::numeric * 100 / (Select sum(puntuacion)::numeric  from porcentajes))::numeric,2) as porcentaje     
+ROUND((sum(puntuacion)::numeric * 100 / (Select CASE     WHEN sum(puntuacion) = 0 THEN 1 ELSE sum(puntuacion)::numeric END AS puntuacion  from porcentajes))::numeric,2) as porcentaje          
 ,hora_categoria
 FROM porcentajes
 group by hora_categoria
