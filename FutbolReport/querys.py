@@ -198,51 +198,91 @@ group by hora_categoria
 order by 1 desc
      )
 SELECT
+hora_categoria,
 ROUND((sum(puntuacion)::numeric * 100 / (Select CASE     WHEN sum(puntuacion) = 0 THEN 1 ELSE sum(puntuacion)::numeric END AS puntuacion  from porcentajes))::numeric,2) as porcentaje          
-,hora_categoria
 FROM porcentajes
 group by hora_categoria
 ;
 """
-
+#TODO MARCIAL
 query_puntuaciones_rivales =""" 
 select *  from 
-(select   dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')' ,puntuacion 
+(select   dim_equipo.nombre ,puntuacion -- , dim_entrenador.nombre
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
-order by 1 desc
+order by 2 desc
 FETCH FIRST 5 ROWS ONLY) as  a 
 UNION ALL
 select * from 
-(select dim_equipo.nombre || ' ('|| dim_entrenador.nombre||')',puntuacion 
+(select   dim_equipo.nombre ,puntuacion -- , dim_entrenador.nombre
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
-order by 1 asc
-FETCH FIRST 5 ROWS ONLY)as  b
+order by 2 asc
+FETCH FIRST 5 ROWS ONLY)as  b order by 2 desc
 """
 
 query_estacion_ano =""" 
 select estacion_ano,sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
-where id_jugador in (631)
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
 group by estacion_ano
 order by 1 desc;
 """
 
 query_info_global =""" 
-select dim_jugador.nombre,dim_equipo.nombre equipo,
+select jug.nombre,dim_equipo.nombre equipo,
 sum(puntuacion) as puntos ,sum(minutos_jugados) as minutos ,sum(goles) as goles ,sum(tarjeta_amarilla) as amarillas,sum(tarjeta_roja) as rojas ,
 count(titular) as titularidades from dw.fact_jornada
-inner join dw.dim_jugador on dim_jugador.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
 inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
-where dim_jugador.id_jugador in (707,708)
-group by dim_jugador.id_jugador,dim_jugador.nombre,dim_equipo.nombre;
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+group by jug.id_jugador,jug.nombre,dim_equipo.nombre;
+"""
+
+
+
+query_temperatura =""" 
+select dim_meteo.temperatura_categoria,sum(puntuacion)
+from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+group by temperatura_categoria
+order by 2 desc;
+"""
+
+query_lluvias =""" 
+select dim_meteo.lluvias_categoria,sum(puntuacion)
+from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+group by lluvias_categoria
+order by 2 desc;
+"""
+
+query_humedad =""" 
+select dim_meteo.humedad_categoria,sum(puntuacion)
+from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+group by humedad_categoria
+order by 2 desc;
 """

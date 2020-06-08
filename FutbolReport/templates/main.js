@@ -43,28 +43,13 @@ function escoger_informe(){
     window.location.href=dir_informes; 
 }
 
-function cambiar_color_fondo(estadio) {    
-    //$("tr").addClass("estadio_seleccionado");
+function cambiar_color_fondo(estadio) {        
     $("tr").css("background-color","#eeeeee")
  }
 
  function retomar_color_fondo(estadio) {        
     fila = $(estadio);
     fila.css("background-color","yellow")
-    /*fila =  $("#"+equipo);
-    container = $("#div").find('.table-condensed');
-    $("#div").find('.table-condensed')
-    container.scrollTop(
-        fila.offset().top - container.offset().top + container.scrollTop()
-        //fila.offset().top - container.offsetTop + container.scrollTop
-    );
-    
-    // Or you can animate the scrolling:
-    container.animate({
-        scrollTop: fila.offset().top - container.offset().top + container.scrollTop()
-        // scrollTop: fila.offset().top - container.offsetTop + container.scrollTop()
-    });​*/
-
  }
 
 function estadio_seleccionado(estadio){

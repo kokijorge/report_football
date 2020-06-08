@@ -65,17 +65,77 @@ def puntuaciones_rivales(nombre,fecha,ano):
 	return puntuaciones
 
 
-def estacion_ano():
-	data = db.session.execute(query_estacion_ano)
-	puntuaciones = [row for row in data]
-	lista_puntuaciones = ",".join(["['"+punt[0]+"',"+str(punt[1])+"]" for punt in puntuaciones])
-	return  lista_puntuaciones 
+def puntuaciones_estacion_ano(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_estacion_ano, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones = [list(row) for row in data]
+	return puntuaciones
 	
 
-def info_global():
-	data = db.session.execute(query_info_global)
+def info_global(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_info_global, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
 	informacion_global = [list(row) for row in data]
 	return  informacion_global
+
+def puntuaciones_temperatura(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_temperatura, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_temperatura = [list(row) for row in data]
+	return  puntuaciones_temperatura
+
+def puntuaciones_lluvias(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_lluvias, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_lluvias = [list(row) for row in data]
+	return  puntuaciones_lluvias
+
+def puntuaciones_humedad(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_humedad, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_humedad = [list(row) for row in data]
+	return  puntuaciones_humedad	
+
 
 def dame_jugadores(ano):
 	query_jugador_completo = db.session.execute(seleccionar_jugador_completo(ano))

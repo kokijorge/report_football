@@ -38,12 +38,22 @@
           </div>
           
 
-
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="table_div"></div>    
+    <div class="col-lg-12">
+          <h3 class="page-header">Informe en función del clima</h3>            
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <div id="columnchart_temperatura" style="width: 300px; height: 200px;"></div>         
+          </div> 
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">  
+          <div id="columnchart_lluvias" style="width: 300px; height: 200px;"></div>         
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">    
+          <div id="columnchart_humedad" style="width: 300px; height: 200px;"></div>         
+          </div>               
+    </div> 
     <div id="donutchart" style="width: 900px; height: 500px;"></div>
-    <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
-    <div id="table_div"></div>
-
+    <div id="columnchart_values" style="width: 900px; height: 300px;"></div> 
+    <div id="columnchart_rivales" style="width: 1200px; height: 700px;"></div> 
 
 <script type="text/javascript" src="/js/charts_google.js"></script>
  
@@ -94,31 +104,113 @@ select_jugador.on('change', function() {
   
   .done(function( json ) {
 
-    console.log( "JSON Data: " + json.puntuaciones_hora_partido );
+    console.log( "JSON Data: " + json.puntuaciones_temperatura );
 
-    //<!-- puntuaciones rivales--> 
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Rivales');
-    data.addColumn('number', 'Puntos');
-    data.addRows(json.puntuaciones);
-    var options = {
-        title: 'Informe de los rivales contra los que jugó mejor y peor',
-        legend: { position: 'none' },
-    };
-    var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
-    chart.draw(data, options);
+    // tabla con toda la informacion
+    google.charts.load('current', {'packages':['table']});
+    google.charts.setOnLoadCallback(drawTable);
+    function drawTable() {
+      var data_info = new google.visualization.DataTable();
+      data_info.addColumn('string', 'Nombre');
+      data_info.addColumn('string', 'Equipo');
+      data_info.addColumn('number', 'Puntos');
+      data_info.addColumn('number', 'Minutos');
+      data_info.addColumn('number', 'Goles');
+      data_info.addColumn('number', 'Amarillas');
+      data_info.addColumn('number', 'Rojas');
+      data_info.addColumn('number', 'Titularidades');        
+      data_info.addRows( json.puntuaciones_info_global );
+      var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+      var table_info = new google.visualization.Table(document.getElementById('table_div'));
+      table_info.draw(data_info,options_info ); 
+    }     
 
-    //<!-- puntuaciones hora partido-->    
-    var data_hora_partido = google.visualization.arrayToDataTable([
-      ['Porcentaje', 'Horas'],
-        json.puntuaciones_hora_partido ]);        
+    //<!-- puntuaciones hora partido-->          
+    var data_hora_partido = new google.visualization.DataTable();
+    data_hora_partido.addColumn('string', 'Horas');
+    data_hora_partido.addColumn('number', 'Porcentaje');    
+    data_hora_partido.addRows(json.puntuaciones_hora_partido); 
     var options_hora_partido = {
       title: 'Informe en función de la hora de partido',
       pieHole: 0.4,
     };
     var chart_hora_partido = new google.visualization.PieChart(document.getElementById('donutchart'));
     chart_hora_partido.draw(data_hora_partido, options_hora_partido);
-      
+    
+    //<!-- puntuaciones estacion año-->         
+      var data_estacion_ano = new google.visualization.DataTable();
+      data_estacion_ano.addColumn('string', 'Estacion del año');
+      data_estacion_ano.addColumn('number', 'Puntuacion');    
+      data_estacion_ano.addRows(json.puntuaciones_estacion_ano); 
+      var options_estacion_ano = {
+        title: "Informe en función de la estación del año",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart_estacion_ano = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart_estacion_ano.draw(data_estacion_ano, options_estacion_ano);     
+
+        //<!-- puntuaciones temperatura-->         
+      var data_temperatura = new google.visualization.DataTable();
+      data_temperatura.addColumn('string', 'Temperatura');
+      data_temperatura.addColumn('number', 'Puntuacion');    
+      data_temperatura.addRows(json.puntuaciones_temperatura); 
+      var options_temperatura = {
+        title: "Informe en función de la temperatura",
+        width: 300,
+        height: 200,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart_temperatura = new google.visualization.ColumnChart(document.getElementById("columnchart_temperatura"));
+      chart_temperatura.draw(data_temperatura, options_temperatura);  
+
+  //<!-- puntuaciones lluvias-->         
+      var data_lluvias = new google.visualization.DataTable();
+      data_lluvias.addColumn('string', 'Temperatura');
+      data_lluvias.addColumn('number', 'Puntuacion');    
+      data_lluvias.addRows(json.puntuaciones_lluvias); 
+      var options_lluvias = {
+        title: "Informe en función de las lluvias",
+        width: 300,
+        height: 200,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart_lluvias = new google.visualization.ColumnChart(document.getElementById("columnchart_lluvias"));
+      chart_lluvias.draw(data_lluvias, options_lluvias);  
+
+    //<!-- puntuaciones humedad-->         
+      var data_humedad = new google.visualization.DataTable();
+      data_humedad.addColumn('string', 'Temperatura');
+      data_humedad.addColumn('number', 'Puntuacion');    
+      data_humedad.addRows(json.puntuaciones_humedad); 
+      var options_humedad = {
+        title: "Informe en función de la humedad",
+        width: 300,
+        height: 200,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart_humedad = new google.visualization.ColumnChart(document.getElementById("columnchart_humedad"));
+      chart_humedad.draw(data_humedad, options_humedad); 
+
+    //<!-- puntuaciones rivales->         
+      var data_puntuaciones_rivales = new google.visualization.DataTable();
+      data_puntuaciones_rivales.addColumn('string', 'Equipo');
+      data_puntuaciones_rivales.addColumn('number', 'Puntuacion');    
+      data_puntuaciones_rivales.addRows(json.puntuaciones_rivales); 
+      var options_rivales = {
+        title: "Equipos contra los que jugó mejor/peor",
+        width: 1200,
+        height: 700,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart_rivales = new google.visualization.LineChart(document.getElementById("columnchart_rivales"));
+      chart_rivales.draw(data_puntuaciones_rivales, options_rivales);   
 
   })
   
@@ -128,47 +220,7 @@ select_jugador.on('change', function() {
   });
 
 
-});              
-
-    //<!-- puntuaciones estacion año-->     
-google.charts.load("current", {packages:['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ["Estación del año", "Puntuación"], 
-        {{ puntuaciones_estacion_ano }}]);   
-      var view = new google.visualization.DataView(data);
-
-      var options = {
-        title: "Informe en función de la estación del año",
-        width: 600,
-        height: 400,
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
-      };
-      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-      chart.draw(view, options);
-    } 
-
-// tabla con toda la informacion  marcial!!!
-    google.charts.load('current', {'packages':['table']});
-    google.charts.setOnLoadCallback(drawTable); 
-    function drawTable() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Nombre');
-        data.addColumn('string', 'Equipo');
-        data.addColumn('number', 'Puntos');
-        data.addColumn('number', 'Minutos');
-        data.addColumn('number', 'Goles');
-        data.addColumn('number', 'Amarillas');
-        data.addColumn('number', 'Rojas');
-        data.addColumn('number', 'Titularidades');        
-        data.addRows(
-           {{informacion_global}} 
-        );
-        var table = new google.visualization.Table(document.getElementById('table_div'));
-        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});   
-    }
+});                   
         </script>     
           <!-- page end-->
         </section>
