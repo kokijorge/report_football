@@ -12,11 +12,6 @@ def dame_la_lista_de_jugadores_del_ano(anoInt,equipo):
 	return [row for row in query_jug]
 
 
-def dame_los_rivales ():
-	query_rival = db.session.execute(QUERY_A_LA_QUE_AUN_NO_LE_HAS_DADO_NOMBRE)
-	rivales =   [row for row in query_rival]
-	lista_rivales = ",".join(["['"+rival[1]+"',"+str(rival[0])+"]" for rival in rivales])
-	return lista_rivales	
 
 def dame_los_estadios():
 	query_estadio = db.session.execute(query_seleccionar_estadios)

@@ -1,4 +1,4 @@
---QUERYS INFORMES
+--QUERYS INFORMES JUGADORES
 
 --buscar jugador
 
@@ -96,3 +96,8 @@ inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 where id_jugador in (707,708)
 order by 1 asc
 FETCH FIRST 5 ROWS ONLY)as  b
+
+
+--QUERYS INFORMES EQUIPOS
+
+--QUERYS INFORMES ENTRENADORES

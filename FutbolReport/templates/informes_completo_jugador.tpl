@@ -42,13 +42,13 @@
     <div class="col-lg-12">
           <h3 class="page-header">Informe en función del clima</h3>            
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <div id="columnchart_temperatura" style="width: 300px; height: 200px;"></div>         
+          <div id="columnchart_temperatura" style="width: 500px; height: 300px;"></div>         
           </div> 
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">  
-          <div id="columnchart_lluvias" style="width: 300px; height: 200px;"></div>         
+          <div id="columnchart_lluvias" style="width: 500px; height: 300px;"></div>         
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">    
-          <div id="columnchart_humedad" style="width: 300px; height: 200px;"></div>         
+          <div id="columnchart_humedad" style="width: 500px; height: 300px;"></div>         
           </div>               
     </div> 
     <div id="donutchart" style="width: 900px; height: 500px;"></div>
@@ -159,8 +159,8 @@ select_jugador.on('change', function() {
       data_temperatura.addRows(json.puntuaciones_temperatura); 
       var options_temperatura = {
         title: "Informe en función de la temperatura",
-        width: 300,
-        height: 200,
+        width: 500,
+        height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
       };
@@ -174,8 +174,8 @@ select_jugador.on('change', function() {
       data_lluvias.addRows(json.puntuaciones_lluvias); 
       var options_lluvias = {
         title: "Informe en función de las lluvias",
-        width: 300,
-        height: 200,
+        width: 500,
+        height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
       };
@@ -189,8 +189,8 @@ select_jugador.on('change', function() {
       data_humedad.addRows(json.puntuaciones_humedad); 
       var options_humedad = {
         title: "Informe en función de la humedad",
-        width: 300,
-        height: 200,
+        width: 500,
+        height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
       };
