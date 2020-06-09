@@ -3,11 +3,13 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
+          
           <div class="row">
             <div class="col-lg-12">
               <h3 class="page-header"><i class="icon_piechart"></i> INFORMES COMPLETO JUGADOR</h3>
             </div>
           </div>
+          
           <!-- page start--> 
           <div class="row"> 
           <ul class="nav pull-center top-menu">                    
@@ -31,16 +33,16 @@
                 </select>
               </li>
             </ul>  
-          </div>
-          <div class="ui-widget">
-            <label for="tags">Tags: </label>
-            <input id="tags_jugador">
+          
+
+            <div class="ui-widget">
+              <label for="tags">Tags: </label>
+              <input id="tags_jugador">
+            </div>
           </div>
           
 
-    <div id="table_div"></div>    
-    <div class="col-lg-12">
-          <h3 class="page-header">Informe en función del clima</h3>            
+<div class="row"> 
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <div id="columnchart_temperatura" style="width: 500px; height: 300px;"></div>         
           </div> 
@@ -50,10 +52,30 @@
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">    
           <div id="columnchart_humedad" style="width: 500px; height: 300px;"></div>         
           </div>               
-    </div> 
-    <div id="donutchart" style="width: 900px; height: 500px;"></div>
-    <div id="columnchart_values" style="width: 900px; height: 300px;"></div> 
-    <div id="columnchart_rivales" style="width: 1200px; height: 700px;"></div> 
+</div> 
+<div class="row"> 
+    <div id="table_div"></div>    
+
+</div >     
+
+
+<div class="row"> 
+
+
+          
+    <div class="col-md-12" id="donutchart" style="width: 900px; height: 500px;"></div>
+<div>  
+
+<div class="row"> 
+    <div class="col-mg-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
+<div>  
+<div class="row"> 
+    <div class="col-mg-12"id="columnchart_rivales" style="width: 1200px; height: 700px;"></div> 
+
+<div>  
+
+
+
 
 <script type="text/javascript" src="/js/charts_google.js"></script>
  
@@ -201,6 +223,7 @@ select_jugador.on('change', function() {
       var data_puntuaciones_rivales = new google.visualization.DataTable();
       data_puntuaciones_rivales.addColumn('string', 'Equipo');
       data_puntuaciones_rivales.addColumn('number', 'Puntuacion');    
+      data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
       data_puntuaciones_rivales.addRows(json.puntuaciones_rivales); 
       var options_rivales = {
         title: "Equipos contra los que jugó mejor/peor",
@@ -208,6 +231,7 @@ select_jugador.on('change', function() {
         height: 700,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
+        tooltip: {isHtml: true}
       };
       var chart_rivales = new google.visualization.LineChart(document.getElementById("columnchart_rivales"));
       chart_rivales.draw(data_puntuaciones_rivales, options_rivales);   

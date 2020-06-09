@@ -207,7 +207,7 @@ group by hora_categoria
 #TODO MARCIAL
 query_puntuaciones_rivales =""" 
 select *  from 
-(select   dim_equipo.nombre ,puntuacion -- , dim_entrenador.nombre
+(select   dim_equipo.nombre ,puntuacion , dim_entrenador.nombre
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
@@ -218,7 +218,7 @@ order by 2 desc
 FETCH FIRST 5 ROWS ONLY) as  a 
 UNION ALL
 select * from 
-(select   dim_equipo.nombre ,puntuacion -- , dim_entrenador.nombre
+(select   dim_equipo.nombre ,puntuacion , dim_entrenador.nombre
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
