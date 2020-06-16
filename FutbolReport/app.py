@@ -108,8 +108,8 @@ def informes_completo_jugador():
 
 @app.route('/informes/completo_equipo/')
 def informes_completo_equipo():	
-	anos_jugadores_select = {'2016': dame_jugadores('2016'), '2017': dame_jugadores('2017'),'todo': dame_jugadores('todo')}	
-	return render_template('informes_completo_equipo.tpl',anos_jugadores_select=anos_jugadores_select)
+	anos_equipos_select = {'2016': dame_equipos('2016'), '2017': dame_equipos('2017'),'todo': dame_equipos('todo')}	
+	return render_template('informes_completo_equipo.tpl',anos_equipos_select=anos_equipos_select)
 
 @app.route('/informes/completo_entrenador/')
 def informes_completo_entrenador():	
@@ -128,7 +128,8 @@ def marcial():
 		,	'puntuaciones_info_global' : info_global(jugador,fecha,ano)
 		,	'puntuaciones_temperatura' : puntuaciones_temperatura(jugador,fecha,ano)
 		,	'puntuaciones_lluvias' : puntuaciones_lluvias(jugador,fecha,ano)
-		,	'puntuaciones_humedad' : puntuaciones_humedad(jugador,fecha,ano)}
+		,	'puntuaciones_humedad' : puntuaciones_humedad(jugador,fecha,ano)
+		,	'puntuaciones_viento' : puntuaciones_velocidad_viento(jugador,fecha,ano)}
 
 		
 

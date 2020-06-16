@@ -2,8 +2,7 @@
 {% block body%}    
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper">
-          
+        <section class="wrapper">          
           <div class="row">
             <div class="col-lg-12">
               <h3 class="page-header"><i class="icon_piechart"></i> INFORMES COMPLETO JUGADOR</h3>
@@ -32,59 +31,50 @@
                 <select class="form-control" id="completo_jugador_jugador">                                                     
                 </select>
               </li>
-            </ul>  
-          
-
+            </ul>            
             <div class="ui-widget">
               <label for="tags">Tags: </label>
               <input id="tags_jugador">
             </div>
           </div>
           
-
-<div class="row"> 
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <div id="columnchart_temperatura" style="width: 500px; height: 300px;"></div>         
-          </div> 
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">  
-          <div id="columnchart_lluvias" style="width: 500px; height: 300px;"></div>         
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">    
-          <div id="columnchart_humedad" style="width: 500px; height: 300px;"></div>         
-          </div>               
-</div> 
 <div class="row"> 
     <div id="table_div"></div>    
-
-</div >     
-
+</div >   
 
 <div class="row"> 
-
-
-          
-    <div class="col-md-12" id="donutchart" style="width: 900px; height: 500px;"></div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div id="columnchart_temperatura" style="width: 500px; height: 300px;"></div>         
+    </div> 
+    <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+    <div id="columnchart_lluvias" style="width: 500px; height: 300px;"></div>         
+    </div>
+</div>    
+<div class="row">     
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+    <div id="columnchart_humedad" style="width: 500px; height: 300px;"></div>         
+    </div> 
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+    <div id="columnchart_viento" style="width: 500px; height: 300px;"></div>         
+    </div>           
+</div> 
+  
+<div class="row">         
+    <div class="col-md-12" id="donutchart" style="width: 900px; height: 300px;"></div>
 <div>  
-
 <div class="row"> 
     <div class="col-mg-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
 <div>  
 <div class="row"> 
-    <div class="col-mg-12"id="columnchart_rivales" style="width: 1200px; height: 700px;"></div> 
-
+    <div class="col-mg-12"id="columnchart_rivales" style="width: 900px; height: 300px;"></div> 
 <div>  
 
 
-
-
 <script type="text/javascript" src="/js/charts_google.js"></script>
- 
 <script>
 
 google.charts.load("current", {packages:["corechart"]});
 var anos_jugadores_select = {{anos_jugadores_select}};
-
-
 
 var select_temporada= $('#completo_jugador_temporada');
 var select_jugador= $('#completo_jugador_jugador');
@@ -99,8 +89,7 @@ select_temporada.on('change', function() {
     ];    
 
   $.each(lista_jugadores, function( index, jugador ) {
-  
-  //marcial !!
+    
   $('<option>')
     .attr('value', jugador[0] + '||' + jugador[1])
     .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
@@ -166,8 +155,8 @@ select_jugador.on('change', function() {
       data_estacion_ano.addRows(json.puntuaciones_estacion_ano); 
       var options_estacion_ano = {
         title: "Informe en función de la estación del año",
-        width: 600,
-        height: 400,
+        width: 900,
+        height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
       };
@@ -217,7 +206,22 @@ select_jugador.on('change', function() {
         legend: { position: "none" },
       };
       var chart_humedad = new google.visualization.ColumnChart(document.getElementById("columnchart_humedad"));
-      chart_humedad.draw(data_humedad, options_humedad); 
+      chart_humedad.draw(data_humedad, options_humedad);
+
+      //<!-- puntuaciones viento-->         
+      var data_viento= new google.visualization.DataTable();
+      data_viento.addColumn('string', 'Velocidad Viento');
+      data_viento.addColumn('number', 'Puntuacion');    
+      data_viento.addRows(json.puntuaciones_viento); 
+      var options_viento = {
+        title: "Informe en función de la velocidad de viento",
+        width: 500,
+        height: 300,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_viento"));
+      chart_viento.draw(data_viento, options_viento); 
 
     //<!-- puntuaciones rivales->         
       var data_puntuaciones_rivales = new google.visualization.DataTable();
@@ -227,8 +231,8 @@ select_jugador.on('change', function() {
       data_puntuaciones_rivales.addRows(json.puntuaciones_rivales); 
       var options_rivales = {
         title: "Equipos contra los que jugó mejor/peor",
-        width: 1200,
-        height: 700,
+        width: 900,
+        height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
         tooltip: {isHtml: true}

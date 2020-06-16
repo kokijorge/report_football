@@ -24,6 +24,28 @@ def seleccionar_jugador_completo(ano):
             """
         return query	
 
+def seleccionar_equipo_completo(ano):
+    if ano  == '2016':
+        query = """
+            select nombre from dw.dim_equipo
+			where id_equipo in (select id_equipo_propio from dw.fact_jornada where id_partido <= '179889')                         
+			order by 1;   
+            """
+        return query
+    elif ano  == '2017':
+        query = """            
+			select nombre from dw.dim_equipo
+			where id_equipo in (select id_equipo_propio from dw.fact_jornada where id_partido > '179889')                         
+			order by 1; 
+            """
+        return query
+    else: 
+        query = """
+            select nombre from dw.dim_equipo
+			where id_equipo in (select id_equipo_propio from dw.fact_jornada)                         
+			order by 1;  
+            """
+        return query
 
 query_seleccionar_equipos_jugadores= """
 select equi.nombre,ROW_NUMBER() OVER(    ORDER BY equi.nombre) from stg.stg_partido par
@@ -171,16 +193,6 @@ query_seleccionar_estadios =  """
     on est.id_equipo = equ.id_equipo
 	"""
 
-QUERY_A_LA_QUE_AUN_NO_LE_HAS_DADO_NOMBRE = """ 
-		select sum(puntuacion),ent.nombre || ' ('|| equ.nombre||')'
-        from dw.fact_jornada jor
-        inner join dw.dim_equipo equ on equ.id_equipo=jor.id_equipo_rival
-        inner join dw.dim_entrenador ent on ent.id_entrenador=jor.id_entrenador_rival
-        where id_jugador=631
-        and id_partido between ('179510') and ('179889')
-        group by  equ.nombre,ent.nombre
-        order by 1   
-		"""
 query_puntuaciones_hora_partido =""" 
 WITH porcentajes AS (
         select 
@@ -204,10 +216,9 @@ FROM porcentajes
 group by hora_categoria
 ;
 """
-#TODO MARCIAL
 query_puntuaciones_rivales =""" 
 select *  from 
-(select   dim_equipo.nombre ,puntuacion , dim_entrenador.nombre
+(select   dim_equipo.nombre ,puntuacion  , 'entrenador : '  || dim_entrenador.nombre
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
@@ -218,7 +229,7 @@ order by 2 desc
 FETCH FIRST 5 ROWS ONLY) as  a 
 UNION ALL
 select * from 
-(select   dim_equipo.nombre ,puntuacion , dim_entrenador.nombre
+(select   dim_equipo.nombre ,puntuacion  , 'entrenador : '  || dim_entrenador.nombre
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
@@ -284,5 +295,16 @@ where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
 group by humedad_categoria
+order by 2 desc;
+"""
+
+query_viento =""" 
+select dim_meteo.velocidad_viento_categoria,sum(puntuacion)
+from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+group by velocidad_viento_categoria
 order by 2 desc;
 """

@@ -12,7 +12,6 @@ def dame_la_lista_de_jugadores_del_ano(anoInt,equipo):
 	return [row for row in query_jug]
 
 
-
 def dame_los_estadios():
 	query_estadio = db.session.execute(query_seleccionar_estadios)
 	estadios =  [row for row in query_estadio]
@@ -129,9 +128,27 @@ def puntuaciones_humedad(nombre,fecha,ano):
 		id_fin = 214765	
 	data = db.session.execute(query_humedad, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
 	puntuaciones_humedad = [list(row) for row in data]
-	return  puntuaciones_humedad	
+	return  puntuaciones_humedad
+
+def puntuaciones_velocidad_viento(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_viento, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_viento = [list(row) for row in data]
+	return  puntuaciones_viento
 
 
 def dame_jugadores(ano):
 	query_jugador_completo = db.session.execute(seleccionar_jugador_completo(ano))
 	return  [ list(jug) for jug in query_jugador_completo]
+
+def dame_equipos(ano):
+	query_equipo_completo = db.session.execute(seleccionar_equipo_completo(ano))
+	return  [ list(jug) for jug in query_equipo_completo]
