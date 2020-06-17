@@ -47,6 +47,33 @@ def seleccionar_equipo_completo(ano):
             """
         return query
 
+def seleccionar_entrenador_completo(ano):
+    if ano  == '2016':
+        query = """
+            select nombre from dw.dim_entrenador
+			where id_entrenador in (select id_entrenador_propio from dw.fact_jornada where id_partido <= '179889')     
+            group by nombre
+			order by 1;    
+            """
+        return query
+    elif ano  == '2017':
+        query = """
+			select nombre from dw.dim_entrenador
+			where id_entrenador in (select id_entrenador_propio from dw.fact_jornada where id_partido > '179889')     
+            group by nombre
+			order by 1;        			
+            """
+        return query
+    else: 
+        query = """
+			select nombre from dw.dim_entrenador
+			where id_entrenador in (select id_entrenador_propio from dw.fact_jornada)     
+            group by nombre
+			order by 1;
+            """
+        return query
+
+
 query_seleccionar_equipos_jugadores= """
 select equi.nombre,ROW_NUMBER() OVER(    ORDER BY equi.nombre) from stg.stg_partido par
 inner join stg.stg_equipo equi

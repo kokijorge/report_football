@@ -152,3 +152,7 @@ def dame_jugadores(ano):
 def dame_equipos(ano):
 	query_equipo_completo = db.session.execute(seleccionar_equipo_completo(ano))
 	return  [ list(jug) for jug in query_equipo_completo]
+
+def dame_entrenadores(ano):
+	query_entrenador_completo = db.session.execute(seleccionar_entrenador_completo(ano))
+	return  [ list(jug) for jug in query_entrenador_completo]

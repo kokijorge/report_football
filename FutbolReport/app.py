@@ -113,8 +113,8 @@ def informes_completo_equipo():
 
 @app.route('/informes/completo_entrenador/')
 def informes_completo_entrenador():	
-	anos_jugadores_select = {'2016': dame_jugadores('2016'), '2017': dame_jugadores('2017'),'todo': dame_jugadores('todo')}	
-	return render_template('informes_completo_entrenador.tpl',anos_jugadores_select=anos_jugadores_select)
+	anos_entrenadores_select = {'2016': dame_entrenadores('2016'), '2017': dame_entrenadores('2017'),'todo': dame_entrenadores('todo')}	
+	return render_template('informes_completo_entrenador.tpl',anos_entrenadores_select=anos_entrenadores_select)
 
 @app.route('/marcial')
 def marcial():
