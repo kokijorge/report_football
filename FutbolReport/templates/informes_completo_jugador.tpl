@@ -61,13 +61,13 @@
   
 <div class="row">         
     <div class="col-md-12" id="donutchart" style="width: 900px; height: 300px;"></div>
-<div>  
+</div>  
 <div class="row"> 
     <div class="col-mg-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
-<div>  
+</div>  
 <div class="row"> 
     <div class="col-mg-12"id="columnchart_rivales" style="width: 900px; height: 300px;"></div> 
-<div>  
+</div>  
 
 
 <script type="text/javascript" src="/js/charts_google.js"></script>
@@ -111,7 +111,7 @@ select_jugador.on('change', function() {
   
   var jug = this.value.split('||');
   
-  $.getJSON( "/marcial", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )
+  $.getJSON( "/tablas_jugador", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )
   
   .done(function( json ) {
 

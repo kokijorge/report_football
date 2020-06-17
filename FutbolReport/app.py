@@ -116,13 +116,14 @@ def informes_completo_entrenador():
 	anos_entrenadores_select = {'2016': dame_entrenadores('2016'), '2017': dame_entrenadores('2017'),'todo': dame_entrenadores('todo')}	
 	return render_template('informes_completo_entrenador.tpl',anos_entrenadores_select=anos_entrenadores_select)
 
-@app.route('/marcial')
-def marcial():
+@app.route('/tablas_jugador')
+def tablas_jugador():
 	jugador = request.args.get('nombre')
 	fecha = request.args.get('fecha')
-	ano = request.args.get('ano')	
-	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano, 
-		'puntuaciones_rivales' : puntuaciones_rivales(jugador,fecha,ano)
+	ano = request.args.get('ano')
+
+	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano
+		, 	'puntuaciones_rivales' : puntuaciones_rivales(jugador,fecha,ano)
 		,	'puntuaciones_hora_partido' : puntuaciones_hora(jugador,fecha,ano)
 		,	'puntuaciones_estacion_ano' : puntuaciones_estacion_ano(jugador,fecha,ano)
 		,	'puntuaciones_info_global' : info_global(jugador,fecha,ano)
@@ -130,8 +131,6 @@ def marcial():
 		,	'puntuaciones_lluvias' : puntuaciones_lluvias(jugador,fecha,ano)
 		,	'puntuaciones_humedad' : puntuaciones_humedad(jugador,fecha,ano)
 		,	'puntuaciones_viento' : puntuaciones_velocidad_viento(jugador,fecha,ano)}
-
-		
 
 
 
