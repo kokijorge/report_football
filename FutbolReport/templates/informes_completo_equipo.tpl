@@ -37,8 +37,35 @@
             </div>
           </div>
 
+          <div class="row"> 
+            <div id="table_div"></div>    
+          </div >
+
+          <div class="row"> 
+            <div id="table_div_local"></div>    
+          </div >
+
+          <div class="row"> 
+            <div id="table_div_visitante"></div>    
+          </div > 
+
+          <div class="row"> 
+            <div class="col-mg-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
+          </div>  
+
+          <div class="row">     
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+            <div id="columnchart_mejor" style="width: 500px; height: 300px;"></div>         
+            </div> 
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+            <div id="columnchart_peor" style="width: 500px; height: 300px;"></div>         
+            </div>           
+          </div> 
+
+          <script type="text/javascript" src="/js/charts_google.js"></script>
           <script>
           
+          google.charts.load("current", {packages:["corechart"]});
           var anos_equipos_select = {{anos_equipos_select}};
 
           var select_temporada= $('#completo_equipo_temporada');
@@ -65,10 +92,122 @@
             });                  
           })
 
-          </script>
+    select_equipo.on('change', function() {
+    
+    $.getJSON( "/equipo_completo", { nombre: this.value,  ano: $("#completo_equipo_temporada").val() })
+  
+      .done(function( json ) {
 
+        console.log( "JSON Data: " + json.equipo + json.ano );
+        // tabla con toda la informacion
+        google.charts.load('current', {'packages':['table']});
+        google.charts.setOnLoadCallback(drawTable);
+        function drawTable() {
+          var data_info = new google.visualization.DataTable();
+          data_info.addColumn('number', 'Empates');
+          data_info.addColumn('number', 'Victorias');
+          data_info.addColumn('number', 'Derrotas');
+          data_info.addColumn('number', 'Goles a favor');
+          data_info.addColumn('number', 'Goles en contra');
+          data_info.addColumn('number', 'Puntos'); 
+          data_info.addRows( json.puntuaciones_equipo_global );
+          var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+          var table_info = new google.visualization.Table(document.getElementById('table_div'));
+          table_info.draw(data_info,options_info ); 
+        }
+
+        // tabla local        
+        google.charts.load('current', {'packages':['table']});
+        google.charts.setOnLoadCallback(drawTableLocal);
+        function drawTableLocal() {
+          var data_info_local = new google.visualization.DataTable();
+          data_info_local.addColumn('number', 'Empates');
+          data_info_local.addColumn('number', 'Victorias');
+          data_info_local.addColumn('number', 'Derrotas');
+          data_info_local.addColumn('number', 'Goles a favor');
+          data_info_local.addColumn('number', 'Goles en contra');
+          data_info_local.addColumn('number', 'Puntos'); 
+          data_info_local.addRows( json.puntuaciones_equipo_local );
+          var options_info_local = {showRowNumber: true, width: '100%', height: '100%'};
+          var table_info_local = new google.visualization.Table(document.getElementById('table_div_local'));
+          table_info_local.draw(data_info_local,options_info_local ); 
+        }
+
+        // tabla visitante        
+        google.charts.load('current', {'packages':['table']});
+        google.charts.setOnLoadCallback(drawTableVisitante);
+        function drawTableVisitante() {
+          var data_info_visitante = new google.visualization.DataTable();
+          data_info_visitante.addColumn('number', 'Empates');
+          data_info_visitante.addColumn('number', 'Victorias');
+          data_info_visitante.addColumn('number', 'Derrotas');
+          data_info_visitante.addColumn('number', 'Goles a favor');
+          data_info_visitante.addColumn('number', 'Goles en contra');
+          data_info_visitante.addColumn('number', 'Puntos'); 
+          data_info_visitante.addRows( json.puntuaciones_equipo_visitante );
+          var options_info_visitante = {showRowNumber: true, width: '100%', height: '100%'};
+          var table_info_visitante = new google.visualization.Table(document.getElementById('table_div_visitante'));
+          table_info_visitante.draw(data_info_visitante,options_info_visitante ); 
+        }
+
+        //<!-- puntuaciones estacion año-->     
+        console.log( "JSON Data: " + json.puntuaciones_equipo_estacion);    
+        var data_estacion_ano = new google.visualization.DataTable();
+        data_estacion_ano.addColumn('string', 'Estacion del año');
+        data_estacion_ano.addColumn('number', 'Puntos');    
+        data_estacion_ano.addRows(json.puntuaciones_equipo_estacion); 
+        var options_estacion_ano = {
+          title: "Informe en función de la estación del año",
+          width: 900,
+          height: 300,
+          bar: {groupWidth: "95%"},
+          legend: { position: "none" },
+        };
+        var chart_estacion_ano = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+        chart_estacion_ano.draw(data_estacion_ano, options_estacion_ano);
+
+        //<!-- goles favor-->         
+        var data_mejor= new google.visualization.DataTable();
+        data_mejor.addColumn('string', 'Equipo');
+        data_mejor.addColumn('number', 'Goles');    
+        data_mejor.addRows(json.puntuaciones_equipo_mejor); 
+        var options_mejor = {
+          title: "Equipos a los que más goles se le metió",
+          width: 500,
+          height: 300,
+          bar: {groupWidth: "95%"},
+          legend: { position: "none" },
+        };
+        var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_mejor"));
+        chart_viento.draw(data_mejor, options_mejor);
+
+        //<!-- goles contra-->         
+        var data_peor= new google.visualization.DataTable();
+        data_peor.addColumn('string', 'Equipo');
+        data_peor.addColumn('number', 'Goles');    
+        data_peor.addRows(json.puntuaciones_equipo_peor); 
+        var options_peor = {
+          title: "Equipos que más goles le metieron",
+          width: 500,
+          height: 300,
+          bar: {groupWidth: "95%"},
+          legend: { position: "none" },
+        };
+        var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_peor"));
+        chart_viento.draw(data_peor, options_peor); 
+
+      })
+  
+      .fail(function( jqxhr, textStatus, error ) {
+        var err = textStatus + ", " + error;
+        console.log( "Request Failed: " + err );
+      });
+
+    }); 
+
+    </script>
           <!-- page end-->
-        </section>
-      </section>
+    </section>
+    </section>
       <!--main content end-->
 {% endblock%}

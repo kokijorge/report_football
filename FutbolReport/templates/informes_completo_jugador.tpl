@@ -111,7 +111,7 @@ select_jugador.on('change', function() {
   
   var jug = this.value.split('||');
   
-  $.getJSON( "/tablas_jugador", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )
+  $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )
   
   .done(function( json ) {
 

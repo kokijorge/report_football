@@ -116,8 +116,8 @@ def informes_completo_entrenador():
 	anos_entrenadores_select = {'2016': dame_entrenadores('2016'), '2017': dame_entrenadores('2017'),'todo': dame_entrenadores('todo')}	
 	return render_template('informes_completo_entrenador.tpl',anos_entrenadores_select=anos_entrenadores_select)
 
-@app.route('/tablas_jugador')
-def tablas_jugador():
+@app.route('/jugador_completo')
+def jugador_completo():
 	jugador = request.args.get('nombre')
 	fecha = request.args.get('fecha')
 	ano = request.args.get('ano')
@@ -132,6 +132,18 @@ def tablas_jugador():
 		,	'puntuaciones_humedad' : puntuaciones_humedad(jugador,fecha,ano)
 		,	'puntuaciones_viento' : puntuaciones_velocidad_viento(jugador,fecha,ano)}
 
+
+@app.route('/equipo_completo')
+def equipo_completo():
+	equipo = request.args.get('nombre')	
+	ano = request.args.get('ano')
+	return { 'equipo':equipo, 'ano':ano
+	,	'puntuaciones_equipo_global' : equipo_global(equipo,ano)
+	,	'puntuaciones_equipo_local' : equipo_local(equipo,ano)
+	,	'puntuaciones_equipo_visitante' : equipo_visitante(equipo,ano)
+	,	'puntuaciones_equipo_estacion' : equipo_estacion(equipo,ano)
+	,	'puntuaciones_equipo_mejor' : equipo_mejor(equipo,ano)
+	,	'puntuaciones_equipo_peor' : equipo_peor(equipo,ano)}
 
 
 if __name__ == '__main__':
