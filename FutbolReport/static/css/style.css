@@ -4,6 +4,15 @@
 
 @import url(line-icons.css);
 
+
+#table_div_local{
+	margin-top: 20px;
+}
+
+div.koki-30{
+    width: 30%;
+}
+
 tr.estadio_seleccionado{
 	background: #eeeeee;
 }

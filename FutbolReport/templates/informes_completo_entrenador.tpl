@@ -54,16 +54,37 @@
 
             $.each(lista_entrenadores, function( index, entrenador ) {            
               $('<option>')
-                .attr('value', entrenador[0])
-                .text( entrenador[0])
-                .appendTo(select_entrenador);
+                .attr('value', entrenador[0] + '||' + entrenador[1])
+                .text( entrenador[0] + '||' + entrenador[1])
+                .appendTo(select_entrenador);                
 
-              availableTags.push(entrenador[0]);
+              availableTags.push(entrenador[0] + '||' + entrenador[1]);
               $( "#tags_entrenador" ).autocomplete({
                   source: availableTags
               }); 
             });                  
           })
+
+          select_entrenador.on('change', function() {
+
+            var ent = this.value.split('||');
+  
+            $.getJSON( "/jugador_completo", { nombre: ent[0], equipo: ent[1], ano: $("#completo_entrenador_temporada").val() } )
+                
+  
+            .done(function( json ) {
+
+              console.log( "JSON Data: " + json.nombre + json.equipo + json.ano );
+              // tabla con toda la informacion
+                
+            })
+  
+            .fail(function( jqxhr, textStatus, error ) {
+              var err = textStatus + ", " + error;
+              console.log( "Request Failed: " + err );
+            });
+
+          }); 
 
           </script>
 

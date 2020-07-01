@@ -172,7 +172,7 @@
         data_mejor.addColumn('number', 'Goles');    
         data_mejor.addRows(json.puntuaciones_equipo_mejor); 
         var options_mejor = {
-          title: "Equipos a los que más goles se le metió",
+          title: "Equipos a los que más goles se le encajó",
           width: 500,
           height: 300,
           bar: {groupWidth: "95%"},

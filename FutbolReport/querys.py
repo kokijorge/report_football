@@ -50,26 +50,31 @@ def seleccionar_equipo_completo(ano):
 def seleccionar_entrenador_completo(ano):
     if ano  == '2016':
         query = """
-            select nombre from dw.dim_entrenador
-			where id_entrenador in (select id_entrenador_propio from dw.fact_jornada where id_partido <= '179889')     
-            group by nombre
-			order by 1;    
+            select dim_entrenador.nombre,dim_equipo.nombre as equipo from dw.dim_entrenador
+            inner join dw.fact_jornada on fact_jornada.id_entrenador_propio= id_entrenador
+            inner join dw.dim_equipo on id_equipo_propio= id_equipo
+            where id_partido <= '179889'    
+            group by dim_entrenador.nombre,dim_equipo.nombre
+            order by 1;   
             """
         return query
     elif ano  == '2017':
         query = """
-			select nombre from dw.dim_entrenador
-			where id_entrenador in (select id_entrenador_propio from dw.fact_jornada where id_partido > '179889')     
-            group by nombre
-			order by 1;        			
+			select dim_entrenador.nombre,dim_equipo.nombre as equipo from dw.dim_entrenador
+            inner join dw.fact_jornada on fact_jornada.id_entrenador_propio= id_entrenador
+            inner join dw.dim_equipo on id_equipo_propio= id_equipo
+            where id_partido > '179889' 
+            group by dim_entrenador.nombre,dim_equipo.nombre
+            order by 1;        			
             """
         return query
     else: 
         query = """
-			select nombre from dw.dim_entrenador
-			where id_entrenador in (select id_entrenador_propio from dw.fact_jornada)     
-            group by nombre
-			order by 1;
+			select dim_entrenador.nombre,dim_equipo.nombre as equipo from dw.dim_entrenador
+            inner join dw.fact_jornada on fact_jornada.id_entrenador_propio= id_entrenador
+            inner join dw.dim_equipo on id_equipo_propio= id_equipo            
+            group by dim_entrenador.nombre,dim_equipo.nombre
+            order by 1;  
             """
         return query
 
@@ -578,4 +583,41 @@ END AS equipo ,goles_contra
 from 
 partidos
 order by goles_contra desc FETCH FIRST 5 ROWS ONLY
+"""
+
+query_entrenador_global =""" 
+select id_partido,id_fecha,id_estadio,id_meteo,equipo_local.nombre as equipo_local,equipo_visitante.nombre as equipo_visitante , entrenador_local.nombre as entrenador_local
+,entrenador_rival.nombre as entrenador_rival,
+resultado_propio as resultado_local,resultado_rival as resultado_rival,
+CASE
+    WHEN resultado_propio = resultado_rival THEN 1
+    WHEN entrenador_local.nombre = :nombre and resultado_propio > resultado_rival THEN 3
+    WHEN entrenador_rival.nombre = :nombre and resultado_rival > resultado_propio THEN 3
+    ELSE 0
+END as puntos ,
+CASE    
+    WHEN entrenador_local.nombre = :nombre THEN resultado_propio
+    WHEN entrenador_rival.nombre = :nombre then resultado_rival 
+    ELSE 0
+END as goles_favor      ,
+CASE    
+    WHEN entrenador_local.nombre <> :nombre THEN resultado_propio
+    WHEN entrenador_rival.nombre <> :nombre then resultado_rival 
+    ELSE 0
+END as goles_contra     
+from dw.fact_jornada
+inner join dw.dim_equipo as equipo_local
+on equipo_local.id_equipo = fact_jornada.id_equipo_propio
+inner join dw.dim_equipo as equipo_visitante
+on equipo_visitante.id_equipo = fact_jornada.id_equipo_rival
+inner join dw.dim_entrenador as entrenador_local
+on entrenador_local.id_entrenador = fact_jornada.id_entrenador_propio
+inner join dw.dim_entrenador as entrenador_rival
+on entrenador_rival.id_entrenador = fact_jornada.id_entrenador_rival
+where es_local = 'SI'    
+    and id_partido between (:id_ini) and (:id_fin)
+    and (entrenador_local.nombre= :nombre or entrenador_rival.nombre= :nombre )
+group by 
+id_partido,id_fecha,id_estadio,id_meteo,equipo_local.nombre,equipo_visitante.nombre, entrenador_local.nombre,entrenador_rival.nombre,resultado_propio,resultado_rival
+order by 1
 """
