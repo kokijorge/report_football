@@ -39,7 +39,7 @@
           </div>
           
 <div class="row"> 
-    <div id="table_div"></div>    
+    <div id="table_div_jugador"></div>    
 </div >   
 
 <div class="row"> 
@@ -63,10 +63,10 @@
     <div class="col-md-12" id="donutchart" style="width: 900px; height: 300px;"></div>
 </div>  
 <div class="row"> 
-    <div class="col-mg-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
+    <div class="col-md-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
 </div>  
 <div class="row"> 
-    <div class="col-mg-12"id="columnchart_rivales" style="width: 900px; height: 300px;"></div> 
+    <div class="col-md-12"id="columnchart_rivales" style="width: 900px; height: 300px;"></div> 
 </div>  
 
 
@@ -132,7 +132,7 @@ select_jugador.on('change', function() {
       data_info.addColumn('number', 'Titularidades');        
       data_info.addRows( json.puntuaciones_info_global );
       var options_info = {showRowNumber: true, width: '100%', height: '100%'};
-      var table_info = new google.visualization.Table(document.getElementById('table_div'));
+      var table_info = new google.visualization.Table(document.getElementById('table_div_jugador'));
       table_info.draw(data_info,options_info ); 
     }     
 

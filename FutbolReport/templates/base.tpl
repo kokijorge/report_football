@@ -17,7 +17,8 @@
   <!--external css-->
   <!-- font icon -->
   <link href="/css/elegant-icons-style.css" rel="stylesheet" />
-  <link href="/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/fontawesome.min.css" integrity="sha256-80fAXabaQMIQSB79XD5pFt2eVZuI12D3yF6/FAkbO8E=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/solid.min.css" integrity="sha256-EykeDBUB7g2D5PjMR0Ql9SdPsPNB5ASVQl89hxWRiL0=" crossorigin="anonymous" />
   <!-- full calendar css-->
   <link href="/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
   <link href="/assets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />

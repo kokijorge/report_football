@@ -10,21 +10,21 @@
           </div>
           <!-- page start-->
           <div class="row">
-          <div id="btn_completo_jugador" class="btn_informe koki-30 col-md-3 col-sm-12 col-xs-12">
+          <div id="btn_completo_jugador" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box blue-bg">
               <i class="fa fa-cloud"></i>
               <div class="count">Jugador</div>              
             </div>            
           </div>          
 
-          <div id="btn_completo_equipo" class="btn_informe koki-30 col-md-3 col-sm-12 col-xs-12">
+          <div id="btn_completo_equipo" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box brown-bg">
               <i class="fa fa-calendar"></i>
               <div class="count">Equipo</div>              
             </div>            
           </div>          
 
-          <div id="btn_completo_entrenador" class="btn_informe koki-30 col-md-3 col-sm-12 col-xs-12">
+          <div id="btn_completo_entrenador" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box dark-bg">
               <i class="fas fa-futbol"></i>
               <div class="count">Entrenador</div>              
@@ -36,21 +36,21 @@
         <div class="col-lg-12">
               <h3 class="page-header"><i class="icon_piechart"></i> INFORMES INTERACTIVOS</h3>
             </div>
-          <div class="koki-30 col-md-3 col-sm-12 col-xs-12">
+          <div class="ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box green-bg">
               <i class="fa fa-male"></i>
               <div class="count">Rival</div>              
               <a class="btn btn-default" href="javascript:informe_rival();">Entrenador</a>
             </div>            
           </div> 
-          <div class="koki-30 col-md-3 col-sm-12 col-xs-12">
+          <div class="ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box green-bg">
               <i class="fa fa-male"></i>
               <div class="count">Rival</div>              
               <a class="btn btn-default" href="javascript:informe_rival();">Entrenador</a>
             </div>            
           </div>
-          <div class="koki-30 col-md-3 col-sm-12 col-xs-12">
+          <div class="ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box green-bg">
               <i class="fa fa-male"></i>
               <div class="count">Rival</div>              

@@ -5,11 +5,15 @@
 @import url(line-icons.css);
 
 
-#table_div_local{
+#table_div_jugador,#columnchart_temperatura,#columnchart_lluvias,#donutchart,
+#columnchart_values,#columnchart_rivales,#columnchart_values_equipo,#table_div_equipo,
+#table_div_local,#table_div_visitante,#columnchart_mejor,#columnchart_peor,
+#table_div_entrenador,#table_div_entrenador_local,#table_div_entrenador_visitante,
+#columnchart_values_entrenador{
 	margin-top: 20px;
 }
 
-div.koki-30{
+div.ancho-30{
     width: 30%;
 }
 

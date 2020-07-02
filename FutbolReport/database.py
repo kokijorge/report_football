@@ -240,3 +240,60 @@ def equipo_peor(nombre,ano):
 	data = db.session.execute(query_equipo_peor, {"nombre": nombre, "id_ini":id_ini, "id_fin":id_fin})
 	puntuaciones_equipo_peor = [list(row) for row in data]
 	return  puntuaciones_equipo_peor
+
+
+def entrenador_global(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_global, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_global = [list(row) for row in data]
+	return  puntuaciones_global	
+
+def entrenador_local(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_local, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_local = [list(row) for row in data]
+	return  puntuaciones_local
+
+def entrenador_visitante(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_visitante, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_visitante = [list(row) for row in data]
+	return  puntuaciones_visitante
+
+def entrenador_estacion(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_estacion, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_entrenador_estacion = [list(row) for row in data]
+	return  puntuaciones_entrenador_estacion

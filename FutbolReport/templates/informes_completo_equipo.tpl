@@ -38,7 +38,7 @@
           </div>
 
           <div class="row"> 
-            <div id="table_div"></div>    
+            <div id="table_div_equipo"></div>    
           </div >
 
           <div class="row"> 
@@ -50,7 +50,7 @@
           </div > 
 
           <div class="row"> 
-            <div class="col-mg-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
+            <div class="col-md-12" id="columnchart_values_equipo" style="width: 900px; height: 300px;"></div> 
           </div>  
 
           <div class="row">     
@@ -112,7 +112,7 @@
           data_info.addColumn('number', 'Puntos'); 
           data_info.addRows( json.puntuaciones_equipo_global );
           var options_info = {showRowNumber: true, width: '100%', height: '100%'};
-          var table_info = new google.visualization.Table(document.getElementById('table_div'));
+          var table_info = new google.visualization.Table(document.getElementById('table_div_equipo'));
           table_info.draw(data_info,options_info ); 
         }
 
@@ -150,8 +150,7 @@
           table_info_visitante.draw(data_info_visitante,options_info_visitante ); 
         }
 
-        //<!-- puntuaciones estacion año-->     
-        console.log( "JSON Data: " + json.puntuaciones_equipo_estacion);    
+        //<!-- puntuaciones estacion año-->              
         var data_estacion_ano = new google.visualization.DataTable();
         data_estacion_ano.addColumn('string', 'Estacion del año');
         data_estacion_ano.addColumn('number', 'Puntos');    
@@ -163,7 +162,7 @@
           bar: {groupWidth: "95%"},
           legend: { position: "none" },
         };
-        var chart_estacion_ano = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+        var chart_estacion_ano = new google.visualization.ColumnChart(document.getElementById("columnchart_values_equipo"));
         chart_estacion_ano.draw(data_estacion_ano, options_estacion_ano);
 
         //<!-- goles favor-->         

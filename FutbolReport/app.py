@@ -145,6 +145,17 @@ def equipo_completo():
 	,	'puntuaciones_equipo_mejor' : equipo_mejor(equipo,ano)
 	,	'puntuaciones_equipo_peor' : equipo_peor(equipo,ano)}
 
+@app.route('/entrenador_completo')
+def entrenador_completo():
+	entrenador = request.args.get('nombre')
+	equipo = request.args.get('equipo')
+	ano = request.args.get('ano')
+
+	return { 'entrenador':entrenador, 'equipo':equipo, 'ano':ano
+		,	'puntuaciones_entrenador_global' : entrenador_global(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_local' : entrenador_local(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_visitante' : entrenador_visitante(entrenador,equipo,ano)				
+		,	'puntuaciones_entrenador_estacion' : entrenador_estacion(entrenador,equipo,ano)}
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=8000,debug= True)
