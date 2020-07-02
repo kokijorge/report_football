@@ -297,3 +297,31 @@ def entrenador_estacion(nombre,equipo,ano):
 	data = db.session.execute(query_entrenador_estacion, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
 	puntuaciones_entrenador_estacion = [list(row) for row in data]
 	return  puntuaciones_entrenador_estacion
+
+def entrenador_peor(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_peor, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_entrenador_peor = [list(row) for row in data]
+	return  puntuaciones_entrenador_peor
+
+def entrenador_mejor(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_mejor, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_entrenador_mejor = [list(row) for row in data]
+	return  puntuaciones_entrenador_mejor	

@@ -748,3 +748,109 @@ select
 estacion_ano,sum (puntos) puntos
 from partidos group by estacion_ano
 """
+
+query_entrenador_peor = """ 
+WITH partidos as(select id_partido,id_fecha,id_estadio,equipo_local.nombre equipo_local,equipo_visitante.nombre equipo_visitante
+,entrenador_local.nombre entrenador_local,entrenador_rival.nombre entrenador_visitante,resultado_propio as resultado_local,resultado_rival as resultado_rival,
+CASE
+WHEN resultado_propio = resultado_rival THEN 1
+WHEN resultado_propio > resultado_rival THEN 3
+ELSE 0
+END as puntos,
+resultado_propio as goles_favor, resultado_rival as goles_contra 
+from dw.fact_jornada
+inner join dw.dim_equipo as equipo_local
+on equipo_local.id_equipo = fact_jornada.id_equipo_propio
+inner join dw.dim_equipo as equipo_visitante
+on equipo_visitante.id_equipo = fact_jornada.id_equipo_rival
+inner join dw.dim_entrenador entrenador_local on fact_jornada.id_entrenador_propio= entrenador_local.id_entrenador
+inner join dw.dim_entrenador entrenador_rival on fact_jornada.id_entrenador_rival= entrenador_rival.id_entrenador
+where id_partido between (:id_ini) and (:id_fin)
+and es_local = 'SI'
+and entrenador_local.nombre = :nombre
+and equipo_local.nombre = :equipo
+group by id_partido,id_fecha,id_estadio,equipo_local.nombre,equipo_visitante.nombre,entrenador_local.nombre,entrenador_rival.nombre,resultado_propio,resultado_rival
+UNION ALL
+select id_partido,id_fecha,id_estadio,equipo_local.nombre equipo_local,equipo_visitante.nombre equipo_visitante
+,entrenador_local.nombre entrenador_local,entrenador_rival.nombre entrenador_visitante,resultado_propio as resultado_local,resultado_rival as resultado_rival,
+CASE
+WHEN resultado_propio = resultado_rival THEN 1
+WHEN resultado_rival > resultado_propio THEN 3
+ELSE 0
+END as puntos,
+resultado_rival as goles_favor, resultado_propio as goles_contra  
+from dw.fact_jornada
+inner join dw.dim_equipo as equipo_local
+on equipo_local.id_equipo = fact_jornada.id_equipo_propio
+inner join dw.dim_equipo as equipo_visitante
+on equipo_visitante.id_equipo = fact_jornada.id_equipo_rival
+inner join dw.dim_entrenador entrenador_local on fact_jornada.id_entrenador_propio= entrenador_local.id_entrenador
+inner join dw.dim_entrenador entrenador_rival on fact_jornada.id_entrenador_rival= entrenador_rival.id_entrenador
+where id_partido between (:id_ini) and (:id_fin)
+and es_local = 'SI'
+and entrenador_rival.nombre = :nombre
+and equipo_visitante.nombre = :equipo
+group by id_partido,id_fecha,id_estadio,equipo_local.nombre,equipo_visitante.nombre,entrenador_local.nombre,entrenador_rival.nombre,resultado_propio,resultado_rival
+order by 1)
+select  
+CASE
+    WHEN equipo_local =  :equipo THEN equipo_visitante    
+    ELSE equipo_local
+END AS equipo ,goles_contra
+from 
+partidos
+order by goles_contra desc FETCH FIRST 5 ROWS ONLY
+"""
+
+query_entrenador_mejor = """ 
+WITH partidos as(select id_partido,id_fecha,id_estadio,equipo_local.nombre equipo_local,equipo_visitante.nombre equipo_visitante
+,entrenador_local.nombre entrenador_local,entrenador_rival.nombre entrenador_visitante,resultado_propio as resultado_local,resultado_rival as resultado_rival,
+CASE
+WHEN resultado_propio = resultado_rival THEN 1
+WHEN resultado_propio > resultado_rival THEN 3
+ELSE 0
+END as puntos,
+resultado_propio as goles_favor, resultado_rival as goles_contra 
+from dw.fact_jornada
+inner join dw.dim_equipo as equipo_local
+on equipo_local.id_equipo = fact_jornada.id_equipo_propio
+inner join dw.dim_equipo as equipo_visitante
+on equipo_visitante.id_equipo = fact_jornada.id_equipo_rival
+inner join dw.dim_entrenador entrenador_local on fact_jornada.id_entrenador_propio= entrenador_local.id_entrenador
+inner join dw.dim_entrenador entrenador_rival on fact_jornada.id_entrenador_rival= entrenador_rival.id_entrenador
+where id_partido between (:id_ini) and (:id_fin)
+and es_local = 'SI'
+and entrenador_local.nombre = :nombre
+and equipo_local.nombre = :equipo
+group by id_partido,id_fecha,id_estadio,equipo_local.nombre,equipo_visitante.nombre,entrenador_local.nombre,entrenador_rival.nombre,resultado_propio,resultado_rival
+UNION ALL
+select id_partido,id_fecha,id_estadio,equipo_local.nombre equipo_local,equipo_visitante.nombre equipo_visitante
+,entrenador_local.nombre entrenador_local,entrenador_rival.nombre entrenador_visitante,resultado_propio as resultado_local,resultado_rival as resultado_rival,
+CASE
+WHEN resultado_propio = resultado_rival THEN 1
+WHEN resultado_rival > resultado_propio THEN 3
+ELSE 0
+END as puntos,
+resultado_rival as goles_favor, resultado_propio as goles_contra  
+from dw.fact_jornada
+inner join dw.dim_equipo as equipo_local
+on equipo_local.id_equipo = fact_jornada.id_equipo_propio
+inner join dw.dim_equipo as equipo_visitante
+on equipo_visitante.id_equipo = fact_jornada.id_equipo_rival
+inner join dw.dim_entrenador entrenador_local on fact_jornada.id_entrenador_propio= entrenador_local.id_entrenador
+inner join dw.dim_entrenador entrenador_rival on fact_jornada.id_entrenador_rival= entrenador_rival.id_entrenador
+where id_partido between (:id_ini) and (:id_fin)
+and es_local = 'SI'
+and entrenador_rival.nombre = :nombre
+and equipo_visitante.nombre = :equipo
+group by id_partido,id_fecha,id_estadio,equipo_local.nombre,equipo_visitante.nombre,entrenador_local.nombre,entrenador_rival.nombre,resultado_propio,resultado_rival
+order by 1)
+select  
+CASE
+    WHEN equipo_local =  :equipo THEN equipo_visitante    
+    ELSE equipo_local
+END AS equipo ,goles_favor
+from 
+partidos
+order by goles_favor desc FETCH FIRST 5 ROWS ONLY
+"""

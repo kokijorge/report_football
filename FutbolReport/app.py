@@ -155,7 +155,22 @@ def entrenador_completo():
 		,	'puntuaciones_entrenador_global' : entrenador_global(entrenador,equipo,ano)
 		,	'puntuaciones_entrenador_local' : entrenador_local(entrenador,equipo,ano)
 		,	'puntuaciones_entrenador_visitante' : entrenador_visitante(entrenador,equipo,ano)				
-		,	'puntuaciones_entrenador_estacion' : entrenador_estacion(entrenador,equipo,ano)}
+		,	'puntuaciones_entrenador_estacion' : entrenador_estacion(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_mejor' : entrenador_mejor(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_peor' : entrenador_peor(entrenador,equipo,ano)
+		}
+
+@app.route('/informes/iteractivo_jugador/')
+def informes_iteractivo_jugador():		
+	return render_template('informes_iteractivo_jugador.tpl')
+
+@app.route('/informes/iteractivo_equipo/')
+def informes_iteractivo_equipo():		
+	return render_template('informes_iteractivo_equipo.tpl')
+
+@app.route('/informes/iteractivo_entrenador/')
+def informes_iteractivo_entrenador():		
+	return render_template('informes_iteractivo_entrenador.tpl')
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=8000,debug= True)

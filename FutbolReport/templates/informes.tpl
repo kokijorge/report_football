@@ -12,14 +12,14 @@
           <div class="row">
           <div id="btn_completo_jugador" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box blue-bg">
-              <i class="fa fa-cloud"></i>
+              <i class="fas fa-user"></i>
               <div class="count">Jugador</div>              
             </div>            
           </div>          
 
           <div id="btn_completo_equipo" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box brown-bg">
-              <i class="fa fa-calendar"></i>
+              <i class="fas fa-user-friends"></i>
               <div class="count">Equipo</div>              
             </div>            
           </div>          
@@ -33,38 +33,35 @@
         </div>
 
         <div class="row">
-        <div class="col-lg-12">
+          <div class="col-lg-12">
               <h3 class="page-header"><i class="icon_piechart"></i> INFORMES INTERACTIVOS</h3>
-            </div>
-          <div class="ancho-30 col-md-3 col-sm-12 col-xs-12">
-            <div class="info-box green-bg">
-              <i class="fa fa-male"></i>
-              <div class="count">Rival</div>              
-              <a class="btn btn-default" href="javascript:informe_rival();">Entrenador</a>
-            </div>            
-          </div> 
-          <div class="ancho-30 col-md-3 col-sm-12 col-xs-12">
-            <div class="info-box green-bg">
-              <i class="fa fa-male"></i>
-              <div class="count">Rival</div>              
-              <a class="btn btn-default" href="javascript:informe_rival();">Entrenador</a>
-            </div>            
           </div>
-          <div class="ancho-30 col-md-3 col-sm-12 col-xs-12">
+          <div id="btn_iteractivo_jugador" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box green-bg">
-              <i class="fa fa-male"></i>
-              <div class="count">Rival</div>              
-              <a class="btn btn-default" href="javascript:informe_rival();">Entrenador</a>
+              <i class="fas fa-user"></i>
+              <div class="count">Jugador</div>              
+            </div>            
+          </div>  
+          <div id="btn_iteractivo_equipo" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
+            <div class="info-box yellow-bg">
+              <i class="fas fa-user-friends"></i>
+              <div class="count">Equipo</div>              
+            </div>            
+          </div>         
+          <div id="btn_iteractivo_entrenador" class="btn_informe ancho-30 col-md-3 col-sm-12 col-xs-12">
+            <div class="info-box red-bg">
+              <i class="fas fa-futbol"></i>
+              <div class="count">Entrenador</div>              
             </div>            
           </div>               
         </div>  
-<script>
-  $(".btn_informe").each(function(index,elem){
-    $(elem).on("click", function(elem){
-      window.location.href="/informes/"+$(this).attr('id').substr(4);
-    })
-  });
-</script>        
+          <script>
+            $(".btn_informe").each(function(index,elem){
+              $(elem).on("click", function(elem){
+                window.location.href="/informes/"+$(this).attr('id').substr(4);
+              })
+            });
+          </script>        
           <!-- page end-->
         </section>
       </section>

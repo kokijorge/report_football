@@ -53,6 +53,15 @@
             <div class="col-md-12" id="columnchart_values_entrenador" style="width: 900px; height: 300px;"></div> 
           </div>  
 
+          <div class="row">     
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+            <div id="columnchart_entrenador_mejor" style="width: 500px; height: 300px;"></div>         
+          </div> 
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+            <div id="columnchart_entrenador_peor" style="width: 500px; height: 300px;"></div>         
+            </div>           
+          </div> 
+
           <script type="text/javascript" src="/js/charts_google.js"></script>
           <script>
           
@@ -158,6 +167,36 @@
               };
               var chart_estacion_ano = new google.visualization.ColumnChart(document.getElementById("columnchart_values_entrenador"));
               chart_estacion_ano.draw(data_estacion_ano, options_estacion_ano);
+
+              //<!-- goles favor-->         
+              var data_mejor= new google.visualization.DataTable();
+              data_mejor.addColumn('string', 'Equipo');
+              data_mejor.addColumn('number', 'Goles');    
+              data_mejor.addRows(json.puntuaciones_entrenador_mejor); 
+              var options_mejor = {
+                title: "Equipos a los que más goles se le encajó",
+                width: 500,
+                height: 300,
+                bar: {groupWidth: "95%"},
+                legend: { position: "none" },
+              };
+              var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_entrenador_mejor"));
+              chart_viento.draw(data_mejor, options_mejor);
+
+              //<!-- goles contra-->         
+              var data_peor= new google.visualization.DataTable();
+              data_peor.addColumn('string', 'Equipo');
+              data_peor.addColumn('number', 'Goles');    
+              data_peor.addRows(json.puntuaciones_entrenador_peor); 
+              var options_peor = {
+                title: "Equipos que más goles le metieron",
+                width: 500,
+                height: 300,
+                bar: {groupWidth: "95%"},
+                legend: { position: "none" },
+              };
+              var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_entrenador_peor"));
+              chart_viento.draw(data_peor, options_peor); 
 
             })
   

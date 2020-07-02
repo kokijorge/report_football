@@ -88,7 +88,7 @@
               </li>
               <li class="sub-menu">
                 <a  class="">
-                              <i class="icon_desktop"></i>
+                              <i class="fas fa-running"></i>
                               <span>Jugadores</span>
                               <span class="menu-arrow arrow_carrot-right"></span>
                           </a>
@@ -113,7 +113,7 @@
     
               <li class="sub-menu">
                 <a href="javascript:escoger_equipo();" class="">
-                              <i class="icon_table"></i>
+                              <i class="fas fa-user-friends"></i>
                               <span>Equipos</span>                          
                           </a>            
               </li>
@@ -127,7 +127,7 @@
     
               <li class="sub-menu">
                 <a href="javascript:escoger_jornadas();" class="">
-                              <i class="icon_table"></i>
+                              <i class="fas fa-calendar-alt"></i>
                               <span>Jornadas</span>                          
                           </a>
               </li>
