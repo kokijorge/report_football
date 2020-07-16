@@ -33,17 +33,28 @@
             </ul>            
           </div>
 
+        <div id="row_todo_entrenador" style="display:none"  class="col-md-12">  
           <div class="row"> 
-            <div id="table_div_entrenador"></div>    
+            <h3 id="text_entrenador_total"> TOTAL </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_entrenador" class="col-md-12"></div>    
           </div >
 
           <div class="row"> 
-            <div id="table_div_entrenador_local"></div>    
+            <h3 id="text_entrenador_local"> LOCAL </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_entrenador_local" class="col-md-12"></div>   
           </div >
 
           <div class="row"> 
-            <div id="table_div_entrenador_visitante"></div>    
+            <h3 id="text_entrenador_visitante"> VISITANTE </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_entrenador_visitante" class="col-md-12"></div>  
           </div > 
+        </div>
 
           <div class="row"> 
             <div class="col-md-12" id="columnchart_values_entrenador" style="width: 900px; height: 300px;"></div> 
@@ -82,6 +93,11 @@
             });                  
           })
 
+
+$( document ).ready(function() {    
+  $('#completo_entrenador_temporada').trigger("change");    
+});
+
           select_entrenador.on('change', function() {
 
             var ent = this.value.split('||');
@@ -109,6 +125,8 @@
                 table_info.draw(data_info,options_info ); 
               }
               
+              $("#row_todo_entrenador").show(); //mostrar todo lo oculta una vez que seleccionamos la temporada y el equipo
+
               // tabla local        
               google.charts.load('current', {'packages':['table']});
               google.charts.setOnLoadCallback(drawTableLocal);

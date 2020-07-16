@@ -35,7 +35,7 @@
           </div>
           
 <div class="row"> 
-    <div id="table_div_jugador"></div>    
+    <div id="table_div_jugador" class="col-md-12"></div>    
 </div >   
 
 <div class="row"> 

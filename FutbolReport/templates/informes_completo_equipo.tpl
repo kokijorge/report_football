@@ -32,19 +32,29 @@
               </li>
             </ul>            
           </div>
-
+          
+        <div id="row_todo" style="display:none"  class="col-md-12">  
           <div class="row"> 
-            <div id="table_div_equipo"></div>    
+            <h3 id="text_total"> TOTAL </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_equipo" class="col-md-12"></div>    
           </div >
 
           <div class="row"> 
-            <div id="table_div_local"></div>    
+            <h3 id="text_local"> LOCAL </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_local" class="col-md-12"></div>   
           </div >
 
           <div class="row"> 
-            <div id="table_div_visitante"></div>    
+            <h3 id="text_visitante"> VISITANTE </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_visitante" class="col-md-12"></div>  
           </div > 
-
+        </div>
           <div class="row"> 
             <div class="col-md-12" id="columnchart_values_equipo" style="width: 900px; height: 300px;"></div> 
           </div>  
@@ -81,6 +91,10 @@
             });                  
           })
 
+$( document ).ready(function() {    
+  $('#completo_equipo_temporada').trigger("change");    
+});
+
     select_equipo.on('change', function() {
     
     $.getJSON( "/equipo_completo", { nombre: this.value,  ano: $("#completo_equipo_temporada").val() })
@@ -104,6 +118,8 @@
           var table_info = new google.visualization.Table(document.getElementById('table_div_equipo'));
           table_info.draw(data_info,options_info ); 
         }
+
+        $("#row_todo").show(); //mostrar todo lo oculta una vez que seleccionamos la temporada y el equipo
 
         // tabla local        
         google.charts.load('current', {'packages':['table']});

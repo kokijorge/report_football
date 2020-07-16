@@ -97,6 +97,7 @@
     .done(function( json ) {
 
       console.log( "JSON Data: " + json.nombre );
+      console.log( "JSON Data: " + json );
     })
       
       .fail(function( jqxhr, textStatus, error ) {
