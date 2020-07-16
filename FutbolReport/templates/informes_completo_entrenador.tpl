@@ -31,10 +31,6 @@
                 </select>
               </li>
             </ul>            
-            <div class="ui-widget">
-              <label for="tags">Tags: </label>
-              <input id="tags_entrenador">
-            </div>
           </div>
 
           <div class="row"> 
@@ -75,9 +71,7 @@
           select_temporada.on('change', function() {
   
             select_entrenador.empty();
-            tag_entrenador.empty();
-            var lista_entrenadores= anos_entrenadores_select[select_temporada.val()];
-            var availableTags = [];    
+            var lista_entrenadores= anos_entrenadores_select[select_temporada.val()]; 
 
             $.each(lista_entrenadores, function( index, entrenador ) {            
               $('<option>')
@@ -85,10 +79,6 @@
                 .text( entrenador[0] + '||' + entrenador[1])
                 .appendTo(select_entrenador);                
 
-              availableTags.push(entrenador[0] + '||' + entrenador[1]);
-              $( "#tags_entrenador" ).autocomplete({
-                  source: availableTags
-              }); 
             });                  
           })
 

@@ -31,10 +31,6 @@
                 </select>
               </li>
             </ul>            
-            <div class="ui-widget">
-              <label for="tags">Tags: </label>
-              <input id="tags_equipo">
-            </div>
           </div>
 
           <div class="row"> 
@@ -70,25 +66,18 @@
 
           var select_temporada= $('#completo_equipo_temporada');
           var select_equipo= $('#completo_equipo_equipo');
-          var tag_equipo= $('#tags_equipo');
 
           select_temporada.on('change', function() {
   
-            select_equipo.empty();
-            tag_equipo.empty();
+            select_equipo.empty();            
             var lista_equipos= anos_equipos_select[select_temporada.val()];
-            var availableTags = [];    
+
 
             $.each(lista_equipos, function( index, equipo ) {            
               $('<option>')
                 .attr('value', equipo[0])
                 .text( equipo[0])
-                .appendTo(select_equipo);
-
-              availableTags.push(equipo[0]);
-              $( "#tags_equipo" ).autocomplete({
-                  source: availableTags
-              }); 
+                .appendTo(select_equipo);              
             });                  
           })
 

@@ -32,10 +32,6 @@
                 </select>
               </li>
             </ul>            
-            <div class="ui-widget">
-              <label for="tags">Tags: </label>
-              <input id="tags_jugador">
-            </div>
           </div>
           
 <div class="row"> 
@@ -83,29 +79,22 @@ var tag_jugador= $('#tags_jugador');
 select_temporada.on('change', function() {
   
   select_jugador.empty();
-  tag_jugador.empty();
-  var lista_jugadores= anos_jugadores_select[select_temporada.val()];
-  var availableTags = [
-    ];    
+  var lista_jugadores= anos_jugadores_select[select_temporada.val()];  
 
   $.each(lista_jugadores, function( index, jugador ) {
     
-  $('<option>')
-    .attr('value', jugador[0] + '||' + jugador[1])
-    .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
-    .appendTo(select_jugador);
+    $('<option>')
+      .attr('value', jugador[0] + '||' + jugador[1])
+      .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
+      .appendTo(select_jugador);
 
- availableTags.push(jugador[0] + '||' + jugador[1]);
-  $( "#tags_jugador" ).autocomplete({
-      source: availableTags
-    }); 
-
-  });
-  
- 
+    });
 
 })
 
+$( document ).ready(function() {    
+  $('#completo_jugador_temporada').trigger("change");    
+});
 
 select_jugador.on('change', function() {
   

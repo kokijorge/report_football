@@ -161,8 +161,18 @@ def entrenador_completo():
 		}
 
 @app.route('/informes/iteractivo_jugador/')
-def informes_iteractivo_jugador():		
-	return render_template('informes_iteractivo_jugador.tpl')
+def informes_iteractivo_jugador():	
+	anos_jugadores_a = {'2016': dame_jugadores('2016'), '2017': dame_jugadores('2017'),'todo': dame_jugadores('todo')}	
+	anos_jugadores_b = {'2016': dame_jugadores('2016'), '2017': dame_jugadores('2017'),'todo': dame_jugadores('todo')}	
+	return render_template('informes_iteractivo_jugador.tpl',anos_jugadores_select_a=anos_jugadores_a,anos_jugadores_select_b=anos_jugadores_b)
+
+@app.route('/jugador_iteractivo')
+def jugador_iteractivo():
+	jugador = request.args.get('nombre')
+	fecha = request.args.get('fecha')
+	ano = request.args.get('ano')
+
+	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano}
 
 @app.route('/informes/iteractivo_equipo/')
 def informes_iteractivo_equipo():		
@@ -174,3 +184,4 @@ def informes_iteractivo_entrenador():
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=8000,debug= True)
+
