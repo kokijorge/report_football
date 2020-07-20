@@ -33,13 +33,7 @@
             </ul>            
           </div>
           
-        <div id="row_todo" style="display:none"  class="col-md-12">  
-          <div class="row"> 
-            <h3 id="text_total"> TOTAL </h3>    
-          </div>
-          <div class="row"> 
-            <div id="table_div_equipo" class="col-md-12"></div>    
-          </div >
+        <div id="row_todo" style="display:none"  class="col-md-12">            
 
           <div class="row"> 
             <h3 id="text_local"> LOCAL </h3>    
@@ -54,6 +48,13 @@
           <div class="row"> 
             <div id="table_div_visitante" class="col-md-12"></div>  
           </div > 
+
+          <div class="row"> 
+            <h3 id="text_total"> TOTAL </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_equipo" class="col-md-12"></div>    
+          </div >
         </div>
           <div class="row"> 
             <div class="col-md-12" id="columnchart_values_equipo" style="width: 900px; height: 300px;"></div> 

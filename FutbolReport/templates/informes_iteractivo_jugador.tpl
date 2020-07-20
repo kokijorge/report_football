@@ -57,6 +57,9 @@
                   </li>
                 </ul>              
             </div>         
+          </div>  
+          <div class="row">         
+            <div class="col-md-12" id="linechart_material" style="width: 900px; height: 300px;"></div>
           </div>        
 
 <script type="text/javascript" src="/js/charts_google.js"></script>
@@ -87,6 +90,45 @@
 
   })
 
+  $( document ).ready(function() {    
+    $('#iteractivo_jugador_temporada_a').trigger("change");    
+  });
+
+  var jugador_a = null;
+  var jugador_b = null;
+
+  function printar_si_AB(){
+      if (jugador_a != null && jugador_b != null){        
+        // tabla inicio
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+          var data = google.visualization.arrayToDataTable([
+            ['Quarks', 'Leptons', 'Gauge Bosons', 'Scalar Bosons'],
+            [2/3, -1, 0, 0],
+            [2/3, -1, 0, null],
+            [2/3, -1, 0, null],
+            [-1/3, 0, 1, null],
+            [-1/3, 0, -1, null],
+            [-1/3, 0, null, null],
+            [-1/3, 0, null, null]
+          ]);
+
+          var options = {
+            title: 'Charges of subatomic particles',
+            legend: { position: 'top', maxLines: 2 },
+            colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
+            interpolateNulls: false,
+          };
+          
+          var chart = new google.visualization.Histogram(document.getElementById('linechart_material'));
+          chart.draw(data, options);        
+        }
+        // tabla fin
+      }
+  }
 
   select_jugador_a.on('change', function() {
   
@@ -98,6 +140,8 @@
 
       console.log( "JSON Data: " + json.nombre );
       console.log( "JSON Data: " + json );
+      jugador_a = json;
+      printar_si_AB();  
     })
       
       .fail(function( jqxhr, textStatus, error ) {
@@ -124,6 +168,9 @@
 
   })
 
+  $( document ).ready(function() {    
+    $('#iteractivo_jugador_temporada_b').trigger("change");    
+  });
 
   select_jugador_b.on('change', function() {
   
@@ -134,12 +181,14 @@
     .done(function( json ) {
 
       console.log( "JSON Data: " + json.nombre );
+      jugador_b = json;
+      printar_si_AB();      
     })
       
-      .fail(function( jqxhr, textStatus, error ) {
-        var err = textStatus + ", " + error;
-        console.log( "Request Failed: " + err );
-      });
+    .fail(function( jqxhr, textStatus, error ) {
+      var err = textStatus + ", " + error;
+      console.log( "Request Failed: " + err );
+    });
 
                       
   });  

@@ -33,14 +33,7 @@
             </ul>            
           </div>
 
-        <div id="row_todo_entrenador" style="display:none"  class="col-md-12">  
-          <div class="row"> 
-            <h3 id="text_entrenador_total"> TOTAL </h3>    
-          </div>
-          <div class="row"> 
-            <div id="table_div_entrenador" class="col-md-12"></div>    
-          </div >
-
+        <div id="row_todo_entrenador" style="display:none"  class="col-md-12">            
           <div class="row"> 
             <h3 id="text_entrenador_local"> LOCAL </h3>    
           </div>
@@ -54,6 +47,13 @@
           <div class="row"> 
             <div id="table_div_entrenador_visitante" class="col-md-12"></div>  
           </div > 
+
+          <div class="row"> 
+            <h3 id="text_entrenador_total"> TOTAL </h3>    
+          </div>
+          <div class="row"> 
+            <div id="table_div_entrenador" class="col-md-12"></div>    
+          </div >
         </div>
 
           <div class="row"> 

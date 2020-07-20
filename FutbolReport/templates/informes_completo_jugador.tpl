@@ -74,7 +74,6 @@ var anos_jugadores_select = {{anos_jugadores_select}};
 
 var select_temporada= $('#completo_jugador_temporada');
 var select_jugador= $('#completo_jugador_jugador');
-var tag_jugador= $('#tags_jugador');
 
 select_temporada.on('change', function() {
   
@@ -143,7 +142,7 @@ select_jugador.on('change', function() {
       data_estacion_ano.addColumn('number', 'Puntuacion');    
       data_estacion_ano.addRows(json.puntuaciones_estacion_ano); 
       var options_estacion_ano = {
-        title: "Informe en función de la estación del año",
+        title: "Informe en función de la estación del año",        
         width: 900,
         height: 300,
         bar: {groupWidth: "95%"},
