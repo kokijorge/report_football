@@ -854,3 +854,29 @@ from
 partidos
 order by goles_favor desc FETCH FIRST 5 ROWS ONLY
 """
+
+query_puntuaciones_rivales_media =""" 
+select *  from 
+(select   dim_equipo.nombre , sum(puntuacion)/count(1), 'puntuacion : '  || sum(puntuacion)/count(1)  || ' || ' || 'partidos jugados : '  || count(1)
+from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
+inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+group by dim_equipo.nombre 
+order by 2 desc
+FETCH FIRST 5 ROWS ONLY) as  a 
+UNION ALL
+select * from 
+(select   dim_equipo.nombre , sum(puntuacion)/count(1), 'puntuacion : '  || sum(puntuacion)/count(1)  || ' || ' || 'partidos jugados : '  || count(1)
+from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
+inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+group by dim_equipo.nombre
+order by 2 asc
+FETCH FIRST 5 ROWS ONLY)as  b order by 2 desc
+"""

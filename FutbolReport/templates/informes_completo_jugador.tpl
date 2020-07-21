@@ -33,6 +33,20 @@
               </li>
             </ul>            
           </div>
+
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <input class="form-control" id="myInput" type="text" placeholder="Search..">
+              <li><a href="#">HTML</a></li>
+              <li><a href="#">CSS</a></li>
+              <li><a href="#">JavaScript</a></li>
+              <li><a href="#">jQuery</a></li>
+              <li><a href="#">Bootstrap</a></li>
+              <li><a href="#">Angular</a></li>
+            </ul>
+          </div>
           
 <div class="row"> 
     <div id="table_div_jugador" class="col-md-12"></div>    
@@ -64,6 +78,9 @@
 <div class="row"> 
     <div class="col-md-12"id="columnchart_rivales" style="width: 900px; height: 300px;"></div> 
 </div>  
+<div class="row"> 
+    <div class="col-md-12"id="columnchart_rivales_media" style="width: 900px; height: 300px;"></div> 
+</div>  
 
 
 <script type="text/javascript" src="/js/charts_google.js"></script>
@@ -86,7 +103,6 @@ select_temporada.on('change', function() {
       .attr('value', jugador[0] + '||' + jugador[1])
       .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
       .appendTo(select_jugador);
-
     });
 
 })
@@ -101,9 +117,7 @@ select_jugador.on('change', function() {
   
   $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )
   
-  .done(function( json ) {
-
-    console.log( "JSON Data: " + json.puntuaciones_temperatura );
+  .done(function( json ) {    
 
     // tabla con toda la informacion
     google.charts.load('current', {'packages':['table']});
@@ -211,7 +225,7 @@ select_jugador.on('change', function() {
       var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_viento"));
       chart_viento.draw(data_viento, options_viento); 
 
-    //<!-- puntuaciones rivales->         
+    //<!-- puntuaciones rivales total->         
       var data_puntuaciones_rivales = new google.visualization.DataTable();
       data_puntuaciones_rivales.addColumn('string', 'Equipo');
       data_puntuaciones_rivales.addColumn('number', 'Puntuacion');    
@@ -227,6 +241,23 @@ select_jugador.on('change', function() {
       };
       var chart_rivales = new google.visualization.LineChart(document.getElementById("columnchart_rivales"));
       chart_rivales.draw(data_puntuaciones_rivales, options_rivales);   
+
+    //<!-- puntuaciones rivales media->         
+      var data_puntuaciones_rivales = new google.visualization.DataTable();
+      data_puntuaciones_rivales.addColumn('string', 'Equipo');
+      data_puntuaciones_rivales.addColumn('number', 'Puntuacion');    
+      data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+      data_puntuaciones_rivales.addRows(json.puntuaciones_rivales_media); 
+      var options_rivales = {
+        title: "Equipos contra los que jugó mejor/peor de media",
+        width: 900,
+        height: 300,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+        tooltip: {isHtml: true}
+      };
+      var chart_rivales = new google.visualization.LineChart(document.getElementById("columnchart_rivales_media"));
+      chart_rivales.draw(data_puntuaciones_rivales, options_rivales); 
 
   })
   

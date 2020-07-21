@@ -18,7 +18,7 @@ app.secret_key = 'mysecretkey'
 
 @app.route('/')
 def index():	
-	return redirect('2016')
+	return redirect('/top/2016')
 
 @app.route('/equipos/<string:ano>')
 def equipos(ano):
@@ -124,6 +124,7 @@ def jugador_completo():
 
 	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano
 		, 	'puntuaciones_rivales' : puntuaciones_rivales(jugador,fecha,ano)
+		, 	'puntuaciones_rivales_media' : puntuaciones_rivales_media(jugador,fecha,ano)
 		,	'puntuaciones_hora_partido' : puntuaciones_hora(jugador,fecha,ano)
 		,	'puntuaciones_estacion_ano' : puntuaciones_estacion_ano(jugador,fecha,ano)
 		,	'puntuaciones_info_global' : info_global(jugador,fecha,ano)

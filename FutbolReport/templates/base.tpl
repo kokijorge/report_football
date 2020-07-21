@@ -59,7 +59,7 @@
           </div>
     
           <!--logo start-->
-          <a href="http://localhost:8000/" class="logo">Futbol <span class="lite">Report</span></a>          
+          <a href="http://localhost:80/" class="logo">Futbol <span class="lite">Report</span></a>          
           <!--logo end-->            
             <ul class="nav pull-right top-menu">                    
               <li id="label_temporada" class="dropdown">
@@ -80,25 +80,7 @@
       <div id="sidebar" class="nav-collapse " style="overflow: scroll;">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
-              <li class="">
-                <a href="javascript:escoger_estadio();" class="">
-                              <i class="icon_house_alt"></i>
-                              <span>Estadios</span>
-                          </a>
-              </li>
-              <li class="sub-menu">
-                <a  class="">
-                              <i class="fas fa-running"></i>
-                              <span>Jugadores</span>
-                              <span class="menu-arrow arrow_carrot-right"></span>
-                          </a>
-                <ul id="ul_equipo" class="sub">
-                {% for equipo in equipos_jugadores %}                    
-                  <li><a  class="" href="javascript:escoger_jugador('{{equipo.0}}');">{{ equipo.0}} </a></li>                
-                {% endfor%}
-                </ul>                
-              </li>
-              <li class="sub-menu">               
+              <li class="sub-menu">                 
                 <a href="javascript:top_menu();" class="">
                               <i class="icon_genius"></i>
                               <span>Top</span>
@@ -110,6 +92,19 @@
                               <span>Informes</span>
                           </a>
               </li>
+              
+              <li class="sub-menu">
+                <a  class="">
+                              <i class="fas fa-running"></i>
+                              <span>Jugadores</span>
+                              <span class="menu-arrow arrow_carrot-right"></span>
+                          </a>
+                <ul id="ul_equipo" class="sub">
+                {% for equipo in equipos_jugadores %}                    
+                  <li><a  class="" href="javascript:escoger_jugador('{{equipo.0}}');">{{ equipo.0}} </a></li>                
+                {% endfor%}
+                </ul>                
+              </li>                            
     
               <li class="sub-menu">
                 <a href="javascript:escoger_equipo();" class="">
@@ -129,6 +124,12 @@
                 <a href="javascript:escoger_jornadas();" class="">
                               <i class="fas fa-calendar-alt"></i>
                               <span>Jornadas</span>                          
+                          </a>
+              </li>
+              <li class="">
+                <a href="javascript:escoger_estadio();" class="">
+                              <i class="icon_house_alt"></i>
+                              <span>Estadios</span>
                           </a>
               </li>
     

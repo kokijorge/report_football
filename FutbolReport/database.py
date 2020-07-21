@@ -58,6 +58,20 @@ def puntuaciones_rivales(nombre,fecha,ano):
 	puntuaciones = [list(row) for row in data]
 	return puntuaciones
 
+def puntuaciones_rivales_media(nombre,fecha,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_puntuaciones_rivales_media, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones = [list(row) for row in data]
+	return puntuaciones	
+
 
 def puntuaciones_estacion_ano(nombre,fecha,ano):
 	if ano  == '2016':
