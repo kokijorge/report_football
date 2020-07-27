@@ -10,6 +10,8 @@
 
   <title>Creative - Bootstrap Admin Template</title>
 
+      
+
   <!-- Bootstrap CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <!-- bootstrap theme -->
@@ -173,6 +175,9 @@
     <script src="/js/sparklines.js"></script>
     <script src="/js/charts.js"></script>
     <script src="/js/jquery.slimscroll.min.js"></script>
+    <!-- Datatable jquery -->
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">  
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
       //knob
       $(function() {

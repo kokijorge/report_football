@@ -42,7 +42,7 @@ function escoger_jornadas(){
 }
 
 function top_menu(){
-    var dir_menu = "/top/"+$("#select_temporada").val();
+    var dir_menu = "/top/2016";
     window.location.href=dir_menu; 
 }
 

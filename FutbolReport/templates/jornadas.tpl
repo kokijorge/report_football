@@ -41,7 +41,8 @@
                   1ª División Temporada {{ temporada_seleccionada }}/{{ temp }} 
                 </header>
                 <div class="table-responsive">
-                  <table class="table">
+                  <!--<table class="table"> -->
+                  <table id="selectedColumn" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -50,12 +51,12 @@
                         <th>Equipo visitante</th>
                         <th>Resultado visitante</th>
                         <th>Fecha</th>
-                        <th>Hora</th>
-                      </tr>
+                        <th>Hora</th>                        
+                      </tr>                      
                     </thead>
                     <tbody>                    
                       {% for jornada in jornadas %}                    
-                      <tr>                        
+                      <tr data="{{jornada.7}}">                        
                         <td> {{ jornada.0}} </td>
                         <td> {{ jornada.1}} </td>
                         <td> {{ jornada.2}} </td>
@@ -74,5 +75,21 @@
           <!-- page end-->
         </section>
       </section>
-      <!--main content end-->
+      <!--main content end-->      
+      <script>
+      $(document).ready(function () {
+        $('#selectedColumn').DataTable({
+            "aaSorting": [],
+            columnDefs: [{
+            orderable: false,
+            targets: 0
+            }]
+          });
+          $('.dataTables_length').addClass('bs-select');          
+        });        
+        $("#selectedColumn>tbody>tr").click(function(){
+          alert($(this).attr("data"));
+          window.location.href= window.location.href+'/'+$(this).attr("data") ;
+          })
+      </script>
 {% endblock%}

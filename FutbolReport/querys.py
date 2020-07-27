@@ -190,7 +190,8 @@ query_seleccionar_entrenadores = """
 	"""
 
 query_seleccionar_jornadas =    """ 
-	select ROW_NUMBER() OVER(    ORDER BY par.fecha,par.hora),equ_loc.nombre,par.resultado_local,equ_vis.nombre,par.resultado_rival,par.fecha,par.hora
+	select ROW_NUMBER() OVER(    ORDER BY par.fecha,par.hora),equ_loc.nombre,par.resultado_local,equ_vis.nombre,par.resultado_rival
+    ,par.fecha,par.hora,par.id_partido
     from stg.stg_partido par
     inner join stg.stg_equipo equ_loc
     on par.id_equipo_local = equ_loc.id_equipo
@@ -216,14 +217,15 @@ query_seleccionar_jugadores = """
     inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
     inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador
     and fecha_inicio_contrato between (:fec_min) and (:fec_max)
+    and fecha_fin_contrato is null
 	UNION
 	select jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado 
 	,fecha_inicio_contrato,fecha_fin_contrato ,equ.nombre equipo
 	from stg.stg_milita mil
     inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
     inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador    
-    and fecha_inicio_contrato < (:fec_min) 
-    and fecha_fin_contrato is null) as query
+    and fecha_fin_contrato between (:fec_min) and (:fec_max)
+    ) as query
 	"""
 
 query_seleccionar_estadios =  """ 
