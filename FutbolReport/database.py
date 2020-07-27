@@ -5,10 +5,10 @@ from querys import *
 db = SQLAlchemy()
 
 
-def dame_la_lista_de_jugadores_del_ano(anoInt,equipo):
+def dame_la_lista_de_jugadores_del_ano(anoInt):
 	fec_min = seleccionar_fecha_minima(anoInt)
 	fec_max = seleccionar_fecha_maxima(anoInt)
-	query_jug = db.session.execute(query_seleccionar_jugadores , {"fec_min": fec_min,"fec_max": fec_max, "nuevo_equipo":equipo})
+	query_jug = db.session.execute(query_seleccionar_jugadores , {"fec_min": fec_min,"fec_max": fec_max})
 	return [row for row in query_jug]
 
 
@@ -30,7 +30,7 @@ def seleccionar_fecha_maxima(ano):
 	fec_max = db.session.execute(query_fecha_maxima , {"ano": ano}).fetchone()[0]
 	return  fec_max
 
-def puntuaciones_hora(nombre,fecha,ano):
+def puntuaciones_hora(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -40,11 +40,11 @@ def puntuaciones_hora(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765
-	data = db.session.execute(query_puntuaciones_hora_partido, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_puntuaciones_hora_partido, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo": equipo})
 	puntuaciones = [list(row) for row in data]	
 	return  puntuaciones
 
-def puntuaciones_rivales(nombre,fecha,ano):
+def puntuaciones_rivales(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -54,11 +54,11 @@ def puntuaciones_rivales(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_puntuaciones_rivales, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_puntuaciones_rivales, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones = [list(row) for row in data]
 	return puntuaciones
 
-def puntuaciones_rivales_media(nombre,fecha,ano):
+def puntuaciones_rivales_media(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -68,12 +68,12 @@ def puntuaciones_rivales_media(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_puntuaciones_rivales_media, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_puntuaciones_rivales_media, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones = [list(row) for row in data]
 	return puntuaciones	
 
 
-def puntuaciones_estacion_ano(nombre,fecha,ano):
+def puntuaciones_estacion_ano(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -83,12 +83,12 @@ def puntuaciones_estacion_ano(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_estacion_ano, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_estacion_ano, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones = [list(row) for row in data]
 	return puntuaciones
 	
 
-def info_global(nombre,fecha,ano):
+def info_global(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -98,11 +98,11 @@ def info_global(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_info_global, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_info_global, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	informacion_global = [list(row) for row in data]
 	return  informacion_global
 
-def puntuaciones_temperatura(nombre,fecha,ano):
+def puntuaciones_temperatura(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -112,11 +112,11 @@ def puntuaciones_temperatura(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_temperatura, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_temperatura, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones_temperatura = [list(row) for row in data]
 	return  puntuaciones_temperatura
 
-def puntuaciones_lluvias(nombre,fecha,ano):
+def puntuaciones_lluvias(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -126,11 +126,11 @@ def puntuaciones_lluvias(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_lluvias, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_lluvias, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones_lluvias = [list(row) for row in data]
 	return  puntuaciones_lluvias
 
-def puntuaciones_humedad(nombre,fecha,ano):
+def puntuaciones_humedad(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -140,11 +140,11 @@ def puntuaciones_humedad(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_humedad, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_humedad, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones_humedad = [list(row) for row in data]
 	return  puntuaciones_humedad
 
-def puntuaciones_velocidad_viento(nombre,fecha,ano):
+def puntuaciones_velocidad_viento(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889
@@ -154,7 +154,7 @@ def puntuaciones_velocidad_viento(nombre,fecha,ano):
 	else: 		
 		id_ini = 179510
 		id_fin = 214765	
-	data = db.session.execute(query_viento, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin})
+	data = db.session.execute(query_viento, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones_viento = [list(row) for row in data]
 	return  puntuaciones_viento
 

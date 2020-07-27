@@ -1,26 +1,37 @@
 def seleccionar_jugador_completo(ano):
     if ano  == '2016':
         query = """
-            select nombre,TO_CHAR(fecha_nacimiento, 'YYYY-MM-DD'),posicion from dw.dim_jugador
-            where id_jugador in (select id_jugador from dw.fact_jornada where id_partido <= '179889')             
-            group by nombre,fecha_nacimiento,posicion
+            select dim_jugador.nombre, TO_CHAR(dim_jugador.fecha_nacimiento, 'YYYY-MM-DD') fecha,
+            dim_jugador.posicion,dim_equipo.nombre equipo
+            from dw.fact_jornada
+            inner join dw.dim_jugador on fact_jornada.id_jugador = dim_jugador.id_jugador
+            inner join dw.dim_equipo on fact_jornada.id_equipo_propio = dim_equipo.id_equipo
+            where id_partido <= '179889'
+            group by  dim_jugador.nombre, dim_jugador.fecha_nacimiento,dim_jugador.posicion,dim_equipo.nombre
             order by 1;  
             """
         return query
     elif ano  == '2017':
         query = """
-            select nombre,TO_CHAR(fecha_nacimiento, 'YYYY-MM-DD'),posicion from dw.dim_jugador
-            where id_jugador in (select id_jugador from dw.fact_jornada where id_partido > '179889') 
-            group by nombre,fecha_nacimiento,posicion
+            select dim_jugador.nombre, TO_CHAR(dim_jugador.fecha_nacimiento, 'YYYY-MM-DD') fecha,
+            dim_jugador.posicion,dim_equipo.nombre equipo
+            from dw.fact_jornada
+            inner join dw.dim_jugador on fact_jornada.id_jugador = dim_jugador.id_jugador
+            inner join dw.dim_equipo on fact_jornada.id_equipo_propio = dim_equipo.id_equipo
+            where id_partido > '179889'
+            group by  dim_jugador.nombre, dim_jugador.fecha_nacimiento,dim_jugador.posicion,dim_equipo.nombre
             order by 1;  
             """
         return query
     else: 
         query = """
-            select nombre, TO_CHAR(fecha_nacimiento, 'YYYY-MM-DD'),posicion from dw.dim_jugador
-            where id_jugador in (select id_jugador from dw.fact_jornada) 
-            group by nombre,fecha_nacimiento,posicion
-            order by 1;  
+            select dim_jugador.nombre, TO_CHAR(dim_jugador.fecha_nacimiento, 'YYYY-MM-DD') fecha,
+            dim_jugador.posicion,dim_equipo.nombre equipo
+            from dw.fact_jornada
+            inner join dw.dim_jugador on fact_jornada.id_jugador = dim_jugador.id_jugador
+            inner join dw.dim_equipo on fact_jornada.id_equipo_propio = dim_equipo.id_equipo            
+            group by  dim_jugador.nombre, dim_jugador.fecha_nacimiento,dim_jugador.posicion,dim_equipo.nombre
+            order by 1;   
             """
         return query	
 
@@ -200,19 +211,17 @@ query_seleccionar_num_jornadas =  """
 query_seleccionar_jugadores = """ 
 	select ROW_NUMBER() OVER(    ORDER BY nombre),query.* from    
 	(select jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado 
-	,fecha_inicio_contrato,fecha_fin_contrato
+	,fecha_inicio_contrato,fecha_fin_contrato ,equ.nombre equipo
 	from stg.stg_milita mil
     inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
     inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador
-    where equ.nombre = :nuevo_equipo  
     and fecha_inicio_contrato between (:fec_min) and (:fec_max)
 	UNION
 	select jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado 
-	,fecha_inicio_contrato,fecha_fin_contrato
+	,fecha_inicio_contrato,fecha_fin_contrato ,equ.nombre equipo
 	from stg.stg_milita mil
     inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
-    inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador
-    where equ.nombre = :nuevo_equipo 
+    inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador    
     and fecha_inicio_contrato < (:fec_min) 
     and fecha_fin_contrato is null) as query
 	"""
@@ -235,9 +244,11 @@ WITH porcentajes AS (
     ,hora_categoria
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
     inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+    inner join dw.dim_equipo equi on equi.id_equipo = fact_jornada.id_equipo_propio
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and equi.nombre = :equipo
 group by hora_categoria
 order by 1 desc
      )
@@ -254,9 +265,11 @@ select *  from
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo propio on id_equipo_propio = propio.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and propio.nombre = :equipo
 order by 2 desc
 FETCH FIRST 5 ROWS ONLY) as  a 
 UNION ALL
@@ -265,9 +278,11 @@ select * from
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo propio on id_equipo_propio = propio.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and propio.nombre = :equipo
 order by 2 asc
 FETCH FIRST 5 ROWS ONLY)as  b order by 2 desc
 """
@@ -276,9 +291,11 @@ query_estacion_ano ="""
 select estacion_ano,sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo propio on id_equipo_propio = propio.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and propio.nombre = :equipo
 group by estacion_ano
 order by 1 desc;
 """
@@ -292,6 +309,7 @@ inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and dw.dim_equipo.nombre = :equipo
 group by jug.id_jugador,jug.nombre,dim_equipo.nombre;
 """
 
@@ -301,9 +319,11 @@ query_temperatura ="""
 select dim_meteo.temperatura_categoria,sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and dw.dim_equipo.nombre = :equipo
 group by temperatura_categoria
 order by 2 desc;
 """
@@ -312,9 +332,11 @@ query_lluvias ="""
 select dim_meteo.lluvias_categoria,sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and dw.dim_equipo.nombre = :equipo
 group by lluvias_categoria
 order by 2 desc;
 """
@@ -323,9 +345,11 @@ query_humedad ="""
 select dim_meteo.humedad_categoria,sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and dw.dim_equipo.nombre = :equipo
 group by humedad_categoria
 order by 2 desc;
 """
@@ -334,9 +358,11 @@ query_viento ="""
 select dim_meteo.velocidad_viento_categoria,sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and dw.dim_equipo.nombre = :equipo
 group by velocidad_viento_categoria
 order by 2 desc;
 """
@@ -861,9 +887,11 @@ select *  from
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo propio on id_equipo_propio = propio.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and propio.nombre = :equipo
 group by dim_equipo.nombre 
 order by 2 desc
 FETCH FIRST 5 ROWS ONLY) as  a 
@@ -873,9 +901,11 @@ select * from
 from dw.fact_jornada inner join dw.dim_equipo on id_equipo_rival = dim_equipo.id_equipo
 inner join dw.dim_entrenador on id_entrenador_rival=dim_entrenador.id_entrenador
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo propio on id_equipo_propio = propio.id_equipo
 where jug.nombre = :nombre
 and jug.fecha_nacimiento = :fecha
 and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and propio.nombre = :equipo
 group by dim_equipo.nombre
 order by 2 asc
 FETCH FIRST 5 ROWS ONLY)as  b order by 2 desc

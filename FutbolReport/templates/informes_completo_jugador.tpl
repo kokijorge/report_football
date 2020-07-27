@@ -100,8 +100,8 @@ select_temporada.on('change', function() {
   $.each(lista_jugadores, function( index, jugador ) {
     
     $('<option>')
-      .attr('value', jugador[0] + '||' + jugador[1])
-      .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
+      .attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3])
+      .text( jugador[0] + '||' + jugador[2] + '||' + jugador[3])
       .appendTo(select_jugador);
     });
 
@@ -111,11 +111,20 @@ $( document ).ready(function() {
   $('#completo_jugador_temporada').trigger("change");    
 });
 
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".dropdown-menu li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
 select_jugador.on('change', function() {
   
   var jug = this.value.split('||');
-  
-  $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], ano: $("#completo_jugador_temporada").val() } )
+  console.log( "JSON Data: " + jug );
+  $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], equipo: jug[2], ano: $("#completo_jugador_temporada").val() } )
   
   .done(function( json ) {    
 

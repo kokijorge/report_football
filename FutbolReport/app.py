@@ -25,22 +25,19 @@ def equipos(ano):
 	data = db.session.execute( query_seleccionar_equipos, {"ano": ano})
 	equipos = [row for row in data]
 	entero = int(ano)
-	temp = str(entero+1)
-	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('equipos.tpl', equipos = equipos , temporada_seleccionada = ano,temp=temp,equipos_jugadores=equipos_jugadores)
+	temp = str(entero+1)	
+	return render_template('equipos.tpl', equipos = equipos , temporada_seleccionada = ano,temp=temp)
 
 @app.route('/<string:ano>')
 def temporada(ano):
-	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('base.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
+	return render_template('base.tpl', temporada_seleccionada = ano)
 
 @app.route('/top/<string:ano>')
 def top(ano):
 	entero = int(ano)
 	temp = str(entero+1)
 	puntuaciones = db.session.execute(query_seleccionar_puntuaciones , {"ano": ano})
-	puntos = [row for row in puntuaciones]
-	equipos_jugadores = seleccionar_equipos(ano)
+	puntos = [row for row in puntuaciones]	
 	goles = db.session.execute( query_seleccionar_goleadores, {"ano": ano})
 	goleadores = [row for row in goles]
 	tarjeta_amarilla = db.session.execute(query_seleccionar_tarjeta_amarilla, {"ano": ano})
@@ -52,7 +49,7 @@ def top(ano):
 	jug_titularidades = db.session.execute(query_seleccionar_titularidades, {"ano": ano})
 	titularidades = [row for row in jug_titularidades]
 
-	return render_template('top.tpl', puntos = puntos,goleadores=goleadores , temporada_seleccionada = ano, temp=temp,equipos_jugadores=equipos_jugadores,amarillas=amarillas,rojas=rojas,minutos=minutos,titularidades=titularidades)
+	return render_template('top.tpl', puntos = puntos,goleadores=goleadores , temporada_seleccionada = ano, temp=temp,amarillas=amarillas,rojas=rojas,minutos=minutos,titularidades=titularidades)
 
 
 @app.route('/entrenadores/<string:ano>')
@@ -62,9 +59,8 @@ def entrenadores(ano):
 	fec_min = seleccionar_fecha_minima(ano)
 	fec_max = seleccionar_fecha_maxima(ano)
 	query_entrenadores = db.session.execute(query_seleccionar_entrenadores , {"fec_min": fec_min,"fec_max": fec_max})
-	entrenadores = [row for row in query_entrenadores]		
-	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('entrenadores.tpl',entrenadores=entrenadores , temporada_seleccionada = ano, temp=temp,equipos_jugadores=equipos_jugadores)
+	entrenadores = [row for row in query_entrenadores]			
+	return render_template('entrenadores.tpl',entrenadores=entrenadores , temporada_seleccionada = ano, temp=temp)
 
 @app.route('/jornadas/<string:jornada>/<string:ano>')
 def jornadas(ano,jornada):
@@ -75,31 +71,27 @@ def jornadas(ano,jornada):
 	query_jornadas = db.session.execute(query_seleccionar_jornadas , {"ano": ano , "jornada":jornada})
 	jornadas = [row for row in query_jornadas]
 	query_num = db.session.execute(query_seleccionar_num_jornadas,  {"ano": ano})
-	num_jornadas = [row for row in query_num]
-	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('jornadas.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, temp=temp,jornadas = jornadas,num_jornadas=num_jornadas,equipos_jugadores=equipos_jugadores)
+	num_jornadas = [row for row in query_num]	
+	return render_template('jornadas.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, temp=temp,jornadas = jornadas,num_jornadas=num_jornadas)
 
 
-@app.route('/jugadores/<string:equipo>/<string:ano>')
-def jugadores(ano,equipo):
-	equipos_jugadores = seleccionar_equipos(ano)
+@app.route('/jugadores/<string:ano>')
+def jugadores(ano):	
 	entero = int(ano)
 	temp = str(entero+1)
-	nuevo_equipo = equipo.replace('%20', ' ')
-	jugadores = dame_la_lista_de_jugadores_del_ano(ano,nuevo_equipo)
+	#nuevo_equipo = equipo.replace('%20', ' ')
+	jugadores = dame_la_lista_de_jugadores_del_ano(ano)
 
-	return render_template('jugadores.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,jugadores=jugadores,temp=temp,nuevo_equipo=nuevo_equipo)
+	return render_template('jugadores.tpl', temporada_seleccionada = ano,jugadores=jugadores,temp=temp)
 
-@app.route('/estadios/<string:ano>')
-def estadios(ano):
-	equipos_jugadores = seleccionar_equipos(ano)
+@app.route('/estadios/')
+def estadios():
 	estadios =  dame_los_estadios()
-	return render_template('estadios.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores,estadios=estadios)
+	return render_template('estadios.tpl',estadios=estadios)
 
-@app.route('/informes/<string:ano>')
-def informes(ano):
-	equipos_jugadores = seleccionar_equipos(ano)
-	return render_template('informes.tpl', temporada_seleccionada = ano,equipos_jugadores=equipos_jugadores)
+@app.route('/informes/')
+def informes():
+	return render_template('informes.tpl')
 
 @app.route('/informes/completo_jugador/')
 def informes_completo_jugador():	
@@ -121,17 +113,18 @@ def jugador_completo():
 	jugador = request.args.get('nombre')
 	fecha = request.args.get('fecha')
 	ano = request.args.get('ano')
+	equipo = request.args.get('equipo')
 
-	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano
-		, 	'puntuaciones_rivales' : puntuaciones_rivales(jugador,fecha,ano)
-		, 	'puntuaciones_rivales_media' : puntuaciones_rivales_media(jugador,fecha,ano)
-		,	'puntuaciones_hora_partido' : puntuaciones_hora(jugador,fecha,ano)
-		,	'puntuaciones_estacion_ano' : puntuaciones_estacion_ano(jugador,fecha,ano)
-		,	'puntuaciones_info_global' : info_global(jugador,fecha,ano)
-		,	'puntuaciones_temperatura' : puntuaciones_temperatura(jugador,fecha,ano)
-		,	'puntuaciones_lluvias' : puntuaciones_lluvias(jugador,fecha,ano)
-		,	'puntuaciones_humedad' : puntuaciones_humedad(jugador,fecha,ano)
-		,	'puntuaciones_viento' : puntuaciones_velocidad_viento(jugador,fecha,ano)}
+	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano ,'equipo':equipo
+		, 	'puntuaciones_rivales' : puntuaciones_rivales(jugador,fecha,ano,equipo)
+		, 	'puntuaciones_rivales_media' : puntuaciones_rivales_media(jugador,fecha,ano,equipo)
+		,	'puntuaciones_hora_partido' : puntuaciones_hora(jugador,fecha,ano,equipo)
+		,	'puntuaciones_estacion_ano' : puntuaciones_estacion_ano(jugador,fecha,ano,equipo)
+		,	'puntuaciones_info_global' : info_global(jugador,fecha,ano,equipo)
+		,	'puntuaciones_temperatura' : puntuaciones_temperatura(jugador,fecha,ano,equipo)
+		,	'puntuaciones_lluvias' : puntuaciones_lluvias(jugador,fecha,ano,equipo)
+		,	'puntuaciones_humedad' : puntuaciones_humedad(jugador,fecha,ano,equipo)
+		,	'puntuaciones_viento' : puntuaciones_velocidad_viento(jugador,fecha,ano,equipo)}
 
 
 @app.route('/equipo_completo')

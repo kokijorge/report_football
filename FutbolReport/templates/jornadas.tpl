@@ -45,10 +45,10 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Equipo_local</th>
-                        <th>Resultado_local</th>
-                        <th>Equipo_visitante</th>
-                        <th>Resultado_visitante</th>
+                        <th>Equipo local</th>
+                        <th>Resultado local</th>
+                        <th>Equipo visitante</th>
+                        <th>Resultado visitante</th>
                         <th>Fecha</th>
                         <th>Hora</th>
                       </tr>

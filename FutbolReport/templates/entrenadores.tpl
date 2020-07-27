@@ -35,8 +35,8 @@
                       <th>#</th>
                       <th>Equipo</th>
                       <th>Nombre</th>
-                      <th>Año_debut</th>
-                      <th>Fecha_nacimiento</th>
+                      <th>Año debut</th>
+                      <th>Fecha nacimiento</th>
                       <th>Nacionalidad</th>                      
                     </tr>
                   </thead>

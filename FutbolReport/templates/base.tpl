@@ -61,17 +61,7 @@
           <!--logo start-->
           <a href="http://localhost:80/" class="logo">Futbol <span class="lite">Report</span></a>          
           <!--logo end-->            
-            <ul class="nav pull-right top-menu">                    
-              <li id="label_temporada" class="dropdown">
-                <label for="labelTemporada" form style="width:100px">Seleccione temporada</label>       
-              </li>
-              <li class="dropdown">
-                <select class="form-control" id="select_temporada">
-                  <option value="2016">2016/2017</option>
-                  <option value="2017">2017/2018</option>
-                </select>
-              </li>
-            </ul> 
+          
     </header>
     <!--header end-->
 
@@ -94,17 +84,12 @@
               </li>
               
               <li class="sub-menu">
-                <a  class="">
-                              <i class="fas fa-running"></i>
-                              <span>Jugadores</span>
-                              <span class="menu-arrow arrow_carrot-right"></span>
-                          </a>
-                <ul id="ul_equipo" class="sub">
-                {% for equipo in equipos_jugadores %}                    
-                  <li><a  class="" href="javascript:escoger_jugador('{{equipo.0}}');">{{ equipo.0}} </a></li>                
-                {% endfor%}
-                </ul>                
-              </li>                            
+                <a href="javascript:escoger_jugador();" class="">
+                              <i class="fas fa-running"></i>  
+                              <span>Jugadores</span>                          
+                          </a>            
+              </li>   
+                                     
     
               <li class="sub-menu">
                 <a href="javascript:escoger_equipo();" class="">

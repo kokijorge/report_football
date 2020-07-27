@@ -1,45 +1,25 @@
 function escoger_equipo(){
-    var dir_equipo = "/equipos/"+$("#select_temporada").val();
+    var dir_equipo = "/equipos/2016";
     window.location.href=dir_equipo; 
 }
 
 function escoger_entrenador(){
-    var dir_entrenadores = "/entrenadores/"+$("#select_temporada").val();
+    var dir_entrenadores = "/entrenadores/2016";
     window.location.href=dir_entrenadores; 
 }
 
-function escoger_jugador(equipo){
-    var dir_jugadores = "/jugadores/"+equipo+"/"+$("#select_temporada").val();    
+function escoger_jugador(){
+    var dir_jugadores = "/jugadores/2016";
     window.location.href=dir_jugadores; 
 }
 
-function informe_tiempo(){
-    var dir_inf_tiempo = "/informes/tiempo/"+$("#select_temporada").val();
-    window.location.href=dir_inf_tiempo; 
-}
-
-function informe_fecha(){
-    var dir_inf_fecha = "/informes/completo_jugador";
-    window.location.href=dir_inf_fecha; 
-}
-
-function informe_mapa(){
-    var dir_inf_mapa = "/informes/mapa/"+$("#select_temporada").val();
-    window.location.href=dir_inf_mapa; 
-}
-
-function informe_rival(){
-    var dir_inf_rival = "/informes/rival/"+$("#select_temporada").val();
-    window.location.href=dir_inf_rival; 
-}
-
 function escoger_estadio(){
-    var dir_estadios = "/estadios/"+$("#select_temporada").val();
+    var dir_estadios = "/estadios/";
     window.location.href=dir_estadios; 
 }
 
 function escoger_informe(){
-    var dir_informes = "/informes/"+$("#select_temporada").val();
+    var dir_informes = "/informes/";
     window.location.href=dir_informes; 
 }
 
@@ -57,7 +37,7 @@ function estadio_seleccionado(estadio){
 }
 
 function escoger_jornadas(){
-    var dir_jornadas = "/jornadas/1/"+$("#select_temporada").val();
+    var dir_jornadas = "/jornadas/1/2016";
     window.location.href=dir_jornadas; 
 }
 
