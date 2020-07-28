@@ -74,6 +74,14 @@ def jornadas(ano,jornada):
 	num_jornadas = [row for row in query_num]	
 	return render_template('jornadas.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, temp=temp,jornadas = jornadas,num_jornadas=num_jornadas)
 
+@app.route('/jornadas/<string:jornada>/<string:ano>/<string:partido>')
+def partido(ano,jornada,partido):
+	entero = int(ano)
+	if not jornada:
+		jornada= '1'
+	temp = str(entero+1)
+	partidos = desc_partidos(partido)
+	return render_template('partidos.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, partidos=partidos,temp=temp)
 
 @app.route('/jugadores/<string:ano>')
 def jugadores(ano):	

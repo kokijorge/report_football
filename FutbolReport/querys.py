@@ -208,6 +208,15 @@ query_seleccionar_num_jornadas =  """
 	where temporada= :ano  
     group by jornada order by jornada
 	"""  
+    
+query_desc_partidos =  """
+	select 
+    dim_jugador.nombre ,  dim_jugador.posicion , dim_equipo.nombre equipo , puntuacion , titular, tarjeta_amarilla,tarjeta_roja, minutos_jugados,goles
+    from dw.fact_jornada
+    inner join dw.dim_jugador  on fact_jornada.id_jugador = dim_jugador.id_jugador
+    inner join dw.dim_equipo on fact_jornada.id_equipo_propio = dim_equipo.id_equipo
+    where id_partido = :partido      
+	"""  
 
 query_seleccionar_jugadores = """ 
 	select ROW_NUMBER() OVER(    ORDER BY nombre),query.* from    

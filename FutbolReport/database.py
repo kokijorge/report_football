@@ -116,6 +116,12 @@ def puntuaciones_temperatura(nombre,fecha,ano,equipo):
 	puntuaciones_temperatura = [list(row) for row in data]
 	return  puntuaciones_temperatura
 
+def desc_partidos(partido):
+	data = db.session.execute(query_desc_partidos, {"partido": partido})
+	puntuaciones_partido = [list(row) for row in data]
+	return  puntuaciones_partido
+
+
 def puntuaciones_lluvias(nombre,fecha,ano,equipo):
 	if ano  == '2016':
 		id_ini = 179510

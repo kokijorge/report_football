@@ -40,8 +40,7 @@
                 <header id="tabla_jornadas" class="panel-heading">
                   1ª División Temporada {{ temporada_seleccionada }}/{{ temp }} 
                 </header>
-                <div class="table-responsive">
-                  <!--<table class="table"> -->
+                <div class="table-responsive">                  
                   <table id="selectedColumn" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                     <thead>
                       <tr>
@@ -87,8 +86,7 @@
           });
           $('.dataTables_length').addClass('bs-select');          
         });        
-        $("#selectedColumn>tbody>tr").click(function(){
-          alert($(this).attr("data"));
+        $("#selectedColumn>tbody>tr").click(function(){          
           window.location.href= window.location.href+'/'+$(this).attr("data") ;
           })
       </script>

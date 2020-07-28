@@ -33,7 +33,7 @@
               </li>
             </ul>            
           </div>
-
+          <!-- MARCIAL -->
           <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
             <span class="caret"></span></button>
@@ -47,6 +47,7 @@
               <li><a href="#">Angular</a></li>
             </ul>
           </div>
+          <!-- MARCIAL -->
           
 <div class="row"> 
     <div id="table_div_jugador" class="col-md-12"></div>    
@@ -111,15 +112,18 @@ $( document ).ready(function() {
   $('#completo_jugador_temporada').trigger("change");    
 });
 
+//<!-- MARCIAL -->
+var i = 0;
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
+    alert(++i);
     var value = $(this).val().toLowerCase();
     $(".dropdown-menu li").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
 });
-
+//<!-- MARCIAL -->
 select_jugador.on('change', function() {
   
   var jug = this.value.split('||');

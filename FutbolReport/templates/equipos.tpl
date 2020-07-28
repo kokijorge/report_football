@@ -5,7 +5,7 @@
     <section class="wrapper">
       <div class="row">
         <div class="col-lg-4">
-          <h3 class="page-header"><i class="fa fa-table"></i> EQUIPOS</h3>  
+          <h3 class="page-header"><i class="fas fa-user-friends"></i> EQUIPOS</h3>  
         </div>
         <div class="pull-right">
           <ul class="nav pull-right top-menu">                    
