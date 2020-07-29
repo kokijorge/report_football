@@ -12,8 +12,8 @@
 
       
 
-  <!-- Bootstrap CSS -->
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!-- bootstrap theme -->
   <link href="/css/bootstrap-theme.css" rel="stylesheet">
   <!--external css-->
@@ -139,11 +139,10 @@
     {% include 'main.js' %} 
   </script>
  
-  <!-- bootstrap -->
-  <script src="/js/bootstrap.min.js"></script>
+  <!-- bootstrap -->    
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <!-- nice scroll -->
-  <script src="/js/jquery.scrollTo.min.js"></script>
-  <!--<script src="/js/jquery.nicescroll.js" type="text/javascript"></script>-->
+  <script src="/js/jquery.scrollTo.min.js"></script>  
   <!-- charts scripts -->
   <script src="/assets/jquery-knob/js/jquery.knob.js"></script>
   <script src="/js/jquery.sparkline.js" type="text/javascript"></script>

@@ -35,16 +35,11 @@
           </div>
           <!-- MARCIAL -->
           <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+            <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
+            background: white; border: 1px solid #c7c7cc;">----------
             <span class="caret"></span></button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" id="dropdown_jugador">
               <input class="form-control" id="myInput" type="text" placeholder="Search..">
-              <li><a href="#">HTML</a></li>
-              <li><a href="#">CSS</a></li>
-              <li><a href="#">JavaScript</a></li>
-              <li><a href="#">jQuery</a></li>
-              <li><a href="#">Bootstrap</a></li>
-              <li><a href="#">Angular</a></li>
             </ul>
           </div>
           <!-- MARCIAL -->
@@ -92,11 +87,17 @@ var anos_jugadores_select = {{anos_jugadores_select}};
 
 var select_temporada= $('#completo_jugador_temporada');
 var select_jugador= $('#completo_jugador_jugador');
+var dropdown_jugador = $("#dropdown_jugador");
 
 select_temporada.on('change', function() {
   
   select_jugador.empty();
   var lista_jugadores= anos_jugadores_select[select_temporada.val()];  
+
+
+
+
+
 
   $.each(lista_jugadores, function( index, jugador ) {
     
@@ -104,8 +105,16 @@ select_temporada.on('change', function() {
       .attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3])
       .text( jugador[0] + '||' + jugador[2] + '||' + jugador[3])
       .appendTo(select_jugador);
-    });
 
+
+      var li = $('<li><a href="#">'+jugador[0] + '||' + jugador[2] + '||' + jugador[3]+'</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);      
+      li.click(function(){
+        alert ($(this).attr('value'))
+      })
+      dropdown_jugador.append(li);
+
+    });       
+  
 })
 
 $( document ).ready(function() {    
@@ -113,10 +122,8 @@ $( document ).ready(function() {
 });
 
 //<!-- MARCIAL -->
-var i = 0;
 $(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    alert(++i);
+  $("#myInput").on("keyup", function() {    
     var value = $(this).val().toLowerCase();
     $(".dropdown-menu li").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -124,10 +131,11 @@ $(document).ready(function(){
   });
 });
 //<!-- MARCIAL -->
+
 select_jugador.on('change', function() {
   
   var jug = this.value.split('||');
-  console.log( "JSON Data: " + jug );
+  console.log( "select_jugador: " + jug );
   $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], equipo: jug[2], ano: $("#completo_jugador_temporada").val() } )
   
   .done(function( json ) {    
@@ -193,7 +201,7 @@ select_jugador.on('change', function() {
       var chart_temperatura = new google.visualization.ColumnChart(document.getElementById("columnchart_temperatura"));
       chart_temperatura.draw(data_temperatura, options_temperatura);  
 
-  //<!-- puntuaciones lluvias-->         
+    //<!-- puntuaciones lluvias-->         
       var data_lluvias = new google.visualization.DataTable();
       data_lluvias.addColumn('string', 'Temperatura');
       data_lluvias.addColumn('number', 'Puntuacion');    
