@@ -81,7 +81,8 @@ def partido(ano,jornada,partido):
 		jornada= '1'
 	temp = str(entero+1)
 	partidos = desc_partidos(partido)
-	return render_template('partidos.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, partidos=partidos,temp=temp)
+	info_partidos = info_partido(partido)
+	return render_template('partidos.tpl', temporada_seleccionada = ano ,jornada_seleccionada=jornada, partidos=partidos,temp=temp,info_partidos=info_partidos)
 
 @app.route('/jugadores/<string:ano>')
 def jugadores(ano):	

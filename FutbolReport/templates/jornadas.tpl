@@ -44,7 +44,7 @@
                   <table id="selectedColumn" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                     <thead>
                       <tr>
-                        <th>#</th>
+                        <th>Más Info</th>
                         <th>Equipo local</th>
                         <th>Resultado local</th>
                         <th>Equipo visitante</th>
@@ -56,7 +56,7 @@
                     <tbody>                    
                       {% for jornada in jornadas %}                    
                       <tr data="{{jornada.7}}">                        
-                        <td> {{ jornada.0}} </td>
+                        <td> <a class="sort-link" href="www.google.es">#</a> </td>
                         <td> {{ jornada.1}} </td>
                         <td> {{ jornada.2}} </td>
                         <td> {{ jornada.3}} </td>

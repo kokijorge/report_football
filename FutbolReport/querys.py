@@ -220,22 +220,17 @@ query_desc_partidos =  """
 
 query_seleccionar_jugadores = """ 
 	select ROW_NUMBER() OVER(    ORDER BY nombre),query.* from    
-	(select jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado 
-	,fecha_inicio_contrato,fecha_fin_contrato ,equ.nombre equipo
-	from stg.stg_milita mil
-    inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
-    inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador
-    and fecha_inicio_contrato between (:fec_min) and (:fec_max)
-    and fecha_fin_contrato is null
-	UNION
-	select jug.nombre,jug.fecha_nacimiento,jug.nacionalidad,jug.pie,jug.posicion,valor_mercado 
-	,fecha_inicio_contrato,fecha_fin_contrato ,equ.nombre equipo
-	from stg.stg_milita mil
-    inner join stg.stg_equipo equ on mil.id_equipo=equ.id_equipo
-    inner join stg.stg_jugador jug on jug.id_jugador = mil.id_jugador    
-    and fecha_fin_contrato between (:fec_min) and (:fec_max)
+	(select dim_jugador.nombre as nombre,dim_jugador.fecha_nacimiento,dim_jugador.nacionalidad,dim_jugador.pie,dim_jugador.posicion,
+        dim_jugador.altura,dim_jugador.fecha_inicio_contrato,dim_jugador.fecha_fin_contrato,dim_equipo.nombre equipo ,dim_jugador.ID_jugador
+        from dw.fact_jornada 
+        inner join dw.dim_equipo on id_equipo_propio = dim_equipo.id_equipo
+        inner join dw.dim_jugador on fact_jornada.id_jugador = dim_jugador.id_jugador
+        where id_partido between (:id_ini) and (:id_fin)
+        group by dim_jugador.nombre,dim_jugador.fecha_nacimiento,dim_jugador.nacionalidad,dim_jugador.pie,dim_jugador.posicion,
+        dim_jugador.altura,dim_jugador.fecha_inicio_contrato,dim_jugador.fecha_fin_contrato,dim_equipo.nombre ,dim_jugador.ID_jugador        
     ) as query
 	"""
+    
 
 query_seleccionar_estadios =  """ 
 	select ROW_NUMBER() OVER(    ORDER BY equ.nombre),equ.nombre,est.estadio,est.ciudad,est.capacidad,est.coordenada_x,est.coordenada_y,
@@ -920,4 +915,24 @@ and propio.nombre = :equipo
 group by dim_equipo.nombre
 order by 2 asc
 FETCH FIRST 5 ROWS ONLY)as  b order by 2 desc
+"""
+
+query_info_partido =""" 
+select dim_estadio.estadio,equ_local.nombre equipo_local,equ_visitante.nombre equipo_visitante,
+resultado_propio  as Resultado_local,resultado_rival,
+ent_local.nombre as Entrenador_local,ent_visitante.nombre as Entrenador_visitante,
+regexp_replace(dim_meteo.temperatura_categoria, '_', ' ', 'g') as temperatura,
+regexp_replace(dim_meteo.lluvias_categoria, '_', ' ', 'g') as lluvias,
+regexp_replace(dim_meteo.humedad_categoria, '_', ' ', 'g') as humedad,
+regexp_replace(dim_meteo.velocidad_viento_categoria, '_', ' ', 'g') as velocidad_viento
+from dw.fact_jornada fact
+inner join dw.dim_estadio on fact.id_estadio = dim_estadio.id_estadio
+inner join dw.dim_entrenador ent_local on fact.id_entrenador_propio= ent_local.id_entrenador
+inner join dw.dim_entrenador ent_visitante on fact.id_entrenador_rival=ent_visitante.id_entrenador
+inner join dw.dim_equipo equ_local on fact.id_equipo_propio=equ_local.id_equipo
+inner join dw.dim_equipo equ_visitante on fact.id_equipo_rival=equ_visitante.id_equipo
+inner join dw.dim_meteo on fact.id_meteo= dim_meteo.id_meteo
+where id_partido = :id_partido
+and es_local= 'SI'
+FETCH FIRST 1 ROWS ONLY;
 """

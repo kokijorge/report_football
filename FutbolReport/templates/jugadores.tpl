@@ -38,7 +38,7 @@
                       <th>Nacionalidad</th>
                       <th>Pie</th>
                       <th>Posicion</th>                   
-                      <th>Valor mercado</th>                  
+                      <th>Altura</th>                  
                       <th>Inicio contrato</th>
                       <th>Fin contrato</th>
                       <th>Equipo</th>

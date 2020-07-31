@@ -5,8 +5,11 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-4">
-            <h3 class="page-header"><i class="fa fa-table"></i> PARTIDOS</h3>
+            <h3 class="page-header"><i class="fa fa-table"></i>  {{ info_partidos}}</h3>
           </div>
+          <div class="col-lg-4">
+            <h3 class="page-header"><i class="fa fa-table"></i> PARTIDOS</h3>
+          </div>          
         </div>
        <!-- page start-->
           <div class="row">

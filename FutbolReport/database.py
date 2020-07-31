@@ -5,10 +5,17 @@ from querys import *
 db = SQLAlchemy()
 
 
-def dame_la_lista_de_jugadores_del_ano(anoInt):
-	fec_min = seleccionar_fecha_minima(anoInt)
-	fec_max = seleccionar_fecha_maxima(anoInt)
-	query_jug = db.session.execute(query_seleccionar_jugadores , {"fec_min": fec_min,"fec_max": fec_max})
+def dame_la_lista_de_jugadores_del_ano(ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765
+	query_jug = db.session.execute(query_seleccionar_jugadores , {"id_ini":id_ini, "id_fin":id_fin})
 	return [row for row in query_jug]
 
 
@@ -345,3 +352,9 @@ def entrenador_mejor(nombre,equipo,ano):
 	data = db.session.execute(query_entrenador_mejor, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
 	puntuaciones_entrenador_mejor = [list(row) for row in data]
 	return  puntuaciones_entrenador_mejor	
+
+
+def info_partido(id_partido):
+	data = db.session.execute(query_info_partido, {"id_partido": id_partido})
+	info_partido = [list(row) for row in data]
+	return  info_partido
