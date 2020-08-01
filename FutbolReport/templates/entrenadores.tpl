@@ -29,7 +29,7 @@
                 1ª División Temporada {{ temporada_seleccionada }}/{{ temp }} 
               </header>
               <div class="table-responsive">
-                <table class="table">
+                <table id="id_entrenador" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -42,7 +42,7 @@
                   </thead>
                   <tbody>                    
                     {% for entrenador in entrenadores %}                    
-                    <tr>
+                    <tr data="{{entrenador.2}}">
                       <td> {{ entrenador.0}} </td>                      
                       <td> {{ entrenador.1}} </td>
                       <td> {{ entrenador.2}} </td>
@@ -61,4 +61,19 @@
       </section>
     </section>
     <!--main content end-->
+    <script>
+      $(document).ready(function () {
+        $('#id_entrenador').DataTable({
+            "aaSorting": [],
+            columnDefs: [{
+            orderable: false,
+            targets: 0
+            }]
+          });
+          $('.dataTables_length').addClass('bs-select');          
+        });       
+      $("#id_entrenador>tbody>tr").click(function(){          
+          window.location.href= window.location.href+'/'+$(this).attr("data") ;
+          })         
+      </script>
 {% endblock%}

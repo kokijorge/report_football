@@ -21,12 +21,18 @@ def index():
 	return redirect('/top/2016')
 
 @app.route('/equipos/<string:ano>')
-def equipos(ano):
-	data = db.session.execute( query_seleccionar_equipos, {"ano": ano})
-	equipos = [row for row in data]
+def equipos(ano):	
+	equipos = seleccionar_equipos(ano)
 	entero = int(ano)
 	temp = str(entero+1)	
 	return render_template('equipos.tpl', equipos = equipos , temporada_seleccionada = ano,temp=temp)
+
+@app.route('/equipos/<string:ano>/<string:equipo>')
+def equipo_concreto(ano,equipo):
+	equipo_concreto = seleccionar_equipo_concreto(ano,equipo)
+	entero = int(ano)
+	temp = str(entero+1)	
+	return render_template('equipo_concreto.tpl', equipo_concreto = equipo_concreto , temporada_seleccionada = ano,temp=temp)
 
 @app.route('/<string:ano>')
 def temporada(ano):
@@ -62,6 +68,13 @@ def entrenadores(ano):
 	entrenadores = [row for row in query_entrenadores]			
 	return render_template('entrenadores.tpl',entrenadores=entrenadores , temporada_seleccionada = ano, temp=temp)
 
+@app.route('/entrenadores/<string:ano>/<string:entrenador>')
+def entrenador_concreto(ano,entrenador):
+	entrenador_concreto = seleccionar_entrenador_concreto(ano,entrenador)
+	entero = int(ano)
+	temp = str(entero+1)	
+	return render_template('entrenador_concreto.tpl', entrenador_concreto = entrenador_concreto , temporada_seleccionada = ano,temp=temp)
+
 @app.route('/jornadas/<string:jornada>/<string:ano>')
 def jornadas(ano,jornada):
 	entero = int(ano)
@@ -87,11 +100,18 @@ def partido(ano,jornada,partido):
 @app.route('/jugadores/<string:ano>')
 def jugadores(ano):	
 	entero = int(ano)
-	temp = str(entero+1)
-	#nuevo_equipo = equipo.replace('%20', ' ')
+	temp = str(entero+1)	
 	jugadores = dame_la_lista_de_jugadores_del_ano(ano)
 
 	return render_template('jugadores.tpl', temporada_seleccionada = ano,jugadores=jugadores,temp=temp)
+
+@app.route('/jugadores/<string:ano>/<string:id_jugador>')
+def jugador_concreto(ano,id_jugador):	
+	entero = int(ano)
+	temp = str(entero+1)	
+	#nuevo_equipo = equipo.replace('%20', ' ')
+	jugadores = jug_concreto(ano,id_jugador)
+	return render_template('jugador_concreto.tpl', temporada_seleccionada = ano,jugadores=jugadores,temp=temp)
 
 @app.route('/estadios/')
 def estadios():

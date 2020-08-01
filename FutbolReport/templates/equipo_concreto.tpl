@@ -5,7 +5,7 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-4">
-            <h3 class="page-header"><i class="fas fa-running"></i> JUGADOR CONCRETO</h3>
+            <h3 class="page-header"><i class="fas fa-user-friends"></i> EQUIPO CONCRETO</h3>
           </div>
         </div>
        <!-- page start-->
@@ -20,30 +20,24 @@
                   <thead>
                     <tr>                      
                       <th>Nombre</th>
-                      <th>Equipo</th>
-                      <th>Equipo Rival</th>
-                      <th>Puntuación</th>
-                      <th>Titular</th>                   
-                      <th>Es Local</th>
-                      <th>Tarjeta amarilla</th>                  
-                      <th>Tarjeta roja</th>
+                      <th>Puntuación total</th>
+                      <th>Titularidades</th>
+                      <th>Tarjetas amarillas</th>
+                      <th>Tarjetas rojas</th>                   
                       <th>Minutos jugados</th>
-                      <th>Goles</th>
+                      <th>Goles</th>                                        
                     </tr>
                   </thead>
                   <tbody>                    
-                    {% for jugador in jugadores %}                    
-                    <tr>
-                      <td> {{ jugador.0}} </td>
-                      <td> {{ jugador.1}} </td>
-                      <td> {{ jugador.2}} </td>
-                      <td> {{ jugador.3}} </td>
-                      <td> {{ jugador.4}} </td>
-                      <td> {{ jugador.5}} </td>
-                      <td> {{ jugador.6}} </td>
-                      <td> {{ jugador.7}} </td>
-                      <td> {{ jugador.8}} </td>                      
-                      <td> {{ jugador.9}} </td>
+                    {% for equ in equipo_concreto %}                    
+                    <tr>                      
+                      <td> {{ equ.1}} </td>
+                      <td> {{ equ.2}} </td>
+                      <td> {{ equ.3}} </td>
+                      <td> {{ equ.4}} </td>
+                      <td> {{ equ.5}} </td>
+                      <td> {{ equ.6}} </td>
+                      <td> {{ equ.7}} </td>
                     </tr>
                     {% endfor%}
                   </tbody>

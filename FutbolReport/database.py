@@ -25,9 +25,37 @@ def dame_los_estadios():
 	return estadios
 
 def seleccionar_equipos(ano):
-	data = db.session.execute(query_seleccionar_equipos_jugadores, {"ano": ano})
+	data = db.session.execute(query_seleccionar_equipos, {"ano": ano})
 	equipos = [row for row in data]
 	return  equipos
+
+def seleccionar_equipo_concreto(ano,equipo):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765
+	data = db.session.execute(query_seleccionar_equipo_concreto, {"id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
+	equipo_concreto = [row for row in data]
+	return  equipo_concreto
+
+def seleccionar_entrenador_concreto(ano,entrenador):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765
+	data = db.session.execute(query_seleccionar_entrenador_concreto, {"id_ini":id_ini, "id_fin":id_fin,"entrenador":entrenador})
+	entrenador_concreto = [row for row in data]
+	return  entrenador_concreto
 
 def seleccionar_fecha_minima(ano):
 	fec_min = db.session.execute(query_fecha_minima , {"ano": ano}).fetchone()[0]
@@ -358,3 +386,18 @@ def info_partido(id_partido):
 	data = db.session.execute(query_info_partido, {"id_partido": id_partido})
 	info_partido = [list(row) for row in data]
 	return  info_partido
+
+def jug_concreto(ano,id_jugador):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_jugador_concreto, {"id_jugador":id_jugador,"id_ini":id_ini, "id_fin":id_fin})
+	jug = [list(row) for row in data]
+	return  jug
+	

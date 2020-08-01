@@ -29,7 +29,7 @@
                 1ª División Temporada {{ temporada_seleccionada }}/{{ temp }} 
               </header>
               <div class="table-responsive">
-                <table class="table">
+                <table id="id_equipo" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -39,8 +39,8 @@
                     </tr>
                   </thead>
                   <tbody>                    
-                    {% for equipo in equipos %}                    
-                    <tr>                      
+                    {% for equipo in equipos %}                                        
+                    <tr data="{{equipo.1}}">
                       <td> {{ equipo.0}} </td>                      
                       <td> {{ equipo.1}} </td>
                       <td> {{ equipo.2}} </td>
@@ -57,4 +57,19 @@
       </section>
     </section>
     <!--main content end-->
+    <script>
+    $(document).ready(function () {
+        $('#id_equipo').DataTable({
+            "aaSorting": [],
+            columnDefs: [{
+            orderable: false,
+            targets: 0
+            }]
+          });
+          $('.dataTables_length').addClass('bs-select');          
+        });
+    $("#id_equipo>tbody>tr").click(function(){          
+          window.location.href= window.location.href+'/'+$(this).attr("data") ;
+          })  
+    </script>
 {% endblock%}

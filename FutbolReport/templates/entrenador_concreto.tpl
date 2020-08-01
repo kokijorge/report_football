@@ -5,7 +5,7 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-4">
-            <h3 class="page-header"><i class="fas fa-running"></i> JUGADOR CONCRETO</h3>
+            <h3 class="page-header"><i class="icon_documents_alt"></i> ENTRENADOR CONCRETO</h3>
           </div>
         </div>
        <!-- page start-->
@@ -16,34 +16,34 @@
                 1ª División Temporada {{ temporada_seleccionada }}/{{ temp }} 
               </header>
               <div class="table-responsive">
-                <table id="id_jugador" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">                
+                <table id="id_entrenador_concreto" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">                
                   <thead>
                     <tr>                      
                       <th>Nombre</th>
                       <th>Equipo</th>
-                      <th>Equipo Rival</th>
-                      <th>Puntuación</th>
-                      <th>Titular</th>                   
+                      <th>Entrenador Rival</th>
+                      <th>Equipo Rival</th>                                    
+                      <th>Goles a favor</th>
+                      <th>Goles en contra</th>
                       <th>Es Local</th>
-                      <th>Tarjeta amarilla</th>                  
-                      <th>Tarjeta roja</th>
-                      <th>Minutos jugados</th>
-                      <th>Goles</th>
+                      <th>Puntuaciones</th>
+                      <th>Amarillas</th>                  
+                      <th>Rojas</th>                                            
                     </tr>
                   </thead>
                   <tbody>                    
-                    {% for jugador in jugadores %}                    
+                    {% for entr in entrenador_concreto %}                    
                     <tr>
-                      <td> {{ jugador.0}} </td>
-                      <td> {{ jugador.1}} </td>
-                      <td> {{ jugador.2}} </td>
-                      <td> {{ jugador.3}} </td>
-                      <td> {{ jugador.4}} </td>
-                      <td> {{ jugador.5}} </td>
-                      <td> {{ jugador.6}} </td>
-                      <td> {{ jugador.7}} </td>
-                      <td> {{ jugador.8}} </td>                      
-                      <td> {{ jugador.9}} </td>
+                      <td> {{ entr.0}} </td>
+                      <td> {{ entr.1}} </td>
+                      <td> {{ entr.2}} </td>
+                      <td> {{ entr.3}} </td>
+                      <td> {{ entr.4}} </td>
+                      <td> {{ entr.5}} </td>
+                      <td> {{ entr.6}} </td>
+                      <td> {{ entr.7}} </td>
+                      <td> {{ entr.8}} </td>                      
+                      <td> {{ entr.9}} </td>
                     </tr>
                     {% endfor%}
                   </tbody>
@@ -57,7 +57,7 @@
       <!--main content end-->
       <script>
       $(document).ready(function () {
-        $('#id_jugador').DataTable({
+        $('#id_entrenador_concreto').DataTable({
             "aaSorting": []
           });
           $('.dataTables_length').addClass('bs-select');          

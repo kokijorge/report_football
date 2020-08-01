@@ -28,8 +28,8 @@
               <header id="tabla_jugadores" class="panel-heading">
                 1ª División Temporada {{ temporada_seleccionada }}/{{ temp }} 
               </header>
-              <div class="table-responsive">
-                <table class="table">
+              <div class="table-responsive">                
+                <table id="id_jugadores" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">                
                   <thead>
                     <tr>
                       <th>#</th>
@@ -46,7 +46,7 @@
                   </thead>
                   <tbody>                    
                     {% for jugador in jugadores %}                    
-                    <tr>
+                    <tr data="{{jugador.10}}">
                       <td> {{ jugador.0}} </td>
                       <td> {{ jugador.1}} </td>
                       <td> {{ jugador.2}} </td>
@@ -69,4 +69,19 @@
         </section>
       </section>
       <!--main content end-->
+      <script>
+      $(document).ready(function () {
+        $('#id_jugadores').DataTable({
+            "aaSorting": [],
+            columnDefs: [{
+            orderable: false,
+            targets: 0
+            }]
+          });
+          $('.dataTables_length').addClass('bs-select');          
+        });       
+      $("#id_jugadores>tbody>tr").click(function(){          
+          window.location.href= window.location.href+'/'+$(this).attr("data") ;
+          })         
+      </script>
 {% endblock%}

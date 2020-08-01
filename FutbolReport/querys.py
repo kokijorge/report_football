@@ -89,15 +89,6 @@ def seleccionar_entrenador_completo(ano):
             """
         return query
 
-
-query_seleccionar_equipos_jugadores= """
-select equi.nombre,ROW_NUMBER() OVER(    ORDER BY equi.nombre) from stg.stg_partido par
-inner join stg.stg_equipo equi
-on equi.id_equipo=par.id_equipo_local
-where temporada = :ano
-group by equi.nombre
-""" 
-
 query_seleccionar_equipos=""" 
 	select ROW_NUMBER() OVER(    ORDER BY equi.nombre),equi.nombre,equi.ano_fundacion,est.ciudad
 	from stg.stg_partido par
@@ -108,6 +99,32 @@ query_seleccionar_equipos="""
 	where temporada = :ano
 	group by equi.nombre,equi.ano_fundacion,est.ciudad
 	""" 
+query_seleccionar_equipo_concreto=""" 
+	select fact_jornada.id_jugador,jug.nombre,sum(puntuacion),count(titular) as titularidades,
+    sum(tarjeta_amarilla),sum(tarjeta_roja),sum(minutos_jugados),sum(goles),loc.nombre equipo
+    from dw.fact_jornada
+    inner join dw.dim_equipo loc on id_equipo_propio=loc.id_equipo
+    inner join dw.dim_jugador jug on fact_jornada.id_jugador = jug.id_jugador
+    where loc.nombre = :equipo
+    and id_partido between (:id_ini) and (:id_fin)
+    group by fact_jornada.id_jugador,jug.nombre,loc.nombre
+    order by 2;
+	"""
+
+query_seleccionar_entrenador_concreto=""" 
+	select ent_propio.nombre,loc.nombre equipo,ent_rival.nombre,riv.nombre rival,resultado_propio,resultado_rival,
+    es_local,sum(puntuacion) puntuaciones
+    ,sum(tarjeta_amarilla) amarillas,sum(tarjeta_roja) rojas,id_partido
+    from dw.fact_jornada
+    inner join dw.dim_entrenador ent_propio on ent_propio.id_entrenador = id_entrenador_propio
+    inner join dw.dim_entrenador ent_rival on ent_rival.id_entrenador = id_entrenador_rival
+    inner join dw.dim_equipo loc on id_equipo_propio=loc.id_equipo
+    inner join dw.dim_equipo riv on id_equipo_rival=riv.id_equipo
+    where id_partido between (:id_ini) and (:id_fin)
+    and ent_propio.nombre = :entrenador
+    group by  ent_propio.nombre,ent_rival.nombre,loc.nombre,riv.nombre,es_local,resultado_propio,resultado_rival,id_partido
+    order by id_partido;
+	"""              
 
 query_seleccionar_puntuaciones = """ 
 	select jug.nombre,jug.nacionalidad,jug.posicion,sum(puntuacion),jug.id_jugador
@@ -231,6 +248,17 @@ query_seleccionar_jugadores = """
     ) as query
 	"""
     
+query_jugador_concreto = """ 
+	select dim_jugador.nombre,dim_equipo.nombre as equipo,rival.nombre as Equipo_rival ,
+    puntuacion,titular,es_local, tarjeta_amarilla,tarjeta_roja,minutos_jugados,goles,id_partido
+    from dw.fact_jornada
+    inner join dw.dim_jugador on fact_jornada.id_jugador = dim_jugador.id_jugador
+    inner join dw.dim_equipo on id_equipo_propio = dim_equipo.id_equipo
+    inner join dw.dim_equipo rival on id_equipo_rival = rival.id_equipo
+    where dim_jugador.id_jugador= :id_jugador
+    and id_partido between (:id_ini) and (:id_fin)
+    order by id_partido;
+	"""
 
 query_seleccionar_estadios =  """ 
 	select ROW_NUMBER() OVER(    ORDER BY equ.nombre),equ.nombre,est.estadio,est.ciudad,est.capacidad,est.coordenada_x,est.coordenada_y,
