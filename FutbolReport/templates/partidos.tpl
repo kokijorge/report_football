@@ -5,7 +5,7 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-4">
-            <h3 class="page-header"><i class="fa fa-table"></i>  {{ info_partidos}}</h3>
+            <h3 class="page-header"><i class="fa fa-table"></i>  {{ info_partidos.0}}</h3> <!-- meter todo-->
           </div>
           <div class="col-lg-4">
             <h3 class="page-header"><i class="fa fa-table"></i> PARTIDOS</h3>

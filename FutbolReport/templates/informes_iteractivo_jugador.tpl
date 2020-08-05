@@ -90,9 +90,6 @@
 
   })
 
-  $( document ).ready(function() {    
-    $('#iteractivo_jugador_temporada_a').trigger("change");    
-  });
 
   var jugador_a = null;
   var jugador_b = null;
@@ -168,9 +165,6 @@
 
   })
 
-  $( document ).ready(function() {    
-    $('#iteractivo_jugador_temporada_b').trigger("change");    
-  });
 
   select_jugador_b.on('change', function() {
   

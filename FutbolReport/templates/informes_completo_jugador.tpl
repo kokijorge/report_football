@@ -27,13 +27,7 @@
               <li id="label_jugador" class="dropdown">
                 <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
               </li>
-              <li class="dropdown">
-                <select class="form-control" id="completo_jugador_jugador">                                                     
-                </select>
-              </li>
-            </ul>            
-          </div>
-          <!-- MARCIAL -->
+            
           <div class="dropdown">
             <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
             background: white; border: 1px solid #c7c7cc;">----------
@@ -42,7 +36,19 @@
               <input class="form-control" id="myInput" type="text" placeholder="Search..">
             </ul>
           </div>
-          <!-- MARCIAL -->
+            </ul>            
+          </div>
+
+
+
+
+
+
+
+
+
+
+
           
 <div class="row"> 
     <div id="table_div_jugador" class="col-md-12"></div>    
@@ -86,57 +92,25 @@ google.charts.load("current", {packages:["corechart"]});
 var anos_jugadores_select = {{anos_jugadores_select}};
 
 var select_temporada= $('#completo_jugador_temporada');
-var select_jugador= $('#completo_jugador_jugador');
 var dropdown_jugador = $("#dropdown_jugador");
 
 select_temporada.on('change', function() {
   
-  select_jugador.empty();
   var lista_jugadores= anos_jugadores_select[select_temporada.val()];  
 
+  dropdown_jugador.empty();
 
-
-
-
+  $('<input class="form-control" id="myInput" type="text" placeholder="Search..">').appendTo(dropdown_jugador);
+  busquedaEnDropdown();
 
   $.each(lista_jugadores, function( index, jugador ) {
     
-    $('<option>')
-      .attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3])
-      .text( jugador[0] + '||' + jugador[2] + '||' + jugador[3])
-      .appendTo(select_jugador);
-
-
       var li = $('<li><a href="#">'+jugador[0] + '||' + jugador[2] + '||' + jugador[3]+'</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);      
-      li.click(function(){
-        alert ($(this).attr('value'))
-      })
-      dropdown_jugador.append(li);
+      li.click(function(){                  
 
-    });       
-  
-})
-
-$( document ).ready(function() {    
-  $('#completo_jugador_temporada').trigger("change");    
-});
-
-//<!-- MARCIAL -->
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {    
-    var value = $(this).val().toLowerCase();
-    $(".dropdown-menu li").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-//<!-- MARCIAL -->
-
-select_jugador.on('change', function() {
-  
-  var jug = this.value.split('||');
-  console.log( "select_jugador: " + jug );
-  $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], equipo: jug[2], ano: $("#completo_jugador_temporada").val() } )
+      var jug = $(this).attr('value').split('||');
+      console.log( "dropdown: " + jug );
+      $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], equipo: jug[2], ano: $("#completo_jugador_temporada").val() } )
   
   .done(function( json ) {    
 
@@ -287,8 +261,27 @@ select_jugador.on('change', function() {
     console.log( "Request Failed: " + err );
   });
 
+  })
+        dropdown_jugador.append(li);
+      });       
+  
+})
 
-});                   
+
+
+  function busquedaEnDropdown(){
+  $("#myInput").on("keyup", function() {    
+      var value = $(this).val().toLowerCase();
+      $(".dropdown-menu li").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  }
+  $( document ).ready(function() {    
+    $('#completo_jugador_temporada').trigger("change");    
+    busquedaEnDropdown();
+  });
+
         </script>     
           <!-- page end-->
         </section>

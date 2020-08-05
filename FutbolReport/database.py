@@ -385,7 +385,7 @@ def entrenador_mejor(nombre,equipo,ano):
 def info_partido(id_partido):
 	data = db.session.execute(query_info_partido, {"id_partido": id_partido})
 	info_partido = [list(row) for row in data]
-	return  info_partido
+	return  info_partido[0]
 
 def jug_concreto(ano,id_jugador):
 	if ano  == '2016':

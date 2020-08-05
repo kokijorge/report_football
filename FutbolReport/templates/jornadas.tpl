@@ -55,10 +55,10 @@
                     </thead>
                     <tbody>                    
                       {% for jornada in jornadas %}                    
-                      <tr data="{{jornada.7}}">                        
-                        <td> <a class="sort-link" href="www.google.es">#</a> </td>
-                        <td> {{ jornada.1}} </td>
-                        <td> {{ jornada.2}} </td>
+                      <tr id="id_tr" data="{{jornada.7}}">                        
+                        <td style="text-align:center"> <button  type="button" class="btn btn-primary btn-sm mas_info_button" >+</button> </td>
+                        <td> <a href="/equipos/{{temporada_seleccionada}}/{{ jornada.1}}"> {{ jornada.1}} </a> </td>
+                        <td> {{ jornada.2}}</td>
                         <td> {{ jornada.3}} </td>
                         <td> {{ jornada.4}} </td>
                         <td> {{ jornada.5}} </td>
@@ -86,8 +86,9 @@
           });
           $('.dataTables_length').addClass('bs-select');          
         });        
-        $("#selectedColumn>tbody>tr").click(function(){          
-          window.location.href= window.location.href+'/'+$(this).attr("data") ;
-          })
+
+        $(".mas_info_button").click(function(){                        
+              window.location.href= window.location.href+'/'+$(this).parent().parent().attr("data") ;
+            });
       </script>
 {% endblock%}
