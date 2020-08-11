@@ -43,9 +43,9 @@
                   <tbody>                    
                     {% for entrenador in entrenadores %}                    
                     <tr data="{{entrenador.2}}">
-                      <td> {{ entrenador.0}} </td>                      
-                      <td> {{ entrenador.1}} </td>
-                      <td> {{ entrenador.2}} </td>
+                      <td> {{ entrenador.0}} </td>                                            
+                      <td> <a href="/equipos/{{temporada_seleccionada}}/{{ entrenador.1}}"> {{ entrenador.1}} </a> </td>                                                   
+                      <td> <a href="/entrenadores/{{temporada_seleccionada}}/{{ entrenador.2}}"> {{ entrenador.2}} </a> </td>                                                   
                       <td> {{ entrenador.3}} </td>
                       <td> {{ entrenador.4}} </td>
                       <td> {{ entrenador.5}} </td>
@@ -71,9 +71,6 @@
             }]
           });
           $('.dataTables_length').addClass('bs-select');          
-        });       
-      $("#id_entrenador>tbody>tr").click(function(){          
-          window.location.href= window.location.href+'/'+$(this).attr("data") ;
-          })         
+        });                 
       </script>
 {% endblock%}

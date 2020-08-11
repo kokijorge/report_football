@@ -31,8 +31,7 @@
               <div class="table-responsive">
                 <table id="id_equipo" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                   <thead>
-                    <tr>
-                      <th>#</th>
+                    <tr>                      
                       <th>Nombre</th>
                       <th>Año_fundacion</th>                                 
                       <th>Ciudad</th>                      
@@ -40,9 +39,8 @@
                   </thead>
                   <tbody>                    
                     {% for equipo in equipos %}                                        
-                    <tr data="{{equipo.1}}">
-                      <td> {{ equipo.0}} </td>                      
-                      <td> {{ equipo.1}} </td>
+                    <tr data="{{equipo.1}}">                                                                 
+                      <td> <a href="/equipos/{{temporada_seleccionada}}/{{ equipo.1}}"> {{ equipo.1}} </a> </td>                                           
                       <td> {{ equipo.2}} </td>
                       <td> {{ equipo.3}} </td>                      
                     </tr>
@@ -62,14 +60,9 @@
         $('#id_equipo').DataTable({
             "aaSorting": [],
             columnDefs: [{
-            orderable: false,
-            targets: 0
             }]
           });
           $('.dataTables_length').addClass('bs-select');          
         });
-    $("#id_equipo>tbody>tr").click(function(){          
-          window.location.href= window.location.href+'/'+$(this).attr("data") ;
-          })  
     </script>
 {% endblock%}

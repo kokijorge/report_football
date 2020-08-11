@@ -59,7 +59,7 @@
                         <td style="text-align:center"> <button  type="button" class="btn btn-primary btn-sm mas_info_button" >+</button> </td>
                         <td> <a href="/equipos/{{temporada_seleccionada}}/{{ jornada.1}}"> {{ jornada.1}} </a> </td>
                         <td> {{ jornada.2}}</td>
-                        <td> {{ jornada.3}} </td>
+                        <td> <a href="/equipos/{{temporada_seleccionada}}/{{ jornada.3}}"> {{ jornada.3}} </a> </td>
                         <td> {{ jornada.4}} </td>
                         <td> {{ jornada.5}} </td>
                         <td> {{ jornada.6}} </td>

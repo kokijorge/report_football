@@ -31,8 +31,7 @@
               <div class="table-responsive">                
                 <table id="id_jugadores" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">                
                   <thead>
-                    <tr>
-                      <th>#</th>
+                    <tr>                      
                       <th>Nombre</th>
                       <th>Fecha nacimiento</th>
                       <th>Nacionalidad</th>
@@ -46,9 +45,8 @@
                   </thead>
                   <tbody>                    
                     {% for jugador in jugadores %}                    
-                    <tr data="{{jugador.10}}">
-                      <td> {{ jugador.0}} </td>
-                      <td> {{ jugador.1}} </td>
+                    <tr data="{{jugador.10}}"> 
+                      <td> <a href="/jugadores/{{temporada_seleccionada}}/{{ jugador.10}}"> {{ jugador.1}} </a> </td>                                           
                       <td> {{ jugador.2}} </td>
                       <td> {{ jugador.3}} </td>
                       <td> {{ jugador.4}} </td>
@@ -73,15 +71,13 @@
       $(document).ready(function () {
         $('#id_jugadores').DataTable({
             "aaSorting": [],
-            columnDefs: [{
-            orderable: false,
-            targets: 0
+            columnDefs: [{                        
             }]
           });
           $('.dataTables_length').addClass('bs-select');          
         });       
-      $("#id_jugadores>tbody>tr").click(function(){          
-          window.location.href= window.location.href+'/'+$(this).attr("data") ;
-          })         
+      $(".mas_info_button").click(function(){                        
+              window.location.href= window.location.href+'/'+$(this).parent().parent().attr("data") ;
+            });       
       </script>
 {% endblock%}

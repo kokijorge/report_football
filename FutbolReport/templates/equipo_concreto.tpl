@@ -5,7 +5,7 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-4">
-            <h3 class="page-header"><i class="fas fa-user-friends"></i> EQUIPO CONCRETO</h3>
+            <h3 class="page-header"><i class="fas fa-user-friends"></i> {{equipo_concreto.0.8}}</h3>
           </div>
         </div>
        <!-- page start-->
@@ -29,9 +29,9 @@
                     </tr>
                   </thead>
                   <tbody>                    
-                    {% for equ in equipo_concreto %}                    
-                    <tr>                      
-                      <td> {{ equ.1}} </td>
+                    {% for equ in equipo_concreto %}                                        
+                    <tr data="{{equ.0}}">                                            
+                      <td> <a href="/jugadores/{{temporada_seleccionada}}/{{ equ.0}}"> {{ equ.1}} </a> </td>                                           
                       <td> {{ equ.2}} </td>
                       <td> {{ equ.3}} </td>
                       <td> {{ equ.4}} </td>

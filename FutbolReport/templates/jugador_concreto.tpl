@@ -5,7 +5,7 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-4">
-            <h3 class="page-header"><i class="fas fa-running"></i> JUGADOR CONCRETO</h3>
+            <h3 class="page-header"><i class="fas fa-running"></i> {{ jugadores.0.0}}</h3>
           </div>
         </div>
        <!-- page start-->

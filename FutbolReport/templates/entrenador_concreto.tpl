@@ -5,7 +5,7 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-4">
-            <h3 class="page-header"><i class="icon_documents_alt"></i> ENTRENADOR CONCRETO</h3>
+            <h3 class="page-header"><i class="icon_documents_alt"></i> {{entrenador_concreto.0.0}}</h3>
           </div>
         </div>
        <!-- page start-->
