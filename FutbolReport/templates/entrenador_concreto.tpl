@@ -34,10 +34,10 @@
                   <tbody>                    
                     {% for entr in entrenador_concreto %}                    
                     <tr>
-                      <td> {{ entr.0}} </td>
-                      <td> {{ entr.1}} </td>
-                      <td> {{ entr.2}} </td>
-                      <td> {{ entr.3}} </td>
+                      <td> {{ entr.0}} </td>                      
+                      <td> <a href="/equipos/{{temporada_seleccionada}}/{{ entr.1}}"> {{ entr.1}} </a> </td>                                                   
+                      <td> <a href="/entrenadores/{{temporada_seleccionada}}/{{ entr.2}}"> {{ entr.2}} </a> </td>                                                                         
+                      <td> <a href="/equipos/{{temporada_seleccionada}}/{{ entr.3}}"> {{ entr.3}} </a> </td>                                                                         
                       <td> {{ entr.4}} </td>
                       <td> {{ entr.5}} </td>
                       <td> {{ entr.6}} </td>

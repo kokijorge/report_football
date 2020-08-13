@@ -26,10 +26,15 @@
               <li id="label_equipo" class="dropdown">
                 <label for="labelTemporada" form style="width:100px">Seleccione equipo</label>       
               </li>
-              <li class="dropdown">
-                <select class="form-control" id="completo_equipo_equipo">                                                     
-                </select>
-              </li>
+              <div class="dropdown">
+                <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
+                background: white; border: 1px solid #c7c7cc;" id="button_equipo">----------
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="dropdown_equipo">
+                  <input class="form-control" id="Input_equipo" type="text" placeholder="Search..">
+                </ul>
+              </div>
             </ul>            
           </div>
           
@@ -75,32 +80,28 @@
           google.charts.load("current", {packages:["corechart"]});
           var anos_equipos_select = {{anos_equipos_select}};
 
-          var select_temporada= $('#completo_equipo_temporada');
-          var select_equipo= $('#completo_equipo_equipo');
+          var select_temporada= $('#completo_equipo_temporada');          
+          var dropdown_equipo = $("#dropdown_equipo");
 
           select_temporada.on('change', function() {
-  
-            select_equipo.empty();            
+                       
             var lista_equipos= anos_equipos_select[select_temporada.val()];
-
+            dropdown_equipo.empty();
+            $('<input class="form-control" id="Input_equipo" type="text" placeholder="Search..">').appendTo(dropdown_equipo);
+            busquedaEnDropdownEquipo();
 
             $.each(lista_equipos, function( index, equipo ) {            
-              $('<option>')
-                .attr('value', equipo[0])
-                .text( equipo[0])
-                .appendTo(select_equipo);              
-            });                  
-          })
-
-$( document ).ready(function() {    
-  $('#completo_equipo_temporada').trigger("change");    
-});
-
-    select_equipo.on('change', function() {
+             var li = $('<li><a href="#">'+equipo[0] + '</a></li>').attr('value', equipo[0]);                   
+             li.click(function(){
+               var nombre_equipo = $(this).attr('value');
+               $.getJSON( "/equipo_completo", { nombre: nombre_equipo,  ano: $("#completo_equipo_temporada").val() })
     
-    $.getJSON( "/equipo_completo", { nombre: this.value,  ano: $("#completo_equipo_temporada").val() })
+    
   
       .done(function( json ) {
+
+        $("#button_equipo").text(equipo[0]);
+        $("#button_equipo").append($('<span class="caret"></span>'));
 
         console.log( "JSON Data: " + json.equipo + json.ano );
         // tabla con toda la informacion
@@ -208,8 +209,23 @@ $( document ).ready(function() {
         console.log( "Request Failed: " + err );
       });
 
-    }); 
+       })
+  dropdown_equipo.append(li);
+  }); 
 
+    }) 
+
+    function busquedaEnDropdownEquipo(){
+      $("#Input_equipo").on("keyup", function() {    
+          var value = $(this).val().toLowerCase();
+          $(".dropdown-menu li").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+    }
+    $( document ).ready(function() {    
+      $('#completo_equipo_temporada').trigger("change");    
+    });
     </script>
           <!-- page end-->
     </section>

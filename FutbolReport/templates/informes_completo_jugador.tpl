@@ -26,73 +26,62 @@
             <ul class="nav pull-center top-menu">                    
               <li id="label_jugador" class="dropdown">
                 <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
-              </li>
-            
-          <div class="dropdown">
-            <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
-            background: white; border: 1px solid #c7c7cc;">----------
-            <span class="caret"></span></button>
-            <ul class="dropdown-menu" id="dropdown_jugador">
-              <input class="form-control" id="myInput" type="text" placeholder="Search..">
-            </ul>
-          </div>
+              </li>            
+              <div class="dropdown">
+                <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
+                background: white; border: 1px solid #c7c7cc;" id="button_jugador">----------
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="dropdown_jugador">
+                  <input class="form-control" id="Input_jugador" type="text" placeholder="Search..">
+                </ul>
+              </div>
             </ul>            
           </div>
-
-
-
-
-
-
-
-
-
-
-
           
-<div class="row"> 
-    <div id="table_div_jugador" class="col-md-12"></div>    
-</div >   
+          <div class="row"> 
+              <div id="table_div_jugador" class="col-md-12"></div>    
+          </div >   
 
-<div class="row"> 
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div id="columnchart_temperatura" style="width: 500px; height: 300px;"></div>         
-    </div> 
-    <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
-    <div id="columnchart_lluvias" style="width: 500px; height: 300px;"></div>         
-    </div>
-</div>    
-<div class="row">     
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
-    <div id="columnchart_humedad" style="width: 500px; height: 300px;"></div>         
-    </div> 
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
-    <div id="columnchart_viento" style="width: 500px; height: 300px;"></div>         
-    </div>           
-</div> 
-  
-<div class="row">         
-    <div class="col-md-12" id="donutchart" style="width: 900px; height: 300px;"></div>
-</div>  
-<div class="row"> 
-    <div class="col-md-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
-</div>  
-<div class="row"> 
-    <div class="col-md-12"id="columnchart_rivales" style="width: 900px; height: 300px;"></div> 
-</div>  
-<div class="row"> 
-    <div class="col-md-12"id="columnchart_rivales_media" style="width: 900px; height: 300px;"></div> 
-</div>  
+          <div class="row"> 
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div id="columnchart_temperatura" style="width: 500px; height: 300px;"></div>         
+              </div> 
+              <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+              <div id="columnchart_lluvias" style="width: 500px; height: 300px;"></div>         
+              </div>
+          </div>    
+          <div class="row">     
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+              <div id="columnchart_humedad" style="width: 500px; height: 300px;"></div>         
+              </div> 
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+              <div id="columnchart_viento" style="width: 500px; height: 300px;"></div>         
+              </div>           
+          </div> 
+            
+          <div class="row">         
+              <div class="col-md-12" id="donutchart" style="width: 900px; height: 300px;"></div>
+          </div>  
+          <div class="row"> 
+              <div class="col-md-12" id="columnchart_values" style="width: 900px; height: 300px;"></div> 
+          </div>  
+          <div class="row"> 
+              <div class="col-md-12"id="columnchart_rivales" style="width: 900px; height: 300px;"></div> 
+          </div>  
+          <div class="row"> 
+              <div class="col-md-12"id="columnchart_rivales_media" style="width: 900px; height: 300px;"></div> 
+          </div>  
 
 
-<script type="text/javascript" src="/js/charts_google.js"></script>
-<script>
+          <script type="text/javascript" src="/js/charts_google.js"></script>
+          <script>
 
-google.charts.load("current", {packages:["corechart"]});
-var anos_jugadores_select = {{anos_jugadores_select}};
+          google.charts.load("current", {packages:["corechart"]});
+          var anos_jugadores_select = {{anos_jugadores_select}};
 
-var select_temporada= $('#completo_jugador_temporada');
-var dropdown_jugador = $("#dropdown_jugador");
+          var select_temporada= $('#completo_jugador_temporada');
+          var dropdown_jugador = $("#dropdown_jugador");
 
 select_temporada.on('change', function() {
   
@@ -100,19 +89,22 @@ select_temporada.on('change', function() {
 
   dropdown_jugador.empty();
 
-  $('<input class="form-control" id="myInput" type="text" placeholder="Search..">').appendTo(dropdown_jugador);
+  $('<input class="form-control" id="Input_jugador" type="text" placeholder="Search..">').appendTo(dropdown_jugador);
   busquedaEnDropdown();
 
   $.each(lista_jugadores, function( index, jugador ) {
     
       var li = $('<li><a href="#">'+jugador[0] + '||' + jugador[2] + '||' + jugador[3]+'</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);      
-      li.click(function(){                  
+      li.click(function(){              
 
       var jug = $(this).attr('value').split('||');
       console.log( "dropdown: " + jug );
       $.getJSON( "/jugador_completo", { nombre: jug[0], fecha: jug[1], equipo: jug[2], ano: $("#completo_jugador_temporada").val() } )
   
   .done(function( json ) {    
+
+    $("#button_jugador").text(jugador[0] + '||' + jugador[2] + '||' + jugador[3]);
+    $("#button_jugador").append($('<span class="caret"></span>'));
 
     // tabla con toda la informacion
     google.charts.load('current', {'packages':['table']});
@@ -262,15 +254,13 @@ select_temporada.on('change', function() {
   });
 
   })
-        dropdown_jugador.append(li);
-      });       
+  dropdown_jugador.append(li);
+  });       
   
 })
 
-
-
   function busquedaEnDropdown(){
-  $("#myInput").on("keyup", function() {    
+  $("#Input_jugador").on("keyup", function() {    
       var value = $(this).val().toLowerCase();
       $(".dropdown-menu li").filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)

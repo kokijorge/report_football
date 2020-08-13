@@ -34,9 +34,9 @@
                   <tbody>                    
                     {% for jugador in jugadores %}                    
                     <tr>
-                      <td> {{ jugador.0}} </td>
-                      <td> {{ jugador.1}} </td>
-                      <td> {{ jugador.2}} </td>
+                      <td> {{ jugador.0}} </td>                      
+                      <td> <a href="/equipos/{{temporada_seleccionada}}/{{ jugador.1}}"> {{ jugador.1}} </a> </td>                                                   
+                      <td> <a href="/equipos/{{temporada_seleccionada}}/{{ jugador.2}}"> {{ jugador.2}} </a> </td>                                                                         
                       <td> {{ jugador.3}} </td>
                       <td> {{ jugador.4}} </td>
                       <td> {{ jugador.5}} </td>

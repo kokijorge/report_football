@@ -25,11 +25,18 @@
             <ul class="nav pull-center top-menu">                    
               <li id="label_entrenador" class="dropdown">
                 <label for="labelTemporada" form style="width:100px">Seleccione entrenador</label>       
-              </li>
-              <li class="dropdown">
-                <select class="form-control" id="completo_entrenador_entrenador">                                                     
-                </select>
-              </li>
+              </li>              
+              <div class="dropdown">
+                <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
+                background: white; border: 1px solid #c7c7cc;" id="button_entrenador">----------
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="dropdown_entrenador">
+                  <input class="form-control" id="Input_entrenador" type="text" placeholder="Search..">
+                </ul>
+              </div>
+            </ul>            
+          </div>
             </ul>            
           </div>
 
@@ -75,37 +82,27 @@
           google.charts.load("current", {packages:["corechart"]});
           var anos_entrenadores_select = {{anos_entrenadores_select}};
 
-          var select_temporada= $('#completo_entrenador_temporada');
-          var select_entrenador= $('#completo_entrenador_entrenador');
-          var tag_entrenador= $('#tags_entrenador');
+          var select_temporada= $('#completo_entrenador_temporada');          
+          var dropdown_entrenador = $("#dropdown_entrenador");  
 
           select_temporada.on('change', function() {
-  
-            select_entrenador.empty();
+              
+            dropdown_entrenador.empty();
+            
             var lista_entrenadores= anos_entrenadores_select[select_temporada.val()]; 
+            $('<input class="form-control" id="Input_entrenador" type="text" placeholder="Search..">').appendTo(dropdown_entrenador);
+            busquedaEnDropdownEntrenador();
 
-            $.each(lista_entrenadores, function( index, entrenador ) {            
-              $('<option>')
-                .attr('value', entrenador[0] + '||' + entrenador[1])
-                .text( entrenador[0] + '||' + entrenador[1])
-                .appendTo(select_entrenador);                
+            $.each(lista_entrenadores, function( index, entrenador ) {                            
 
-            });                  
-          })
-
-
-$( document ).ready(function() {    
-  $('#completo_entrenador_temporada').trigger("change");    
-});
-
-          select_entrenador.on('change', function() {
-
-            var ent = this.value.split('||');
-  
-            $.getJSON( "/entrenador_completo", { nombre: ent[0], equipo: ent[1], ano: $("#completo_entrenador_temporada").val() } )
-                
-  
+                var li = $('<li><a href="#">'+entrenador[0] + '||' + entrenador[1] + '</a></li>').attr('value', entrenador[0] + '||' + entrenador[1]);                    
+                li.click(function(){
+                  var ent = $(this).attr('value').split('||');
+                  $.getJSON( "/entrenador_completo", { nombre: ent[0], equipo: ent[1], ano: $("#completo_entrenador_temporada").val() } )                                                                                             
+            
             .done(function( json ) {
+              $("#button_entrenador").text(entrenador[0] + '||' + entrenador[1]);
+              $("#button_entrenador").append($('<span class="caret"></span>'));
 
               console.log( "JSON Data: " + json.nombre + json.equipo + json.ano );              
               // tabla con toda la informacion
@@ -212,9 +209,24 @@ $( document ).ready(function() {
               var err = textStatus + ", " + error;
               console.log( "Request Failed: " + err );
             });
-
+            })
+            dropdown_entrenador.append(li);
           }); 
 
+          }) 
+
+        function busquedaEnDropdownEntrenador(){
+          $("#Input_entrenador").on("keyup", function() {    
+          var value = $(this).val().toLowerCase();
+            $(".dropdown-menu li").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        }
+
+        $( document ).ready(function() {    
+          $('#completo_entrenador_temporada').trigger("change");    
+        });
           </script>
 
           <!-- page end-->

@@ -32,7 +32,8 @@
             <div class="table-responsive">
               <table class="table">
                 <thead>
-                  <tr>                    
+                  <tr>
+                    <th>#</th>                    
                     <th>Nombre</th>
                     <th>Nacionalidad</th>                  
                     <th>Posicion</th>
@@ -42,8 +43,8 @@
                 <tbody>                    
                   {% for punto in puntos %}                    
                   <tr>
-                    <td> {{ punto.5}} </td>
-                    <td> {{ punto.0}} </td>
+                    <td> {{ punto.5}} </td>                    
+                    <td> {{ punto.0}} </td>                                           
                     <td> {{ punto.1}} </td>
                     <td> {{ punto.2}} </td>
                     <td> {{ punto.3}} </td>
