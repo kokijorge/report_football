@@ -28,10 +28,15 @@
                   <li id="label_jugador" class="dropdown">
                     <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
                   </li>
-                  <li class="dropdown">
-                    <select class="form-control" id="iteractivo_jugador_jugador_a">                                                     
-                    </select>
-                  </li>
+                  <div class="dropdown">
+                    <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
+                    background: white; border: 1px solid #c7c7cc;" id="button_jugador_a">----------
+                    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="dropdown_jugador_a">
+                      <input class="form-control" id="Input_jugador_a" type="text" placeholder="Search..">
+                    </ul>
+                  </div>
                 </ul>               
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -51,10 +56,15 @@
                   <li id="label_jugador" class="dropdown">
                     <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
                   </li>
-                  <li class="dropdown">
-                    <select class="form-control" id="iteractivo_jugador_jugador_b">                                                     
-                    </select>
-                  </li>
+                  <div class="dropdown">
+                    <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="
+                    background: white; border: 1px solid #c7c7cc;" id="button_jugador_b">----------
+                    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="dropdown_jugador_b">
+                      <input class="form-control" id="Input_jugador_b" type="text" placeholder="Search..">
+                    </ul>
+                  </div>
                 </ul>              
             </div>         
           </div>  
@@ -70,22 +80,20 @@
   var anos_jugadores_select_b = {{anos_jugadores_select_b}};
 
   var select_temporada_a= $('#iteractivo_jugador_temporada_a');
-  var select_jugador_a= $('#iteractivo_jugador_jugador_a');  
+  var dropdown_jugador_a= $('#dropdown_jugador_a');  
   var select_temporada_b= $('#iteractivo_jugador_temporada_b');
-  var select_jugador_b= $('#iteractivo_jugador_jugador_b'); 
+  var dropdown_jugador_b= $('#dropdown_jugador_b'); 
 
   select_temporada_a.on('change', function() {
   
-    select_jugador_a.empty();    
+    dropdown_jugador_a.empty();    
     var lista_jugadores_a= anos_jugadores_select_a[select_temporada_a.val()];    
+    $('<input class="form-control" id="Input_jugador_a" type="text" placeholder="Search..">').appendTo(dropdown_jugador_a);
+    busquedaEnDropdownJugadorA();
 
     $.each(lista_jugadores_a, function( index, jugador ) {
     
-      $('<option>')
-        .attr('value', jugador[0] + '||' + jugador[1])
-        .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
-        .appendTo(select_jugador_a);
-
+    var li_jug_a = $('<li><a href="#">'+jugador[0] + '||' + jugador[2] + '||' + jugador[3]+'</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);                                
     });  
 
   })
@@ -127,9 +135,8 @@
       }
   }
 
-  select_jugador_a.on('change', function() {
-  
-  var jug = this.value.split('||');
+  li_jug_a.click(function(){  
+  var jug = $(this).attr('value').split('||');  
   
   $.getJSON( "/jugador_iteractivo", { nombre: jug[0], fecha: jug[1], ano: $("#iteractivo_jugador_temporada_a").val() } )
   
@@ -149,26 +156,25 @@
                       
   });  
 
-  select_temporada_b.on('change', function() {
-  
-    select_jugador_b.empty();    
+  select_temporada_b.on('change', function() {               
+            
+    dropdown_jugador_a.empty();    
     var lista_jugadores_b= anos_jugadores_select_b[select_temporada_b.val()];    
+    $('<input class="form-control" id="Input_jugador_b" type="text" placeholder="Search..">').appendTo(dropdown_jugador_b);
+    busquedaEnDropdownJugadorB();
 
     $.each(lista_jugadores_b, function( index, jugador ) {
     
-      $('<option>')
-        .attr('value', jugador[0] + '||' + jugador[1])
-        .text( jugador[0] + '||' + jugador[1] + '||' + jugador[2])
-        .appendTo(select_jugador_b);
+      var li_jug_b = $('<li><a href="#">'+jugador[0] + '||' + jugador[2] + '||' + jugador[3]+'</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);                                
 
     });  
 
   })
 
 
-  select_jugador_b.on('change', function() {
+  li_jug_b.click(function(){  
   
-  var jug = this.value.split('||');
+  var jug = $(this).attr('value').split('||'); 
   
   $.getJSON( "/jugador_iteractivo", { nombre: jug[0], fecha: jug[1], ano: $("#iteractivo_jugador_temporada_b").val() } )
   
@@ -186,6 +192,22 @@
 
                       
   });  
+  function busquedaEnDropdownJugadorA(){
+  $("#Input_jugador_a").on("keyup", function() {    
+      var value = $(this).val().toLowerCase();
+      $(".dropdown-menu li").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  }
+  function busquedaEnDropdownJugadorB(){
+  $("#Input_jugador_b").on("keyup", function() {    
+      var value = $(this).val().toLowerCase();
+      $(".dropdown-menu li").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  }
   </script>     
           <!-- page end-->
         </section>
