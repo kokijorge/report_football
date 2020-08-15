@@ -131,7 +131,7 @@ select_temporada.on('change', function() {
     data_hora_partido.addColumn('number', 'Porcentaje');    
     data_hora_partido.addRows(json.puntuaciones_hora_partido); 
     var options_hora_partido = {
-      title: 'Informe en función de la hora de partido',
+      title: 'Proporción de minutos jugados en función de la hora de partido',
       pieHole: 0.4,
     };
     var chart_hora_partido = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -143,7 +143,7 @@ select_temporada.on('change', function() {
       data_estacion_ano.addColumn('number', 'Puntuacion');    
       data_estacion_ano.addRows(json.puntuaciones_estacion_ano); 
       var options_estacion_ano = {
-        title: "Informe en función de la estación del año",        
+        title: "Rendimiento en función de la estación del año",        
         width: 900,
         height: 300,
         bar: {groupWidth: "95%"},
@@ -158,7 +158,7 @@ select_temporada.on('change', function() {
       data_temperatura.addColumn('number', 'Puntuacion');    
       data_temperatura.addRows(json.puntuaciones_temperatura); 
       var options_temperatura = {
-        title: "Informe en función de la temperatura",
+        title: "Rendimiento del jugador en función de la temperatura",
         width: 500,
         height: 300,
         bar: {groupWidth: "95%"},
@@ -173,7 +173,7 @@ select_temporada.on('change', function() {
       data_lluvias.addColumn('number', 'Puntuacion');    
       data_lluvias.addRows(json.puntuaciones_lluvias); 
       var options_lluvias = {
-        title: "Informe en función de las lluvias",
+        title: "Rendimiento del jugador en función de las lluvias",
         width: 500,
         height: 300,
         bar: {groupWidth: "95%"},
@@ -188,7 +188,7 @@ select_temporada.on('change', function() {
       data_humedad.addColumn('number', 'Puntuacion');    
       data_humedad.addRows(json.puntuaciones_humedad); 
       var options_humedad = {
-        title: "Informe en función de la humedad",
+        title: "Rendimiento del jugador en función de la humedad",
         width: 500,
         height: 300,
         bar: {groupWidth: "95%"},
@@ -203,7 +203,7 @@ select_temporada.on('change', function() {
       data_viento.addColumn('number', 'Puntuacion');    
       data_viento.addRows(json.puntuaciones_viento); 
       var options_viento = {
-        title: "Informe en función de la velocidad de viento",
+        title: "Rendimiento del jugador en función de la velocidad de viento",
         width: 500,
         height: 300,
         bar: {groupWidth: "95%"},
@@ -219,7 +219,7 @@ select_temporada.on('change', function() {
       data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
       data_puntuaciones_rivales.addRows(json.puntuaciones_rivales); 
       var options_rivales = {
-        title: "Equipos contra los que jugó mejor/peor",
+        title: "Rendimiento en función del equipo contrario. Máximos y mínimos",
         width: 900,
         height: 300,
         bar: {groupWidth: "95%"},
@@ -236,7 +236,7 @@ select_temporada.on('change', function() {
       data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
       data_puntuaciones_rivales.addRows(json.puntuaciones_rivales_media); 
       var options_rivales = {
-        title: "Equipos contra los que jugó mejor/peor de media",
+        title: "Rendimiento en función del equipo contrario. Media",
         width: 900,
         height: 300,
         bar: {groupWidth: "95%"},

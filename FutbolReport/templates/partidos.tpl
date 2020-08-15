@@ -18,14 +18,28 @@
           <div class="row">
           <div class="col-lg-12">
             <section class="panel">
-              <header id="tabla_partidos" class="panel-heading">                 
-                Entrenador local: {{ info_partidos.5}}
-                Entrenador visitante: {{ info_partidos.6}}
-                Temperatura: {{ info_partidos.7}}
-                LLuvias: {{ info_partidos.8}}
-                Humedad: {{ info_partidos.9}}
-                Velocidad del viento: {{ info_partidos.10}}
-              </header>
+             <table class="table" id="tabla_partidos" >
+                  <thead>
+                    <tr>
+                      <th>Entrenador local</th>
+                      <th>Entrenador visitante</th>                      
+                      <th>Temperatura</th>                  
+                      <th>LLuvias</th>
+                      <th>Humedad</th>                  
+                      <th>Velocidad del viento</th>   
+                    </tr>
+                  </thead>
+                  <tbody>                                      
+                  <tr>                    
+                    <td> <a href="/entrenadores/{{temporada_seleccionada}}/{{ info_partidos.5}}"> {{ info_partidos.5}} </a> </td> 
+                    <td> <a href="/entrenadores/{{temporada_seleccionada}}/{{ info_partidos.6}}"> {{ info_partidos.6}} </a> </td>                     
+                    <td> {{ info_partidos.7}} </td>
+                    <td> {{ info_partidos.8}} </td>
+                    <td> {{ info_partidos.9}} </td>
+                    <td> {{ info_partidos.10}} </td>
+                  </tr>                  
+                  </tbody>
+              </table>
               <div class="table-responsive">
                 <table id="id_partidos" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">                
                   <thead>
@@ -43,10 +57,10 @@
                   </thead>
                   <tbody>                    
                     {% for partido in partidos %}                    
-                    <tr>
-                      <td> {{ partido.0}} </td>
-                      <td> {{ partido.1}} </td>
-                      <td> {{ partido.2}} </td>
+                    <tr>                      
+                      <td> <a href="/jugadores/{{temporada_seleccionada}}/{{ partido.9}}"> {{ partido.0}} </a> </td>                                    
+                      <td> {{ partido.1}} </td>                      
+                      <td> <a href="/equipos/{{temporada_seleccionada}}/{{ partido.2}}"> {{ partido.2}} </a> </td>                                                   
                       <td> {{ partido.3}} </td>
                       <td> {{ partido.4}} </td>
                       <td> {{ partido.5}} </td>

@@ -228,7 +228,9 @@ query_seleccionar_num_jornadas =  """
     
 query_desc_partidos =  """
 	select 
-    dim_jugador.nombre ,  dim_jugador.posicion , dim_equipo.nombre equipo , puntuacion , titular, tarjeta_amarilla,tarjeta_roja, minutos_jugados,goles
+    dim_jugador.nombre ,  dim_jugador.posicion , dim_equipo.nombre equipo , puntuacion , titular, 
+    tarjeta_amarilla,tarjeta_roja, minutos_jugados,goles,
+    dim_jugador.id_jugador
     from dw.fact_jornada
     inner join dw.dim_jugador  on fact_jornada.id_jugador = dim_jugador.id_jugador
     inner join dw.dim_equipo on fact_jornada.id_equipo_propio = dim_equipo.id_equipo
@@ -350,7 +352,7 @@ group by jug.id_jugador,jug.nombre,dim_equipo.nombre;
 
 
 query_temperatura =""" 
-select dim_meteo.temperatura_categoria,sum(puntuacion)
+select regexp_replace(dim_meteo.temperatura_categoria, '_', ' ', 'g'),sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
 inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
@@ -363,7 +365,7 @@ order by 2 desc;
 """
 
 query_lluvias =""" 
-select dim_meteo.lluvias_categoria,sum(puntuacion)
+select regexp_replace(dim_meteo.lluvias_categoria, '_', ' ', 'g'),sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
 inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
@@ -376,7 +378,7 @@ order by 2 desc;
 """
 
 query_humedad =""" 
-select dim_meteo.humedad_categoria,sum(puntuacion)
+select regexp_replace(dim_meteo.humedad_categoria, '_', ' ', 'g'),sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
 inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo
@@ -389,7 +391,7 @@ order by 2 desc;
 """
 
 query_viento =""" 
-select dim_meteo.velocidad_viento_categoria,sum(puntuacion)
+select  regexp_replace(dim_meteo.velocidad_viento_categoria, '_', ' ', 'g'),sum(puntuacion)
 from dw.fact_jornada inner join dw.dim_meteo on fact_jornada.id_meteo=dim_meteo.id_meteo
 inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
 inner join dw.dim_equipo on fact_jornada.id_equipo_propio=dim_equipo.id_equipo

@@ -163,7 +163,7 @@
         data_estacion_ano.addColumn('number', 'Puntos');    
         data_estacion_ano.addRows(json.puntuaciones_equipo_estacion); 
         var options_estacion_ano = {
-          title: "Informe en función de la estación del año",
+          title: "Puntos obtenidos en función de la estación del año",
           width: 900,
           height: 300,
           bar: {groupWidth: "95%"},
@@ -178,7 +178,7 @@
         data_mejor.addColumn('number', 'Goles');    
         data_mejor.addRows(json.puntuaciones_equipo_mejor); 
         var options_mejor = {
-          title: "Equipos a los que más goles se le encajó",
+          title: "Rivales más goleados",
           width: 500,
           height: 300,
           bar: {groupWidth: "95%"},
@@ -193,7 +193,7 @@
         data_peor.addColumn('number', 'Goles');    
         data_peor.addRows(json.puntuaciones_equipo_peor); 
         var options_peor = {
-          title: "Equipos que más goles le metieron",
+          title: "Rivales que más goles le anotaron",
           width: 500,
           height: 300,
           bar: {groupWidth: "95%"},

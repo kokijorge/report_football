@@ -36,8 +36,8 @@
                     <th>#</th>                    
                     <th>Nombre</th>
                     <th>Nacionalidad</th>                  
-                    <th>Posicion</th>
-                    <th>Punt</th>
+                    <th>Posición</th>
+                    <th>Puntuación</th>
                   </tr>
                 </thead>
                 <tbody>                    
@@ -67,7 +67,7 @@
                       <th>#</th>
                       <th>Nombre</th>                      
                       <th>Nacionalidad</th>                  
-                      <th>Posicion</th>
+                      <th>Posición</th>
                       <th>Goles</th>                  
                     </tr>
                   </thead>
@@ -97,7 +97,7 @@
                       <th>Nombre</th>                      
                       <th>Nacionalidad</th>                  
                       <th>Posicion</th>
-                      <th>Tarjetas_amarillas</th>                  
+                      <th>Tarjetas amarillas</th>                  
                     </tr>
                   </thead>
                   <tbody>
@@ -125,8 +125,8 @@
                       <th>#</th>
                       <th>Nombre</th>                      
                       <th>Nacionalidad</th>                  
-                      <th>Posicion</th>
-                      <th>Tarjetas_rojas</th>                  
+                      <th>Posición</th>
+                      <th>Tarjetas rojas</th>                  
                     </tr>
                   </thead>
                   <tbody>
@@ -154,7 +154,7 @@
                       <th>#</th>
                       <th>Nombre</th>                      
                       <th>Nacionalidad</th>                  
-                      <th>Posicion</th>
+                      <th>Posición</th>
                       <th>Minutos</th>                  
                     </tr>
                   </thead>
@@ -183,7 +183,7 @@
                       <th>#</th>
                       <th>Nombre</th>                      
                       <th>Nacionalidad</th>                  
-                      <th>Posicion</th>
+                      <th>Posición</th>
                       <th>Titularidades</th>                  
                     </tr>
                   </thead>

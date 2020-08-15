@@ -36,7 +36,7 @@
                       <th>Fecha nacimiento</th>
                       <th>Nacionalidad</th>
                       <th>Pie</th>
-                      <th>Posicion</th>                   
+                      <th>Posición</th>                   
                       <th>Altura</th>                  
                       <th>Inicio contrato</th>
                       <th>Fin contrato</th>

@@ -33,7 +33,7 @@
                   <thead>
                     <tr>                      
                       <th>Nombre</th>
-                      <th>Año_fundacion</th>                                 
+                      <th>Año fundación</th>                                 
                       <th>Ciudad</th>                      
                     </tr>
                   </thead>
