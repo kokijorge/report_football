@@ -25,7 +25,7 @@
                   </li>
                 </ul>
                 <ul class="nav pull-center top-menu">                    
-                  <li id="label_jugador" class="dropdown">
+                  <li id="label_jugador_a" class="dropdown">
                     <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
                   </li>
                   <div class="dropdown">
@@ -53,7 +53,7 @@
                   </li>
                 </ul>
                 <ul class="nav pull-center top-menu">                    
-                  <li id="label_jugador" class="dropdown">
+                  <li id="label_jugador_b" class="dropdown">
                     <label for="labelTemporada" form style="width:100px">Seleccione jugador</label>       
                   </li>
                   <div class="dropdown">
@@ -105,7 +105,8 @@
                     })
 
                     .done(function(json) {
-
+                        $("#button_jugador_a").text(jugador[0] + '||' + jugador[2] + '||' + jugador[3]);
+                        $("#button_jugador_a").append($('<span class="caret"></span>'));
                         console.log("JSON Data: " + json.nombre);
                         console.log("JSON Data: " + json);
                         jugador_a = json;
@@ -165,7 +166,7 @@
 
 select_temporada_b.on('change', function() {
 
-    dropdown_jugador_a.empty();
+    dropdown_jugador_b.empty();
     var lista_jugadores_b = anos_jugadores_select_b[select_temporada_b.val()];
     $('<input class="form-control" id="Input_jugador_b" type="text" placeholder="Search..">').appendTo(dropdown_jugador_b);
     busquedaEnDropdownJugador("b");
@@ -184,7 +185,8 @@ select_temporada_b.on('change', function() {
                 })
 
                 .done(function(json) {
-
+                    $("#button_jugador_b").text(jugador[0] + '||' + jugador[2] + '||' + jugador[3]);
+                    $("#button_jugador_b").append($('<span class="caret"></span>'));
                     console.log("JSON Data: " + json.nombre);
                     jugador_b = json;
                     printar_si_AB();
@@ -213,6 +215,13 @@ function busquedaEnDropdownJugador(aOb) {
         });
     });
 }
+
+$( document ).ready(function() {    
+    $('#iteractivo_jugador_temporada_a').trigger("change");    
+    $('#iteractivo_jugador_temporada_b').trigger("change");        
+});
+
+
 
   </script>     
           <!-- page end-->

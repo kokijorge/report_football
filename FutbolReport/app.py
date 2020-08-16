@@ -198,12 +198,29 @@ def jugador_iteractivo():
 	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano}
 
 @app.route('/informes/iteractivo_equipo/')
-def informes_iteractivo_equipo():		
-	return render_template('informes_iteractivo_equipo.tpl')
+def informes_iteractivo_equipo():
+	anos_equipo_select_a = {'2016': dame_equipos('2016'), '2017': dame_equipos('2017'),'todo': dame_equipos('todo')}			
+	anos_equipo_select_b = {'2016': dame_equipos('2016'), '2017': dame_equipos('2017'),'todo': dame_equipos('todo')}			
+	return render_template('informes_iteractivo_equipo.tpl',anos_equipo_select_a=anos_equipo_select_a,anos_equipo_select_b=anos_equipo_select_b)
+
+@app.route('/equipo_iteractivo')
+def equipo_iteractivo():
+	equipo = request.args.get('nombre')	
+	ano = request.args.get('ano')
+	return { 'equipo':equipo, 'ano':ano}	
 
 @app.route('/informes/iteractivo_entrenador/')
-def informes_iteractivo_entrenador():		
-	return render_template('informes_iteractivo_entrenador.tpl')
+def informes_iteractivo_entrenador():
+	anos_entrenador_select_a = {'2016': dame_entrenadores('2016'), '2017': dame_entrenadores('2017'),'todo': dame_entrenadores('todo')}	
+	anos_entrenador_select_b = {'2016': dame_entrenadores('2016'), '2017': dame_entrenadores('2017'),'todo': dame_entrenadores('todo')}	
+	return render_template('informes_iteractivo_entrenador.tpl',anos_entrenador_select_a=anos_entrenador_select_a,anos_entrenador_select_b=anos_entrenador_select_b)
+
+@app.route('/entrenador_iteractivo')
+def entrenador_iteractivo():
+	entrenador = request.args.get('nombre')
+	equipo = request.args.get('equipo')
+	ano = request.args.get('ano')
+	return { 'entrenador':entrenador ,'equipo':equipo, 'ano':ano}
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=80,debug= True)
