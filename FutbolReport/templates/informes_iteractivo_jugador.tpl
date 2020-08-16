@@ -83,38 +83,44 @@
     var dropdown_jugador_a= $('#dropdown_jugador_a');  
     var select_temporada_b= $('#iteractivo_jugador_temporada_b');
     var dropdown_jugador_b= $('#dropdown_jugador_b'); 
+    
 
     select_temporada_a.on('change', function() {
-    
-      dropdown_jugador_a.empty();    
-      var lista_jugadores_a= anos_jugadores_select_a[select_temporada_a.val()];    
-      $('<input class="form-control" id="Input_jugador_a" type="text" placeholder="Search..">').appendTo(dropdown_jugador_a);
-      busquedaEnDropdownJugadorA();
 
-      $.each(lista_jugadores_a, function( index, jugador ) {
-      
-      var li_jug_a = $('<li><a href="#">'+jugador[0] + '||' + jugador[2] + '||' + jugador[3]+'</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);                                
-      li_jug_a.click(function(){  
-        var jug = $(this).attr('value').split('||');  
-    
-        $.getJSON( "/jugador_iteractivo", { nombre: jug[0], fecha: jug[1], ano: $("#iteractivo_jugador_temporada_a").val() } )
-    
-        .done(function( json ) {
+        dropdown_jugador_a.empty();
+        var lista_jugadores_a = anos_jugadores_select_a[select_temporada_a.val()];
+        $('<input class="form-control" id="Input_jugador_a" type="text" placeholder="Search..">').appendTo(dropdown_jugador_a);
+        busquedaEnDropdownJugador("a");
 
-          console.log( "JSON Data: " + json.nombre );
-          console.log( "JSON Data: " + json );
-          jugador_a = json;
-          printar_si_AB();  
-        })
-        
-        .fail(function( jqxhr, textStatus, error ) {
-          var err = textStatus + ", " + error;
-          console.log( "Request Failed: " + err );
+        $.each(lista_jugadores_a, function(index, jugador) {
+
+            var li_jug_a = $('<li><a href="#">' + jugador[0] + '||' + jugador[2] + '||' + jugador[3] + '</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);
+            li_jug_a.click(function() {
+                var jug = $(this).attr('value').split('||');
+
+                $.getJSON("/jugador_iteractivo", {
+                        nombre: jug[0],
+                        fecha: jug[1],
+                        ano: $("#iteractivo_jugador_temporada_a").val()
+                    })
+
+                    .done(function(json) {
+
+                        console.log("JSON Data: " + json.nombre);
+                        console.log("JSON Data: " + json);
+                        jugador_a = json;
+                        printar_si_AB();
+                    })
+
+                    .fail(function(jqxhr, textStatus, error) {
+                        var err = textStatus + ", " + error;
+                        console.log("Request Failed: " + err);
+                    });
+
+
+            });
+            li_jug_a.appendTo(dropdown_jugador_a);
         });
-
-                        
-    });  
-      });  
 
     })
 
@@ -157,59 +163,57 @@
 
   
 
-    select_temporada_b.on('change', function() {               
-              
-      dropdown_jugador_a.empty();    
-      var lista_jugadores_b= anos_jugadores_select_b[select_temporada_b.val()];    
-      $('<input class="form-control" id="Input_jugador_b" type="text" placeholder="Search..">').appendTo(dropdown_jugador_b);
-      busquedaEnDropdownJugadorB();
+select_temporada_b.on('change', function() {
 
-      $.each(lista_jugadores_b, function( index, jugador ) {
-      
-        var li_jug_b = $('<li><a href="#">'+jugador[0] + '||' + jugador[2] + '||' + jugador[3]+'</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);                                
-        li_jug_b.click(function(){          
-    
-        var jug = $(this).attr('value').split('||'); 
-    
-        $.getJSON( "/jugador_iteractivo", { nombre: jug[0], fecha: jug[1], ano: $("#iteractivo_jugador_temporada_b").val() } )
-    
-          .done(function( json ) {
+    dropdown_jugador_a.empty();
+    var lista_jugadores_b = anos_jugadores_select_b[select_temporada_b.val()];
+    $('<input class="form-control" id="Input_jugador_b" type="text" placeholder="Search..">').appendTo(dropdown_jugador_b);
+    busquedaEnDropdownJugador("b");
 
-            console.log( "JSON Data: " + json.nombre );
-            jugador_b = json;
-            printar_si_AB();      
-          })
-        
-        .fail(function( jqxhr, textStatus, error ) {
-          var err = textStatus + ", " + error;
-          console.log( "Request Failed: " + err );
+    $.each(lista_jugadores_b, function(index, jugador) {
+
+        var li_jug_b = $('<li><a href="#">' + jugador[0] + '||' + jugador[2] + '||' + jugador[3] + '</a></li>').attr('value', jugador[0] + '||' + jugador[1] + '||' + jugador[3]);
+        li_jug_b.click(function() {
+
+            var jug = $(this).attr('value').split('||');
+
+            $.getJSON("/jugador_iteractivo", {
+                    nombre: jug[0],
+                    fecha: jug[1],
+                    ano: $("#iteractivo_jugador_temporada_b").val()
+                })
+
+                .done(function(json) {
+
+                    console.log("JSON Data: " + json.nombre);
+                    jugador_b = json;
+                    printar_si_AB();
+                })
+
+                .fail(function(jqxhr, textStatus, error) {
+                    var err = textStatus + ", " + error;
+                    console.log("Request Failed: " + err);
+                });
+
+
         });
+        li_jug_b.appendTo(dropdown_jugador_b);
 
-                        
-      }); 
+    });
 
-      });  
-
-    })
+})
 
 
-    
-    function busquedaEnDropdownJugadorA(){
-    $("#Input_jugador_a").on("keyup", function() {    
+
+function busquedaEnDropdownJugador(aOb) {
+    $("#Input_jugador_" + aOb).on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $(".dropdown-menu li").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
-      });
-    }
-    function busquedaEnDropdownJugadorB(){
-    $("#Input_jugador_b").on("keyup", function() {    
-        var value = $(this).val().toLowerCase();
-        $(".dropdown-menu li").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
-    }
+    });
+}
+
   </script>     
           <!-- page end-->
         </section>
