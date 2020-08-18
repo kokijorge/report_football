@@ -197,7 +197,8 @@ def jugador_iteractivo():
 	equipo = request.args.get('equipo')
 
 	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano,'equipo':equipo
-	,'puntuaciones_info_global' : info_global(jugador,fecha,ano,equipo)}
+	,'puntuaciones_info_global' : info_global(jugador,fecha,ano,equipo)
+	,	'puntuaciones_estacion_ano' : puntuaciones_estacion_ano(jugador,fecha,ano,equipo)}
 
 @app.route('/informes/iteractivo_equipo/')
 def informes_iteractivo_equipo():
