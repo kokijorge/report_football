@@ -68,6 +68,16 @@
                 </ul>              
             </div>         
           </div>  
+          
+          <div class="row"> 
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div id="tabla_jugador_a" style="width: 500px; height: 300px;"></div>         
+              </div> 
+              <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+              <div id="tabla_jugador_b" style="width: 500px; height: 300px;"></div>         
+              </div>
+          </div>  
+           
           <div class="row">         
             <div class="col-md-12" id="linechart_material" style="width: 900px; height: 300px;"></div>
           </div>        
@@ -101,6 +111,7 @@
                 $.getJSON("/jugador_iteractivo", {
                         nombre: jug[0],
                         fecha: jug[1],
+                        equipo: jug[2],
                         ano: $("#iteractivo_jugador_temporada_a").val()
                     })
 
@@ -131,7 +142,7 @@
 
     function printar_si_AB(){
         if (jugador_a != null && jugador_b != null){        
-          // tabla inicio
+          // marcial -> aqui tendría que meter los datos de los dos jugadores y que se vean bien -> https://developers.google.com/chart/interactive/docs/gallery/histogram
           google.charts.load('current', {'packages':['line']});
           google.charts.setOnLoadCallback(drawChart);
 
@@ -158,7 +169,41 @@
             var chart = new google.visualization.Histogram(document.getElementById('linechart_material'));
             chart.draw(data, options);        
           }
-          // tabla fin
+          // marcial q se vean bien las dos tablas siguientes
+          google.charts.load('current', {'packages':['table']});
+          google.charts.setOnLoadCallback(drawTableJugA);
+          function drawTableJugA() {
+            var data_info = new google.visualization.DataTable();
+            data_info.addColumn('string', 'Nombre');
+            data_info.addColumn('string', 'Equipo');
+            data_info.addColumn('number', 'Puntos');
+            data_info.addColumn('number', 'Minutos');
+            data_info.addColumn('number', 'Goles');
+            data_info.addColumn('number', 'Amarillas');
+            data_info.addColumn('number', 'Rojas');
+            data_info.addColumn('number', 'Titularidades');        
+            data_info.addRows( jugador_a.puntuaciones_info_global );
+            var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+            var table_info = new google.visualization.Table(document.getElementById('tabla_jugador_a'));
+            table_info.draw(data_info,options_info ); 
+          } 
+
+          google.charts.setOnLoadCallback(drawTableJugB);
+          function drawTableJugB() {
+            var data_info = new google.visualization.DataTable();
+            data_info.addColumn('string', 'Nombre');
+            data_info.addColumn('string', 'Equipo');
+            data_info.addColumn('number', 'Puntos');
+            data_info.addColumn('number', 'Minutos');
+            data_info.addColumn('number', 'Goles');
+            data_info.addColumn('number', 'Amarillas');
+            data_info.addColumn('number', 'Rojas');
+            data_info.addColumn('number', 'Titularidades');        
+            data_info.addRows( jugador_b.puntuaciones_info_global );
+            var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+            var table_info = new google.visualization.Table(document.getElementById('tabla_jugador_b'));
+            table_info.draw(data_info,options_info ); 
+          } 
         }
     }
 
@@ -181,6 +226,7 @@ select_temporada_b.on('change', function() {
             $.getJSON("/jugador_iteractivo", {
                     nombre: jug[0],
                     fecha: jug[1],
+                    equipo: jug[2],
                     ano: $("#iteractivo_jugador_temporada_b").val()
                 })
 
