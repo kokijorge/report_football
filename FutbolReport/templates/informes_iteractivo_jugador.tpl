@@ -71,10 +71,10 @@
           
           <div class="row"> 
               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div id="tabla_jugador_a" style="width: 500px; height: 300px;"></div>         
+              <div id="tabla_jugador_a" ></div>         
               </div> 
               <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
-              <div id="tabla_jugador_b" style="width: 500px; height: 300px;"></div>         
+              <div id="tabla_jugador_b" ></div>         
               </div>
           </div>  
            
@@ -143,31 +143,38 @@
     function printar_si_AB(){
         if (jugador_a != null && jugador_b != null){        
           // marcial -> aqui tendría que meter los datos de los dos jugadores y que se vean bien -> https://developers.google.com/chart/interactive/docs/gallery/histogram
-          google.charts.load('current', {'packages':['line']});
+          google.charts.load('current', {'packages':['bar']});
           google.charts.setOnLoadCallback(drawChart);
 
           function drawChart() {
+            var a = jugador_a.puntuaciones_estacion_ano;
+            var b = jugador_b.puntuaciones_estacion_ano;
 
             var data = google.visualization.arrayToDataTable([
-              ['Quarks', 'Leptons', 'Gauge Bosons', 'Scalar Bosons'],
-              [2/3, -1, 0, 0],
-              [2/3, -1, 0, null],
-              [2/3, -1, 0, null],
-              [-1/3, 0, 1, null],
-              [-1/3, 0, -1, null],
-              [-1/3, 0, null, null],
-              [-1/3, 0, null, null]
+              ["Estacion", jugador_a.jugador, jugador_b.jugador],
+              [a[0][0], a[0][1],b[0][1]],
+              [a[1][0], a[1][1],b[1][1]],
+              [a[2][0], a[2][1],b[2][1]],
+              [a[3][0], a[3][1],b[3][1]]
             ]);
 
             var options = {
-              title: 'Charges of subatomic particles',
+              title: 'JJJKKKK',
               legend: { position: 'top', maxLines: 2 },
               colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
               interpolateNulls: false,
             };
+
+
+
+
             
-            var chart = new google.visualization.Histogram(document.getElementById('linechart_material'));
-            chart.draw(data, options);        
+            var chart = new google.charts.Bar(document.getElementById('linechart_material'));
+//            chart.draw(data, options);        
+
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+
           }
           // marcial q se vean bien las dos tablas siguientes
           google.charts.load('current', {'packages':['table']});
@@ -183,6 +190,7 @@
             data_info.addColumn('number', 'Rojas');
             data_info.addColumn('number', 'Titularidades');        
             data_info.addRows( jugador_a.puntuaciones_info_global );
+
             var options_info = {showRowNumber: true, width: '100%', height: '100%'};
             var table_info = new google.visualization.Table(document.getElementById('tabla_jugador_a'));
             table_info.draw(data_info,options_info ); 

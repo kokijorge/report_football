@@ -28,7 +28,7 @@ PG_MODE=primary
 	PG_PRIMARY_PORT=5432
 EOF
 
-	docker run --publish 5432:5432 \
+	docker run --rm --publish 5432:5432 \
 	  --volume=pgvolume:/pgdata \
 	  --volume=$(pwd):/mydata \
 	  --env-file=pg-env.list \
