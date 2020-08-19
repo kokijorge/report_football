@@ -150,6 +150,11 @@
             var a = jugador_a.puntuaciones_estacion_ano;
             var b = jugador_b.puntuaciones_estacion_ano;
 
+            console.log("jugadorA: " + a);
+            console.log("jugadorA[0]: " + a[0]);
+            //jugadorA: Verano,0,Primavera,17,Otoño,-6,Invierno,-4
+            //jugadorA[0]: Verano,0
+
             var data = google.visualization.arrayToDataTable([
               ["Estacion", jugador_a.jugador, jugador_b.jugador],
               [a[0][0], a[0][1],b[0][1]],
@@ -159,60 +164,52 @@
             ]);
 
             var options = {
-              title: 'JJJKKKK',
+              title: 'Rendimiento en función de la estación del año',
               legend: { position: 'top', maxLines: 2 },
               colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
               interpolateNulls: false,
             };
-
-
-
-
-            
             var chart = new google.charts.Bar(document.getElementById('linechart_material'));
-//            chart.draw(data, options);        
+            //chart.draw(data, options);        
+            chart.draw(data, google.charts.Bar.convertOptions(options));
 
+          }          
+            google.charts.load('current', {'packages':['table']});
+            google.charts.setOnLoadCallback(drawTableJugA);
+            function drawTableJugA() {
+              var data_info = new google.visualization.DataTable();
+              data_info.addColumn('string', 'Nombre');
+              data_info.addColumn('string', 'Equipo');
+              data_info.addColumn('number', 'Puntos');
+              data_info.addColumn('number', 'Minutos');
+              data_info.addColumn('number', 'Goles');
+              data_info.addColumn('number', 'Amarillas');
+              data_info.addColumn('number', 'Rojas');
+              data_info.addColumn('number', 'Titularidades');        
+              data_info.addRows( jugador_a.puntuaciones_info_global );
 
-        chart.draw(data, google.charts.Bar.convertOptions(options));
+              var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+              var table_info = new google.visualization.Table(document.getElementById('tabla_jugador_a'));
+              table_info.draw(data_info,options_info ); 
+            } 
 
-          }
-          // marcial q se vean bien las dos tablas siguientes
-          google.charts.load('current', {'packages':['table']});
-          google.charts.setOnLoadCallback(drawTableJugA);
-          function drawTableJugA() {
-            var data_info = new google.visualization.DataTable();
-            data_info.addColumn('string', 'Nombre');
-            data_info.addColumn('string', 'Equipo');
-            data_info.addColumn('number', 'Puntos');
-            data_info.addColumn('number', 'Minutos');
-            data_info.addColumn('number', 'Goles');
-            data_info.addColumn('number', 'Amarillas');
-            data_info.addColumn('number', 'Rojas');
-            data_info.addColumn('number', 'Titularidades');        
-            data_info.addRows( jugador_a.puntuaciones_info_global );
-
-            var options_info = {showRowNumber: true, width: '100%', height: '100%'};
-            var table_info = new google.visualization.Table(document.getElementById('tabla_jugador_a'));
-            table_info.draw(data_info,options_info ); 
-          } 
-
-          google.charts.setOnLoadCallback(drawTableJugB);
-          function drawTableJugB() {
-            var data_info = new google.visualization.DataTable();
-            data_info.addColumn('string', 'Nombre');
-            data_info.addColumn('string', 'Equipo');
-            data_info.addColumn('number', 'Puntos');
-            data_info.addColumn('number', 'Minutos');
-            data_info.addColumn('number', 'Goles');
-            data_info.addColumn('number', 'Amarillas');
-            data_info.addColumn('number', 'Rojas');
-            data_info.addColumn('number', 'Titularidades');        
-            data_info.addRows( jugador_b.puntuaciones_info_global );
-            var options_info = {showRowNumber: true, width: '100%', height: '100%'};
-            var table_info = new google.visualization.Table(document.getElementById('tabla_jugador_b'));
-            table_info.draw(data_info,options_info ); 
-          } 
-        }
+            google.charts.setOnLoadCallback(drawTableJugB);
+            function drawTableJugB() {
+              var data_info = new google.visualization.DataTable();
+              data_info.addColumn('string', 'Nombre');
+              data_info.addColumn('string', 'Equipo');
+              data_info.addColumn('number', 'Puntos');
+              data_info.addColumn('number', 'Minutos');
+              data_info.addColumn('number', 'Goles');
+              data_info.addColumn('number', 'Amarillas');
+              data_info.addColumn('number', 'Rojas');
+              data_info.addColumn('number', 'Titularidades');        
+              data_info.addRows( jugador_b.puntuaciones_info_global );
+              var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+              var table_info = new google.visualization.Table(document.getElementById('tabla_jugador_b'));
+              table_info.draw(data_info,options_info ); 
+            } 
+        } 
     }
 
   

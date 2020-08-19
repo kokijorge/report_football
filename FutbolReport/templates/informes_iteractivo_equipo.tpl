@@ -68,6 +68,40 @@
                 </ul>              
             </div>         
           </div>  
+
+        <div id="tablas" style="display:none"  class="col-md-12">            
+          <div class="row"> 
+              <h3 id="text_local"> LOCAL </h3>          
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div id="tabla_equipo_local_a" ></div>         
+                </div> 
+                <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+                <div id="tabla_equipo_local_b" ></div>         
+                </div>
+          </div>   
+
+            <div class="row"> 
+              <h3 id="text_local"> VISITANTE </h3>    
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div id="tabla_equipo_visitante_a" ></div>         
+                </div> 
+                <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+                <div id="tabla_equipo_visitante_b" ></div>         
+                </div>
+            </div>  
+
+            <div class="row"> 
+              <h3 id="text_total"> TOTAL </h3>    
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div id="tabla_equipo_total_a" ></div>         
+                </div> 
+                <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+                <div id="tabla_equipo_total_b" ></div>         
+                </div>
+            </div>  
+        </div> 
+
+
           <div class="row">         
             <div class="col-md-12" id="linechart_material" style="width: 900px; height: 300px;"></div>
           </div>        
@@ -150,7 +184,105 @@
                   var chart = new google.visualization.Histogram(document.getElementById('linechart_material'));
                   chart.draw(data, options);        
                 }
-                // tabla fin
+
+                $("#tablas").show();
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEquipoA);
+                function drawTableEquipoA() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( equipo_a.puntuaciones_equipo_global );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_equipo_total_a'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEquipoB);
+                function drawTableEquipoB() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( equipo_b.puntuaciones_equipo_global );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_equipo_total_b'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEquipoLocalA);
+                function drawTableEquipoLocalA() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( equipo_a.puntuaciones_equipo_local );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_equipo_local_a'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEquipoLocalB);
+                function drawTableEquipoLocalB() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( equipo_b.puntuaciones_equipo_local );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_equipo_local_b'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEquipoVisitanteA);
+                function drawTableEquipoVisitanteA() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( equipo_a.puntuaciones_equipo_visitante );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_equipo_visitante_a'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEquipoVisitanteB);
+                function drawTableEquipoVisitanteB() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( equipo_b.puntuaciones_equipo_visitante );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_equipo_visitante_b'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
               }
             }
             

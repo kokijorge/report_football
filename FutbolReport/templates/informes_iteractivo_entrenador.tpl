@@ -68,6 +68,39 @@
                 </ul>              
             </div>         
           </div>  
+
+        <div id="tablas_entrenador_iteractivo" style="display:none"  class="col-md-12">            
+          <div class="row"> 
+              <h3 id="text_local"> LOCAL </h3>          
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div id="tabla_entrenador_local_a" ></div>         
+                </div> 
+                <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+                <div id="tabla_entrenador_local_b" ></div>         
+                </div>
+          </div>   
+
+            <div class="row"> 
+              <h3 id="text_local"> VISITANTE </h3>    
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div id="tabla_entrenador_visitante_a" ></div>         
+                </div> 
+                <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+                <div id="tabla_entrenador_visitante_b" ></div>         
+                </div>
+            </div>  
+
+            <div class="row"> 
+              <h3 id="text_total"> TOTAL </h3>    
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div id="tabla_entrenador_total_a" ></div>         
+                </div> 
+                <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
+                <div id="tabla_entrenador_total_b" ></div>         
+                </div>
+            </div>  
+        </div>
+          
           <div class="row">         
             <div class="col-md-12" id="linechart_material" style="width: 900px; height: 300px;"></div>
           </div>            
@@ -151,7 +184,105 @@
                   var chart = new google.visualization.Histogram(document.getElementById('linechart_material'));
                   chart.draw(data, options);        
                 }
-                // tabla fin
+
+                $("#tablas_entrenador_iteractivo").show();
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEentrenadorA);
+                function drawTableEentrenadorA() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( entrenador_a.puntuaciones_entrenador_global );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_entrenador_total_a'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEentrenadorB);
+                function drawTableEentrenadorB() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( entrenador_b.puntuaciones_entrenador_global );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_entrenador_total_b'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEntrenadorLocalA);
+                function drawTableEntrenadorLocalA() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( entrenador_a.puntuaciones_entrenador_local );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_entrenador_local_a'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEntrenadorLocalB);
+                function drawTableEntrenadorLocalB() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( entrenador_b.puntuaciones_entrenador_local );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_entrenador_local_b'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEntrenadorVisitanteA);
+                function drawTableEntrenadorVisitanteA() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( entrenador_a.puntuaciones_entrenador_visitante );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_entrenador_visitante_a'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTableEntrenadorVisitanteB);
+                function drawTableEntrenadorVisitanteB() {
+                  var data_info = new google.visualization.DataTable();
+                  data_info.addColumn('number', 'Empates');
+                  data_info.addColumn('number', 'Victorias');
+                  data_info.addColumn('number', 'Derrotas');
+                  data_info.addColumn('number', 'Goles a favor');
+                  data_info.addColumn('number', 'Goles en contra');
+                  data_info.addColumn('number', 'Puntos'); 
+                  data_info.addRows( entrenador_b.puntuaciones_entrenador_visitante );
+                  var options_info = {showRowNumber: true, width: '100%', height: '100%'};
+                  var table_info = new google.visualization.Table(document.getElementById('tabla_entrenador_visitante_b'));
+                  table_info.draw(data_info,options_info ); 
+                }
+
               }
             }
 

@@ -210,7 +210,11 @@ def informes_iteractivo_equipo():
 def equipo_iteractivo():
 	equipo = request.args.get('nombre')	
 	ano = request.args.get('ano')
-	return { 'equipo':equipo, 'ano':ano}	
+	return { 'equipo':equipo, 'ano':ano
+	,	'puntuaciones_equipo_global' : equipo_global(equipo,ano)
+	,	'puntuaciones_equipo_local' : equipo_local(equipo,ano)
+	,	'puntuaciones_equipo_visitante' : equipo_visitante(equipo,ano)
+	,	'puntuaciones_equipo_estacion' : equipo_estacion(equipo,ano)}	
 
 @app.route('/informes/iteractivo_entrenador/')
 def informes_iteractivo_entrenador():
@@ -223,7 +227,10 @@ def entrenador_iteractivo():
 	entrenador = request.args.get('nombre')
 	equipo = request.args.get('equipo')
 	ano = request.args.get('ano')
-	return { 'entrenador':entrenador ,'equipo':equipo, 'ano':ano}
+	return { 'entrenador':entrenador ,'equipo':equipo, 'ano':ano
+		,	'puntuaciones_entrenador_global' : entrenador_global(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_local' : entrenador_local(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_visitante' : entrenador_visitante(entrenador,equipo,ano)				}
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=80,debug= True)
