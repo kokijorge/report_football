@@ -170,17 +170,24 @@
                 function drawChart() {
                   var a = equipo_a.puntuaciones_equipo_estacion;
                   var b = equipo_b.puntuaciones_equipo_estacion;
+                                    
+                  for (var i = 0; i < 1; i++) {                               
+                    array = "[a["+i+"][0], a["+i+"][1],b["+i+"][1]],"
+                  }
+                    array = array.slice(0,array.length-1) + "]"
+                  console.log("ARRAY: " +array);
 
-                  console.log("jugadorA: " + a);
-                  console.log("jugadorA[0]: " + a[0]);
-
-                  var data = google.visualization.arrayToDataTable([
+                  var data = google.visualization.arrayToDataTable(
+                    [
                     ["Estacion", equipo_a.equipo, equipo_b.equipo],
-                    [a[0][0], a[0][1],b[0][1]],
+                    array
+                   /* [a[0][0], a[0][1],b[0][1]],
                     [a[1][0], a[1][1],b[1][1]],
                     [a[2][0], a[2][1],b[2][1]],
                     [a[3][0], a[3][1],b[3][1]]
-                   ]);
+                    ]
+                    */
+                    );
 
                   var options = {
                     title: 'Rendimiento en función de la estación del año',
