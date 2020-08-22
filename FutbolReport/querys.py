@@ -966,3 +966,34 @@ where id_partido = :id_partido
 and es_local= 'SI'
 FETCH FIRST 1 ROWS ONLY;
 """
+
+query_carrera_equipo =""" 
+WITH equipo_a AS (
+select ROW_NUMBER() OVER(    ORDER BY fecha.fecha_actual ) as jornada,fecha.fecha_actual as fecha,equipo_local.nombre as equipo_local,equipo_visitante.nombre as equipo_visitante ,
+resultado_propio as resultado_local,resultado_rival as resultado_rival,
+CASE
+    WHEN resultado_propio = resultado_rival THEN 1
+    WHEN equipo_local.nombre = :equipo and resultado_propio > resultado_rival THEN 3
+    WHEN equipo_visitante.nombre = :equipo and resultado_rival > resultado_propio THEN 3
+    ELSE 0
+END as puntos     
+from dw.fact_jornada
+inner join dw.dim_equipo as equipo_local
+on equipo_local.id_equipo = fact_jornada.id_equipo_propio
+inner join dw.dim_equipo as equipo_visitante
+on equipo_visitante.id_equipo = fact_jornada.id_equipo_rival
+inner join dw.dim_fecha fecha 
+on fecha.id_fecha=fact_jornada.id_fecha
+where es_local = 'SI'    
+    and id_partido between (:id_ini) and (:id_fin)
+    and (equipo_local.nombre= :equipo or equipo_visitante.nombre= :equipo )
+group by 
+fecha.fecha_actual,equipo_local.nombre,equipo_visitante.nombre,resultado_propio,resultado_rival
+    )
+SELECT
+jornada,
+(equipo_local || '  '  || resultado_local  || ' - ' || equipo_visitante || '  '  || resultado_rival || ' || '  || fecha) as resultado
+, sum(puntos) over (order by jornada asc rows between unbounded preceding and current row) as sumatorio
+FROM equipo_a
+;   
+"""

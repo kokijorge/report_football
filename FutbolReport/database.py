@@ -401,3 +401,16 @@ def jug_concreto(ano,id_jugador):
 	jug = [list(row) for row in data]
 	return  jug
 	
+def carrera_equipo(ano,equipo):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_carrera_equipo, {"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_equipo = [list(row) for row in data]
+	return  puntuaciones_equipo

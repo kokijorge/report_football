@@ -214,7 +214,8 @@ def equipo_iteractivo():
 	,	'puntuaciones_equipo_global' : equipo_global(equipo,ano)
 	,	'puntuaciones_equipo_local' : equipo_local(equipo,ano)
 	,	'puntuaciones_equipo_visitante' : equipo_visitante(equipo,ano)
-	,	'puntuaciones_equipo_estacion' : equipo_estacion(equipo,ano)}	
+	,	'puntuaciones_equipo_estacion' : equipo_estacion(equipo,ano)
+	,	'carrera_equipo': carrera_equipo(equipo,ano)}	
 
 @app.route('/informes/iteractivo_entrenador/')
 def informes_iteractivo_entrenador():

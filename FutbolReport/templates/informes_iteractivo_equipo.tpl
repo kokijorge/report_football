@@ -70,15 +70,15 @@
           </div>  
 
         <div id="tablas" style="display:none"  class="col-md-12">            
-          <div class="row"> 
+            <div class="row"> 
               <h3 id="text_local"> LOCAL </h3>          
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div id="tabla_equipo_local_a" ></div>         
+                  <div id="tabla_equipo_local_a" ></div>         
                 </div> 
                 <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
-                <div id="tabla_equipo_local_b" ></div>         
+                  <div id="tabla_equipo_local_b" ></div>         
                 </div>
-          </div>   
+            </div>   
 
             <div class="row"> 
               <h3 id="text_local"> VISITANTE </h3>    
@@ -93,17 +93,21 @@
             <div class="row"> 
               <h3 id="text_total"> TOTAL </h3>    
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div id="tabla_equipo_total_a" ></div>         
+                  <div id="tabla_equipo_total_a" ></div>         
                 </div> 
                 <div class="col-lg-6 col-md-46 col-sm-12 col-xs-12">  
-                <div id="tabla_equipo_total_b" ></div>         
+                  <div id="tabla_equipo_total_b" ></div>         
                 </div>
-            </div>  
-        </div> 
+              </div>  
+          </div> 
 
-
+            
           <div class="row">         
             <div class="col-md-12" id="linechart_material" style="width: 900px; height: 300px;"></div>
+          </div>  
+
+          <div class="row">         
+            <div class="col-md-12" id="linechart_puntos" style="width: 900px; height: 300px;"></div>
           </div>        
 
           <script type="text/javascript" src="/js/charts_google.js"></script>
@@ -159,33 +163,57 @@
               if (equipo_a != null && equipo_b != null){        
                 // tabla inicio
                 google.charts.load('current', {'packages':['line']});
-                google.charts.setOnLoadCallback(drawChart);
+                google.charts.load('current', {'packages':['bar']});
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);                
 
                 function drawChart() {
+                  var a = equipo_a.puntuaciones_equipo_estacion;
+                  var b = equipo_b.puntuaciones_equipo_estacion;
+
+                  console.log("jugadorA: " + a);
+                  console.log("jugadorA[0]: " + a[0]);
 
                   var data = google.visualization.arrayToDataTable([
-                  ['Quarks', 'Leptons', 'Gauge Bosons', 'Scalar Bosons'],
-                  [2/3, -1, 0, 0],
-                  [2/3, -1, 0, null],
-                  [2/3, -1, 0, null],
-                  [-1/3, 0, 1, null],
-                  [-1/3, 0, -1, null],
-                  [-1/3, 0, null, null],
-                  [-1/3, 0, null, null]
-                  ]);
+                    ["Estacion", equipo_a.equipo, equipo_b.equipo],
+                    [a[0][0], a[0][1],b[0][1]],
+                    [a[1][0], a[1][1],b[1][1]],
+                    [a[2][0], a[2][1],b[2][1]],
+                    [a[3][0], a[3][1],b[3][1]]
+                   ]);
 
                   var options = {
-                    title: 'Charges of subatomic particles',
+                    title: 'Rendimiento en función de la estación del año',
                     legend: { position: 'top', maxLines: 2 },
                     colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
                     interpolateNulls: false,
                   };
               
-                  var chart = new google.visualization.Histogram(document.getElementById('linechart_material'));
-                  chart.draw(data, options);        
+                  var chart = new google.charts.Bar(document.getElementById('linechart_material'));
+                  chart.draw(data, google.charts.Bar.convertOptions(options));      
                 }
 
                 $("#tablas").show();
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChartLine);
+                function drawChartLine() {                  
+                  var data_line_chart = google.visualization.arrayToDataTable([
+                    ['Jornada', equipo_a.equipo, equipo_b.equipo],
+                    ['2004',  1000,      400],
+                    ['2005',  1170,      460],
+                    ['2006',  660,       1120],
+                    ['2007',  1030,      540]
+                  ]);
+                  var options_line_chart = {
+                    title: 'Rendimiento del equipo a nivel de jornada',
+                    curveType: 'function',
+                    legend: { position: 'bottom' }
+                  };
+
+                  var chart_line = new google.visualization.LineChart(document.getElementById('linechart_puntos'));
+
+                  chart_line.draw(data_line_chart, options_line_chart);
+                }
 
                 google.charts.load('current', {'packages':['table']});
                 google.charts.setOnLoadCallback(drawTableEquipoA);
