@@ -234,7 +234,6 @@ select_temporada.on('change', function() {
       data_puntuaciones_rivales.addColumn('string', 'Equipo');
       data_puntuaciones_rivales.addColumn('number', 'Puntuacion');    
       data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});      
-      console.log(json.puntuaciones_rivales_media);
       data_puntuaciones_rivales.addRows(json.puntuaciones_rivales_media); 
       var options_rivales = {
         title: "Rendimiento en función del equipo contrario. Media",

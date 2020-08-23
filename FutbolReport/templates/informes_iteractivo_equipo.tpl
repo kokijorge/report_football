@@ -108,11 +108,7 @@
 
           <div class="row">         
             <div class="col-md-12" id="linechart_puntos" style="width: 900px; height: 300px;"></div>
-          </div>      
-
-          <div class="row">         
-            <div class="col-md-12" id="linechart_puntos_final" style="width: 900px; height: 300px;"></div>
-          </div>    
+          </div>        
 
           <script type="text/javascript" src="/js/charts_google.js"></script>
           <script>
@@ -184,68 +180,62 @@
 
                   var options = {
                     title: 'Rendimiento en función de la estación del año',
+                    width: 900,
+                    height: 300,
                     legend: { position: 'top', maxLines: 2 },
                     colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
                     interpolateNulls: false,
+                    hAxis: {
+                      title: 'Estación del año',
+                      ticks: eje_x
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
                   };
               
                   var chart = new google.charts.Bar(document.getElementById('linechart_material'));
                   chart.draw(data, google.charts.Bar.convertOptions(options));      
                 }
-/*
+
                 $("#tablas").show();
-                google.charts.load('current', {'packages':['corechart']});
-                google.charts.setOnLoadCallback(drawChartLine);
-                function drawChartLine() {     
-                  var a = equipo_a.carrera_equipo;
-                  var b= equipo_b.carrera_equipo;  
-                  array_line = []
-                  array_line.push(["Jornada", equipo_a.equipo, equipo_b.equipo])            
-                  for (var i = 0; i < 38; i++) {                                                   
-                     array_line.push([a[i][0],a[i][1],b[i][1]])
-                  }                            
-                  var data_line_chart = google.visualization.arrayToDataTable(
-                    array_line                  
-                  );
-                  var options_line_chart = {
-                    title: 'Rendimiento del equipo a nivel de jornada',
-                    curveType: 'function',
-                    legend: { position: 'bottom' }
-                  };
-
-                  var chart_line = new google.visualization.LineChart(document.getElementById('linechart_puntos'));
-
-                  chart_line.draw(data_line_chart, options_line_chart);
-                }*/
-
                 //<!-- line chart->                                     
                 google.charts.load('current', {'packages':['corechart']}); 
                 google.charts.setOnLoadCallback(tt);
                 function tt() {     
-var a = equipo_a.carrera_equipo;
-                                                        var b= equipo_b.carrera_equipo;  
-                                                        var data_puntuaciones_rivales = new google.visualization.DataTable();
-                                                        data_puntuaciones_rivales.addColumn('number', 'Jornada');
-                                                        data_puntuaciones_rivales.addColumn('number', equipo_a.equipo);
-                                                        data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
-                                                        data_puntuaciones_rivales.addColumn('number', equipo_b.equipo);              
-                                                        data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
-                                                        array_line_chart = []
-                                                        for (var i = 0; i < 38; i++) {                                                   
-                                                             array_line_chart.push([a[i][0],a[i][1],a[i][2],b[i][1],b[i][2]])
-                                                          } ;
-                                                        console.log(array_line_chart);
-                                                        data_puntuaciones_rivales.addRows(array_line_chart); 
-                                                        var options_rivales = {
-                                                          title: "RENDIMIENTO en función del equipo contrario. Media",
-                                                          width: 900,
-                                                          height: 300,
-                                                          bar: {groupWidth: "95%"},
-                                                          legend: { position: "none" },
-                                                          tooltip: {isHtml: true}
-                                                        };
-                                                        var chart_rivales = new google.visualization.LineChart(document.getElementById("linechart_puntos_final"));
-                                                        chart_rivales.draw(data_puntuaciones_rivales, options_rivales);          
+                  var a = equipo_a.carrera_equipo;
+                  var b= equipo_b.carrera_equipo;  
+                  var data_puntuaciones_rivales = new google.visualization.DataTable();
+                  data_puntuaciones_rivales.addColumn('number', 'Jornada');
+                  data_puntuaciones_rivales.addColumn('number', equipo_a.equipo);
+                  data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                  data_puntuaciones_rivales.addColumn('number', equipo_b.equipo);              
+                  data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                  array_line_chart = []
+                  for (var i = 0; i < 38; i++) {                                                   
+                        array_line_chart.push([a[i][0],a[i][1],a[i][2],b[i][1],b[i][2]])
+                  } ;              
+                  eje_x = [];
+                  for (var i = 1; i < 39; i++) {                                                   
+                     eje_x.push(i)
+                  };
+                  data_puntuaciones_rivales.addRows(array_line_chart); 
+                  var options_rivales = {
+                    title: "Puntos en función de la jornada",
+                    width: 900,
+                    height: 300,
+                    bar: {groupWidth: "95%"},
+                    hAxis: {
+                      title: 'Jornada',
+                      ticks: eje_x
+                    },
+                    vAxis: {
+                        title: 'Puntos Acumulados'                        
+                    },                                        
+                    tooltip: {isHtml: true}
+                  };
+                  var chart_rivales = new google.visualization.LineChart(document.getElementById("linechart_puntos"));
+                  chart_rivales.draw(data_puntuaciones_rivales, options_rivales);          
                 }       
                 //fin  line_chart
 

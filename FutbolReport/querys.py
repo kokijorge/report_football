@@ -994,7 +994,8 @@ SELECT
 jornada,
 sum(puntos) over (order by jornada asc rows between unbounded preceding and current row) as sumatorio
 , 
-(equipo_local || '  '  || resultado_local  || ' - ' || equipo_visitante || '  '  || resultado_rival || ' || '  || fecha) as resultado
+(equipo_local || '  '  || resultado_local  || ' - ' || equipo_visitante || '  '  || resultado_rival || ' || '  || fecha || ' ||  PUNTOS: '  || 
+sum(puntos) over (order by jornada asc rows between unbounded preceding and current row)) as resultado
 FROM equipo_a
 ;   
 """
