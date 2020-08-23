@@ -401,7 +401,7 @@ def jug_concreto(ano,id_jugador):
 	jug = [list(row) for row in data]
 	return  jug
 	
-def carrera_equipo(ano,equipo):
+def carrera_equipo(equipo,ano):
 	if ano  == '2016':
 		id_ini = 179510
 		id_fin = 179889

@@ -108,7 +108,11 @@
 
           <div class="row">         
             <div class="col-md-12" id="linechart_puntos" style="width: 900px; height: 300px;"></div>
-          </div>        
+          </div>      
+
+          <div class="row">         
+            <div class="col-md-12" id="linechart_puntos_final" style="width: 900px; height: 300px;"></div>
+          </div>    
 
           <script type="text/javascript" src="/js/charts_google.js"></script>
           <script>
@@ -161,32 +165,21 @@
 
             function printar_si_AB(){
               if (equipo_a != null && equipo_b != null){        
-                // tabla inicio
-                google.charts.load('current', {'packages':['line']});
-                google.charts.load('current', {'packages':['bar']});
-                google.charts.load('current', {'packages':['corechart']});
+                // tabla inicio                
+                google.charts.load('current', {'packages':['bar']});              
                 google.charts.setOnLoadCallback(drawChart);                
 
                 function drawChart() {
                   var a = equipo_a.puntuaciones_equipo_estacion;
                   var b = equipo_b.puntuaciones_equipo_estacion;
-                                    
-                  for (var i = 0; i < 1; i++) {                               
-                    array = "[a["+i+"][0], a["+i+"][1],b["+i+"][1]],"
-                  }
-                    array = array.slice(0,array.length-1) + "]"
-                  console.log("ARRAY: " +array);
+                  array = []
+                  array.push(["Estacion", equipo_a.equipo, equipo_b.equipo])            
+                  for (var i = 0; i < 4; i++) {                                                   
+                     array.push([a[i][0],a[i][1],b[i][1]])
+                  }                                    
 
                   var data = google.visualization.arrayToDataTable(
-                    [
-                    ["Estacion", equipo_a.equipo, equipo_b.equipo],
-                    array
-                   /* [a[0][0], a[0][1],b[0][1]],
-                    [a[1][0], a[1][1],b[1][1]],
-                    [a[2][0], a[2][1],b[2][1]],
-                    [a[3][0], a[3][1],b[3][1]]
-                    ]
-                    */
+                    array                  
                     );
 
                   var options = {
@@ -203,14 +196,17 @@
                 $("#tablas").show();
                 google.charts.load('current', {'packages':['corechart']});
                 google.charts.setOnLoadCallback(drawChartLine);
-                function drawChartLine() {                  
-                  var data_line_chart = google.visualization.arrayToDataTable([
-                    ['Jornada', equipo_a.equipo, equipo_b.equipo],
-                    ['2004',  1000,      400],
-                    ['2005',  1170,      460],
-                    ['2006',  660,       1120],
-                    ['2007',  1030,      540]
-                  ]);
+                function drawChartLine() {     
+                  var a = equipo_a.carrera_equipo;
+                  var b= equipo_b.carrera_equipo;  
+                  array_line = []
+                  array_line.push(["Jornada", equipo_a.equipo, equipo_b.equipo])            
+                  for (var i = 0; i < 38; i++) {                                                   
+                     array_line.push([a[i][0],a[i][1],b[i][1]])
+                  }                            
+                  var data_line_chart = google.visualization.arrayToDataTable(
+                    array_line                  
+                  );
                   var options_line_chart = {
                     title: 'Rendimiento del equipo a nivel de jornada',
                     curveType: 'function',
@@ -221,7 +217,33 @@
 
                   chart_line.draw(data_line_chart, options_line_chart);
                 }
-
+/*
+                //<!-- line chart->                                     
+                google.charts.load('current', {'packages':['corechart']});   
+                var data_puntuaciones_rivales = new google.visualization.LineChart();
+                data_puntuaciones_rivales.addColumn('string', 'Jornada');
+                data_puntuaciones_rivales.addColumn('string', equipo_a.equipo);
+                data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                data_puntuaciones_rivales.addColumn('string', equipo_b.equipo);              
+                data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                array_line_chart = []
+                for (var i = 0; i < 38; i++) {                                                   
+                     array_line_chart.push([a[i][0],a[i][1],a[i][2],b[i][1],b[i][2]])
+                  } ;
+                console.log(array_line_chart);
+                data_puntuaciones_rivales.addRows(array_line_chart); 
+                var options_rivales = {
+                  title: "Rendimiento en función del equipo contrario. Media",
+                  width: 900,
+                  height: 300,
+                  bar: {groupWidth: "95%"},
+                  legend: { position: "none" },
+                  tooltip: {isHtml: true}
+                };
+                var chart_rivales = new google.visualization.LineChart(document.getElementById("linechart_puntos_final"));
+                chart_rivales.draw(data_puntuaciones_rivales, options_rivales);                 
+                //fin  line_chart
+                */
                 google.charts.load('current', {'packages':['table']});
                 google.charts.setOnLoadCallback(drawTableEquipoA);
                 function drawTableEquipoA() {

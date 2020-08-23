@@ -992,8 +992,9 @@ fecha.fecha_actual,equipo_local.nombre,equipo_visitante.nombre,resultado_propio,
     )
 SELECT
 jornada,
+sum(puntos) over (order by jornada asc rows between unbounded preceding and current row) as sumatorio
+, 
 (equipo_local || '  '  || resultado_local  || ' - ' || equipo_visitante || '  '  || resultado_rival || ' || '  || fecha) as resultado
-, sum(puntos) over (order by jornada asc rows between unbounded preceding and current row) as sumatorio
 FROM equipo_a
 ;   
 """
