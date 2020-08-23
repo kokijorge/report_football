@@ -192,7 +192,7 @@
                   var chart = new google.charts.Bar(document.getElementById('linechart_material'));
                   chart.draw(data, google.charts.Bar.convertOptions(options));      
                 }
-
+/*
                 $("#tablas").show();
                 google.charts.load('current', {'packages':['corechart']});
                 google.charts.setOnLoadCallback(drawChartLine);
@@ -216,34 +216,40 @@
                   var chart_line = new google.visualization.LineChart(document.getElementById('linechart_puntos'));
 
                   chart_line.draw(data_line_chart, options_line_chart);
-                }
-/*
+                }*/
+
                 //<!-- line chart->                                     
-                google.charts.load('current', {'packages':['corechart']});   
-                var data_puntuaciones_rivales = new google.visualization.LineChart();
-                data_puntuaciones_rivales.addColumn('string', 'Jornada');
-                data_puntuaciones_rivales.addColumn('string', equipo_a.equipo);
-                data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
-                data_puntuaciones_rivales.addColumn('string', equipo_b.equipo);              
-                data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
-                array_line_chart = []
-                for (var i = 0; i < 38; i++) {                                                   
-                     array_line_chart.push([a[i][0],a[i][1],a[i][2],b[i][1],b[i][2]])
-                  } ;
-                console.log(array_line_chart);
-                data_puntuaciones_rivales.addRows(array_line_chart); 
-                var options_rivales = {
-                  title: "Rendimiento en función del equipo contrario. Media",
-                  width: 900,
-                  height: 300,
-                  bar: {groupWidth: "95%"},
-                  legend: { position: "none" },
-                  tooltip: {isHtml: true}
-                };
-                var chart_rivales = new google.visualization.LineChart(document.getElementById("linechart_puntos_final"));
-                chart_rivales.draw(data_puntuaciones_rivales, options_rivales);                 
+                google.charts.load('current', {'packages':['corechart']}); 
+                google.charts.setOnLoadCallback(tt);
+                function tt() {     
+var a = equipo_a.carrera_equipo;
+                                                        var b= equipo_b.carrera_equipo;  
+                                                        var data_puntuaciones_rivales = new google.visualization.DataTable();
+                                                        data_puntuaciones_rivales.addColumn('number', 'Jornada');
+                                                        data_puntuaciones_rivales.addColumn('number', equipo_a.equipo);
+                                                        data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                                                        data_puntuaciones_rivales.addColumn('number', equipo_b.equipo);              
+                                                        data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                                                        array_line_chart = []
+                                                        for (var i = 0; i < 38; i++) {                                                   
+                                                             array_line_chart.push([a[i][0],a[i][1],a[i][2],b[i][1],b[i][2]])
+                                                          } ;
+                                                        console.log(array_line_chart);
+                                                        data_puntuaciones_rivales.addRows(array_line_chart); 
+                                                        var options_rivales = {
+                                                          title: "RENDIMIENTO en función del equipo contrario. Media",
+                                                          width: 900,
+                                                          height: 300,
+                                                          bar: {groupWidth: "95%"},
+                                                          legend: { position: "none" },
+                                                          tooltip: {isHtml: true}
+                                                        };
+                                                        var chart_rivales = new google.visualization.LineChart(document.getElementById("linechart_puntos_final"));
+                                                        chart_rivales.draw(data_puntuaciones_rivales, options_rivales);          
+                }       
                 //fin  line_chart
-                */
+
+ 
                 google.charts.load('current', {'packages':['table']});
                 google.charts.setOnLoadCallback(drawTableEquipoA);
                 function drawTableEquipoA() {
