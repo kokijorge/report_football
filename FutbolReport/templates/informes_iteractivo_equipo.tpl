@@ -20,7 +20,7 @@
                     <select class="form-control" id="iteractivo_equipo_temporada_a">
                       <option value="2016">2016/2017</option>
                       <option value="2017">2017/2018</option>
-                      <option value="todo">Todas</option>
+                      <!-- <option value="todo">Todas</option> --> 
                     </select>
                   </li>
                 </ul>
@@ -48,7 +48,7 @@
                     <select class="form-control" id="iteractivo_equipo_temporada_b">
                       <option value="2016">2016/2017</option>
                       <option value="2017">2017/2018</option>
-                      <option value="todo">Todas</option>
+                      <!-- <option value="todo">Todas</option> --> 
                     </select>
                   </li>
                 </ul>
@@ -168,7 +168,7 @@
                 function drawChart() {
                   var a = equipo_a.puntuaciones_equipo_estacion;
                   var b = equipo_b.puntuaciones_equipo_estacion;
-                  array = []
+                  array = [];
                   array.push(["Estacion", equipo_a.equipo, equipo_b.equipo])            
                   for (var i = 0; i < 4; i++) {                                                   
                      array.push([a[i][0],a[i][1],b[i][1]])
@@ -186,8 +186,7 @@
                     colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
                     interpolateNulls: false,
                     hAxis: {
-                      title: 'Estación del año',
-                      ticks: eje_x
+                      title: 'Estación del año'                    
                     },
                     vAxis: {
                         title: 'Puntos'                        
@@ -343,7 +342,7 @@
 
               dropdown_equipo_b.empty();
               var lista_equipos_b = anos_equipo_select_b[select_temporada_a.val()];
-              $('<input class="form-control" id="Input_equipo_a" type="text" placeholder="Search..">').appendTo(dropdown_equipo_b);
+              $('<input class="form-control" id="Input_equipo_b" type="text" placeholder="Search..">').appendTo(dropdown_equipo_b);
               busquedaEnDropdownEquipo("b");
 
               $.each(lista_equipos_b, function(index, equipo) {

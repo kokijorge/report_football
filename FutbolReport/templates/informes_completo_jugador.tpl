@@ -19,7 +19,7 @@
                 <select class="form-control" id="completo_jugador_temporada">
                   <option value="2016">2016/2017</option>
                   <option value="2017">2017/2018</option>
-                  <option value="todo">Todas</option>
+                 <!-- <option value="todo">Todas</option> --> 
                 </select>
               </li>
             </ul>
@@ -148,6 +148,14 @@ select_temporada.on('change', function() {
         height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
+        hAxis: 
+              {
+                title: 'Estación del año'                      
+              },
+        vAxis: 
+              {
+                title: 'Puntos'                        
+              }
       };
       var chart_estacion_ano = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
       chart_estacion_ano.draw(data_estacion_ano, options_estacion_ano);     
@@ -224,7 +232,13 @@ select_temporada.on('change', function() {
         height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
-        tooltip: {isHtml: true}
+        tooltip: {isHtml: true},
+        hAxis: {
+                      title: 'Equipo'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
       };
       var chart_rivales = new google.visualization.LineChart(document.getElementById("columnchart_rivales"));
       chart_rivales.draw(data_puntuaciones_rivales, options_rivales);   
@@ -241,7 +255,13 @@ select_temporada.on('change', function() {
         height: 300,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
-        tooltip: {isHtml: true}
+        tooltip: {isHtml: true},
+        hAxis: {
+                      title: 'Equipo'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
       };
       var chart_rivales = new google.visualization.LineChart(document.getElementById("columnchart_rivales_media"));
       chart_rivales.draw(data_puntuaciones_rivales, options_rivales); 

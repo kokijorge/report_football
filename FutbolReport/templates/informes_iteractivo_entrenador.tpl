@@ -20,7 +20,7 @@
                     <select class="form-control" id="iteractivo_entrenador_temporada_a">
                       <option value="2016">2016/2017</option>
                       <option value="2017">2017/2018</option>
-                      <option value="todo">Todas</option>
+                      <!-- <option value="todo">Todas</option> --> 
                     </select>
                   </li>
                 </ul>
@@ -48,7 +48,7 @@
                     <select class="form-control" id="iteractivo_entrenador_temporada_b">
                       <option value="2016">2016/2017</option>
                       <option value="2017">2017/2018</option>
-                      <option value="todo">Todas</option>
+                      <!-- <option value="todo">Todas</option> --> 
                     </select>
                   </li>
                 </ul>
@@ -102,8 +102,16 @@
         </div>
           
           <div class="row">         
-            <div class="col-md-12" id="linechart_material" style="width: 900px; height: 300px;"></div>
-          </div>            
+            <div class="col-md-12" id="linechart_material_entrenador" style="width: 900px; height: 300px;"></div>
+          </div>             
+
+          <div class="row">         
+            <div class="col-md-12" id="linechart_material_entrenador_hora_categoria" style="width: 900px; height: 300px;"></div>
+          </div>  
+
+          <div class="row">         
+            <div class="col-md-12" id="linechart_material_entrenador_es_fin_de_semana" style="width: 900px; height: 300px;"></div>
+          </div>  
 
           <script type="text/javascript" src="/js/charts_google.js"></script>
           <script>
@@ -158,31 +166,104 @@
             function printar_si_AB(){
               if (entrenador_a != null && entrenador_b != null){        
                 // tabla inicio
-                google.charts.load('current', {'packages':['line']});
+                google.charts.load('current', {'packages':['bar']}); 
                 google.charts.setOnLoadCallback(drawChart);
 
                 function drawChart() {
+                  
+                  var a = entrenador_a.puntuaciones_entrenador_estacion;
+                  var b = entrenador_b.puntuaciones_entrenador_estacion;
+                  array = [];
+                  array.push(["Estacion", entrenador_a.entrenador, entrenador_b.entrenador]);
+                  for (var i = 0; i < 4; i++) {                                                   
+                     array.push([a[i][0],a[i][1],b[i][1]])
+                  }   
 
-                  var data = google.visualization.arrayToDataTable([
-                  ['Quarks', 'Leptons', 'Gauge Bosons', 'Scalar Bosons'],
-                  [2/3, -1, 0, 0],
-                  [2/3, -1, 0, null],
-                  [2/3, -1, 0, null],
-                  [-1/3, 0, 1, null],
-                  [-1/3, 0, -1, null],
-                  [-1/3, 0, null, null],
-                  [-1/3, 0, null, null]
-                  ]);
+                  var data = google.visualization.arrayToDataTable(array);
 
                   var options = {
-                    title: 'Charges of subatomic particles',
+                    title: 'Rendimiento en función de la estación del año',
+                    width: 900,
+                    height: 300,
                     legend: { position: 'top', maxLines: 2 },
                     colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
                     interpolateNulls: false,
+                    hAxis: {
+                      title: 'Estación del año'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
                   };
               
-                  var chart = new google.visualization.Histogram(document.getElementById('linechart_material'));
-                  chart.draw(data, options);        
+                  var chart = new google.charts.Bar(document.getElementById('linechart_material_entrenador'));
+                  chart.draw(data, google.charts.Bar.convertOptions(options));                             
+                }
+
+                google.charts.load('current', {'packages':['bar']}); 
+                google.charts.setOnLoadCallback(drawChartHora);
+                function drawChartHora() {                                     
+                  
+                  var a = entrenador_a.puntuaciones_entrenador_hora_categoria;
+                  var b = entrenador_b.puntuaciones_entrenador_hora_categoria;
+                  array_hora = [];
+                  array_hora.push(["Hora", entrenador_a.entrenador, entrenador_b.entrenador]);
+                  for (var i = 0; i < 3; i++) {                                                   
+                     array_hora.push([a[i][0],a[i][1],b[i][1]])
+                  }   
+
+                  var data = google.visualization.arrayToDataTable(array_hora);
+
+                  var options = {
+                    title: 'Rendimiento en función de la hora del partido',
+                    width: 900,
+                    height: 300,
+                    legend: { position: 'top', maxLines: 2 },
+                    colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
+                    interpolateNulls: false,
+                    hAxis: {
+                      title: 'Hora del partido'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
+                  };
+              
+                  var chart = new google.charts.Bar(document.getElementById('linechart_material_entrenador_hora_categoria'));
+                  chart.draw(data, google.charts.Bar.convertOptions(options));                             
+                }
+
+                google.charts.load('current', {'packages':['bar']}); 
+                google.charts.setOnLoadCallback(drawChartEsFinSemana);
+                function drawChartEsFinSemana() {                                     
+                  
+                  var a = entrenador_a.puntuaciones_entrenador_es_fin_de_semana;
+                  var b = entrenador_b.puntuaciones_entrenador_es_fin_de_semana;
+                  array_fin_semana = [];
+                  array_fin_semana.push(["Es fin de semana", entrenador_a.entrenador, entrenador_b.entrenador]);
+                  for (var i = 0; i < 2; i++) {                                                   
+                     array_fin_semana.push([a[i][0],a[i][1],b[i][1]])
+                  }   
+
+                  var data = google.visualization.arrayToDataTable(array_fin_semana);
+
+                  var options = {
+                    title: 'Rendimiento en función de si se juega o no el fin de semana',
+                    width: 900,
+                    height: 300,
+                    legend: { position: 'top', maxLines: 2 },
+                    colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
+                    interpolateNulls: false,
+                    hAxis: {
+                      title: 'Es fin de semana'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
+                  };
+              
+                  var chart = new google.charts.Bar(document.getElementById('linechart_material_entrenador_es_fin_de_semana'));
+                  chart.draw(data, google.charts.Bar.convertOptions(options));                             
                 }
 
                 $("#tablas_entrenador_iteractivo").show();

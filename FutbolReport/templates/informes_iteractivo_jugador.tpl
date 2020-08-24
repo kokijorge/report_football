@@ -20,7 +20,7 @@
                     <select class="form-control" id="iteractivo_jugador_temporada_a">
                       <option value="2016">2016/2017</option>
                       <option value="2017">2017/2018</option>
-                      <option value="todo">Todas</option>
+                      <!-- <option value="todo">Todas</option> --> 
                     </select>
                   </li>
                 </ul>
@@ -48,7 +48,7 @@
                     <select class="form-control" id="iteractivo_jugador_temporada_b">
                       <option value="2016">2016/2017</option>
                       <option value="2017">2017/2018</option>
-                      <option value="todo">Todas</option>
+                      <!-- <option value="todo">Todas</option> --> 
                     </select>
                   </li>
                 </ul>
@@ -168,6 +168,12 @@
               legend: { position: 'top', maxLines: 2 },
               colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
               interpolateNulls: false,
+              hAxis: {
+                      title: 'Estación del año'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
             };
             var chart = new google.charts.Bar(document.getElementById('linechart_material'));
             //chart.draw(data, options);        

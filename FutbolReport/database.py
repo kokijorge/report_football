@@ -414,3 +414,31 @@ def carrera_equipo(equipo,ano):
 	data = db.session.execute(query_carrera_equipo, {"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
 	puntuaciones_equipo = [list(row) for row in data]
 	return  puntuaciones_equipo
+
+def entrenador_hora_categoria(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_hora_categoria, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_entrenador = [list(row) for row in data]
+	return  puntuaciones_entrenador	
+
+def entrenador_es_fin_de_semana(nombre,equipo,ano):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_entrenador_es_fin_de_semana, {"nombre": nombre,"equipo": equipo, "id_ini":id_ini, "id_fin":id_fin})
+	puntuaciones_entrenador = [list(row) for row in data]
+	return  puntuaciones_entrenador	

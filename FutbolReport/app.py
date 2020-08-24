@@ -231,7 +231,11 @@ def entrenador_iteractivo():
 	return { 'entrenador':entrenador ,'equipo':equipo, 'ano':ano
 		,	'puntuaciones_entrenador_global' : entrenador_global(entrenador,equipo,ano)
 		,	'puntuaciones_entrenador_local' : entrenador_local(entrenador,equipo,ano)
-		,	'puntuaciones_entrenador_visitante' : entrenador_visitante(entrenador,equipo,ano)				}
+		,	'puntuaciones_entrenador_visitante' : entrenador_visitante(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_estacion' : entrenador_estacion(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_hora_categoria' : entrenador_hora_categoria(entrenador,equipo,ano)
+		,	'puntuaciones_entrenador_es_fin_de_semana' : entrenador_es_fin_de_semana(entrenador,equipo,ano)
+		}
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=80,debug= True)

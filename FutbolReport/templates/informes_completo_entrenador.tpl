@@ -18,7 +18,7 @@
                 <select class="form-control" id="completo_entrenador_temporada">
                   <option value="2016">2016/2017</option>
                   <option value="2017">2017/2018</option>
-                  <option value="todo">Todas</option>
+                  <!-- <option value="todo">Todas</option> --> 
                 </select>
               </li>
             </ul>
@@ -169,6 +169,12 @@
                 height: 300,
                 bar: {groupWidth: "95%"},
                 legend: { position: "none" },
+                hAxis: {
+                      title: 'Estación del año'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
               };
               var chart_estacion_ano = new google.visualization.ColumnChart(document.getElementById("columnchart_values_entrenador"));
               chart_estacion_ano.draw(data_estacion_ano, options_estacion_ano);
@@ -184,6 +190,12 @@
                 height: 300,
                 bar: {groupWidth: "95%"},
                 legend: { position: "none" },
+                hAxis: {
+                      title: 'Equipo'                      
+                    },
+                    vAxis: {
+                        title: 'Goles'                        
+                    }
               };
               var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_entrenador_mejor"));
               chart_viento.draw(data_mejor, options_mejor);
@@ -199,6 +211,12 @@
                 height: 300,
                 bar: {groupWidth: "95%"},
                 legend: { position: "none" },
+                hAxis: {
+                      title: 'Equipo'                      
+                    },
+                    vAxis: {
+                        title: 'Goles'                        
+                    }
               };
               var chart_viento = new google.visualization.ColumnChart(document.getElementById("columnchart_entrenador_peor"));
               chart_viento.draw(data_peor, options_peor); 
