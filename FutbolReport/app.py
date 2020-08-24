@@ -198,7 +198,10 @@ def jugador_iteractivo():
 
 	return { 'jugador':jugador, 'fecha':fecha, 'ano':ano,'equipo':equipo
 	,'puntuaciones_info_global' : info_global(jugador,fecha,ano,equipo)
-	,	'puntuaciones_estacion_ano' : puntuaciones_estacion_ano(jugador,fecha,ano,equipo)}
+	,	'puntuaciones_estacion_ano' : puntuaciones_estacion_ano(jugador,fecha,ano,equipo)
+	,	'puntuaciones_hora_categoria' : puntuaciones_hora_categoria(jugador,fecha,ano,equipo)
+	,	'puntuaciones_por_partido' : puntuaciones_por_partido(jugador,fecha,ano,equipo)
+	}
 
 @app.route('/informes/iteractivo_equipo/')
 def informes_iteractivo_equipo():

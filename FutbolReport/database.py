@@ -121,7 +121,34 @@ def puntuaciones_estacion_ano(nombre,fecha,ano,equipo):
 	data = db.session.execute(query_estacion_ano, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
 	puntuaciones = [list(row) for row in data]
 	return puntuaciones
-	
+
+def puntuaciones_hora_categoria(nombre,fecha,ano,equipo):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_hora_categoria, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
+	puntuaciones = [list(row) for row in data]
+	return puntuaciones	
+
+def puntuaciones_por_partido(nombre,fecha,ano,equipo):
+	if ano  == '2016':
+		id_ini = 179510
+		id_fin = 179889
+	elif ano  == '2017':
+		id_ini = 214386
+		id_fin = 214765
+	else: 		
+		id_ini = 179510
+		id_fin = 214765	
+	data = db.session.execute(query_jugador_por_partido, {"nombre": nombre,"fecha": fecha, "id_ini":id_ini, "id_fin":id_fin,"equipo":equipo})
+	puntuaciones = [list(row) for row in data]
+	return puntuaciones	
 
 def info_global(nombre,fecha,ano,equipo):
 	if ano  == '2016':

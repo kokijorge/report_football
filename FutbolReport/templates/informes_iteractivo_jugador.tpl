@@ -82,6 +82,14 @@
             <div class="col-md-12" id="linechart_material" style="width: 900px; height: 300px;"></div>
           </div>        
 
+          <div class="row">         
+            <div class="col-md-12" id="linechart_material_hora" style="width: 900px; height: 300px;"></div>
+          </div> 
+
+          <div class="row">         
+            <div class="col-md-12" id="linechart_jugador_puntuacion" style="width: 900px; height: 300px;"></div>
+          </div> 
+
 <script type="text/javascript" src="/js/charts_google.js"></script>
   <script>
 
@@ -148,20 +156,15 @@
 
           function drawChart() {
             var a = jugador_a.puntuaciones_estacion_ano;
-            var b = jugador_b.puntuaciones_estacion_ano;
+            var b = jugador_b.puntuaciones_estacion_ano;            
 
-            console.log("jugadorA: " + a);
-            console.log("jugadorA[0]: " + a[0]);
-            //jugadorA: Verano,0,Primavera,17,Otoño,-6,Invierno,-4
-            //jugadorA[0]: Verano,0
+            array = [];
+            array.push(["Estacion", jugador_a.jugador, jugador_b.jugador]);
+            for (var i = 0; i < 4; i++) {                                                   
+                array.push([a[i][0],a[i][1],b[i][1]])
+            }   
 
-            var data = google.visualization.arrayToDataTable([
-              ["Estacion", jugador_a.jugador, jugador_b.jugador],
-              [a[0][0], a[0][1],b[0][1]],
-              [a[1][0], a[1][1],b[1][1]],
-              [a[2][0], a[2][1],b[2][1]],
-              [a[3][0], a[3][1],b[3][1]]
-            ]);
+            var data = google.visualization.arrayToDataTable(array);
 
             var options = {
               title: 'Rendimiento en función de la estación del año',
@@ -179,7 +182,79 @@
             //chart.draw(data, options);        
             chart.draw(data, google.charts.Bar.convertOptions(options));
 
-          }          
+          }      
+
+          google.charts.load('current', {'packages':['corechart']}); 
+                google.charts.setOnLoadCallback(drawChartJugadorPunt);
+                function drawChartJugadorPunt() {     
+                  var a = jugador_a.puntuaciones_por_partido;
+                  var b= jugador_b.puntuaciones_por_partido;  
+                  var data_puntuaciones_rivales = new google.visualization.DataTable();
+                  data_puntuaciones_rivales.addColumn('number', 'Jornada');
+                  data_puntuaciones_rivales.addColumn('number', jugador_a.jugador);
+                  data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                  data_puntuaciones_rivales.addColumn('number', jugador_b.jugador);              
+                  data_puntuaciones_rivales.addColumn({type: 'string', role: 'tooltip'});
+                  array_jug_punt = []
+                  for (var i = 0; i < 38; i++) {                                                   
+                        array_jug_punt.push([a[i][0],a[i][1],a[i][2],b[i][1],b[i][2]])
+                  } ;              
+                  eje_x = [];
+                  for (var i = 1; i < 39; i++) {                                                   
+                     eje_x.push(i)
+                  };
+                  data_puntuaciones_rivales.addRows(array_jug_punt); 
+                  var options_rivales = {
+                    title: "Puntos en función de la jornada",
+                    width: 900,
+                    height: 300,
+                    bar: {groupWidth: "95%"},
+                    hAxis: {
+                      title: 'Jornada',
+                      ticks: eje_x
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    },                                        
+                    tooltip: {isHtml: true}
+                  };
+                  var chart_rivales = new google.visualization.LineChart(document.getElementById("linechart_jugador_puntuacion"));
+                  chart_rivales.draw(data_puntuaciones_rivales, options_rivales);          
+                }       
+
+          google.charts.load('current', {'packages':['bar']});
+          google.charts.setOnLoadCallback(drawChartHora);
+
+          function drawChartHora() {
+            var a = jugador_a.puntuaciones_hora_categoria;
+            var b = jugador_b.puntuaciones_hora_categoria;
+
+            array_hora = [];
+            array_hora.push(["Hora", jugador_a.jugador, jugador_b.jugador]);
+            for (var i = 0; i < 3; i++) {                                                   
+                array_hora.push([a[i][0],a[i][1],b[i][1]])
+            }   
+
+            var data = google.visualization.arrayToDataTable(array_hora);
+
+            var options = {
+              title: 'Rendimiento en función de la hora del partido',
+              legend: { position: 'top', maxLines: 2 },
+              colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
+              interpolateNulls: false,
+              hAxis: {
+                      title: 'Hora'                      
+                    },
+                    vAxis: {
+                        title: 'Puntos'                        
+                    }
+            };
+            var chart = new google.charts.Bar(document.getElementById('linechart_material_hora'));
+            //chart.draw(data, options);        
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+
+          }   
+
             google.charts.load('current', {'packages':['table']});
             google.charts.setOnLoadCallback(drawTableJugA);
             function drawTableJugA() {

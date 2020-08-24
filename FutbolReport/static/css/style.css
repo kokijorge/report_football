@@ -11,7 +11,8 @@
 #table_div_entrenador,#table_div_entrenador_local,#table_div_entrenador_visitante,
 #columnchart_values_entrenador,#columnchart_entrenador_mejor,
 #columnchart_entrenador_peor,#linechart_material,#columnchart_rivales_media,#linechart_puntos,#linechart_material_entrenador,
-#linechart_material_entrenador_hora_categoria,#linechart_material_entrenador_es_fin_de_semana
+#linechart_material_entrenador_hora_categoria,#linechart_material_entrenador_es_fin_de_semana,#linechart_material_hora,
+#linechart_jugador_puntuacion
 {
 	margin-top: 20px;
 }

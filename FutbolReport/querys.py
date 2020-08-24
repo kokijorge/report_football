@@ -341,6 +341,23 @@ order by 1 desc)  as estacion group by estacion_ano
 ;
 """
 
+query_hora_categoria =""" 
+select hora_categoria, sum(sumatorio) from 
+(
+select hora_categoria,sum(puntuacion) as sumatorio
+from dw.fact_jornada inner join dw.dim_fecha on fact_jornada.id_fecha=  dim_fecha.id_fecha
+inner join dw.dim_jugador jug on jug.id_jugador = fact_jornada.id_jugador
+inner join dw.dim_equipo propio on id_equipo_propio = propio.id_equipo
+where jug.nombre = :nombre
+and jug.fecha_nacimiento = :fecha
+and fact_jornada.id_partido between (:id_ini) and (:id_fin)
+and propio.nombre = :equipo
+group by hora_categoria
+UNION 
+select hora_categoria,0 as sumatorio from dw.dim_fecha group by hora_categoria
+order by 1 desc)  as estacion group by hora_categoria
+;
+"""
 
 query_info_global =""" 
 select jug.nombre,dim_equipo.nombre equipo,
@@ -1117,4 +1134,51 @@ from partidos group by es_fin_de_semana
  UNION 
 select es_fin_de_semana,0 as puntos from dw.dim_fecha group by es_fin_de_semana
 order by 1 desc) as estacion group by es_fin_de_semana;
+"""
+
+
+query_jugador_por_partido ="""
+WITH equipo AS (
+select ROW_NUMBER() OVER(    ORDER BY fecha.fecha_actual ) as jornada,fecha.fecha_actual as fecha,equipo_local.nombre as equipo_local,equipo_visitante.nombre as equipo_visitante ,
+resultado_propio as resultado_local,resultado_rival as resultado_rival  , 0 as puntos_jugador,id_partido,0 as minutos
+from dw.fact_jornada
+inner join dw.dim_equipo as equipo_local
+on equipo_local.id_equipo = fact_jornada.id_equipo_propio
+inner join dw.dim_equipo as equipo_visitante
+on equipo_visitante.id_equipo = fact_jornada.id_equipo_rival
+inner join dw.dim_fecha fecha 
+on fecha.id_fecha=fact_jornada.id_fecha
+inner join dw.dim_jugador jug
+    on jug.id_jugador = fact_jornada.id_jugador
+where es_local = 'SI'    
+    and id_partido between (:id_ini) and (:id_fin)
+    and (equipo_local.nombre= :equipo or equipo_visitante.nombre= :equipo )
+group by 
+fecha.fecha_actual,equipo_local.nombre,equipo_visitante.nombre,resultado_propio,resultado_rival,puntos_jugador,id_partido,minutos
+), jugador AS (
+select id_partido,puntuacion  as puntos_jugador,minutos_jugados from dw.fact_jornada
+inner join dw.dim_jugador jug
+    on jug.id_jugador = fact_jornada.id_jugador
+    where 1=1
+    and jug.nombre = :nombre
+    and jug.fecha_nacimiento = :fecha
+    and id_partido between (:id_ini) and (:id_fin)
+    order by 1
+)    	
+select 
+jornada,puntos_finales as puntos,
+(equipo_local || '  '  || resultado_local  || ' - ' || equipo_visitante || '  '  || resultado_rival || ' || '  || fecha || ' ||  PUNTOS: '  || 
+puntos_finales || ' ||  CONVOCADO:  ' || Fue_convocado  || ' ||  MINUTOS JUGADOS: ' || minutos_jugados ) as resultado
+from (
+select 
+    jornada,fecha,equipo_local,equipo_visitante,resultado_local,resultado_rival, (equipo.puntos_jugador +  COALESCE(jugador.puntos_jugador,0)) as puntos_finales
+    , (equipo.minutos +  COALESCE(jugador.minutos_jugados,0)) as minutos_jugados,
+    CASE
+    WHEN jugador.puntos_jugador is null THEN 'NO'    
+    ELSE 'SI'
+    END AS Fue_convocado
+from equipo
+left join jugador
+on equipo.id_partido = jugador.id_partido
+   ) as partido;                        
 """
